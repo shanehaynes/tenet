@@ -5,7 +5,7 @@ import { buildClassifierSystem, mockClassification, postProcessClassification } 
 import { mockCollisions, postProcessCollisions } from "../../src/core/agents/collisions";
 import { mockDecomposition, postProcessDecomposition } from "../../src/core/agents/decomposer";
 import { regexScan } from "../../src/core/agents/scanner";
-import { estimateTokens } from "../../src/core/model/providers/mock";
+import { estimateTokens, PREFIX_TOKEN_FLOOR } from "../../src/core/model/tokens";
 import { applyOps } from "../../src/core/pipeline/review";
 import type { Rule } from "../../src/core/schemas/records";
 
@@ -99,7 +99,7 @@ describe("classifier", () => {
   });
 
   it("the static prefix clears the caching floor on the demo policy", () => {
-    expect(estimateTokens(buildClassifierSystem(harrow))).toBeGreaterThanOrEqual(1100);
+    expect(estimateTokens(buildClassifierSystem(harrow))).toBeGreaterThanOrEqual(PREFIX_TOKEN_FLOOR);
   });
 });
 

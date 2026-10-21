@@ -1,11 +1,10 @@
 import { MOCK_CAPABILITIES } from "../../schemas/capabilities";
+import { estimateTokens } from "../tokens";
 import { NoMockHandler, type Provider, type ProviderRequest, type ProviderResponse } from "../types";
 
 // Deterministic, offline, zero-cost (architecture §4.5). Each agent passes its own mock to callModel, next to
-// its prompt, so this provider stays generic. Usage is estimated at chars ÷ 4 so the cost UI shows numbers;
+// its prompt, so this provider stays generic. Usage is estimated from text length so the cost UI shows numbers;
 // mock calls never count toward the key budget.
-
-export const estimateTokens = (text: string): number => Math.ceil(text.length / 4);
 
 export const mockProvider: Provider = {
   name: "mock",

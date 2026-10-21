@@ -14,7 +14,8 @@
     "smoke": "tsx src/cli/index.ts smoke",
     "doctor": "tsx scripts/doctor.ts",
     "e2e": "playwright test",
-    "eval:classifier": "tsx scripts/eval-classifier.ts"
+    "eval:classifier": "tsx scripts/eval-classifier.ts",
+    "measure:prefixes": "tsx scripts/measure-prefixes.ts"
   },
   "dependencies": {
     "dotenv": "^18.0.8",
