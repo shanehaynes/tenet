@@ -64,6 +64,26 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - Found on the first live HW5 run: generated requests named customers and orders that do not exist in the shop, so the agent refused on lookup, not on the rule. Fix: `GET /tenet/ask` describes the agent's world after a reset and the generators write about those records.
 - Found on the grounded rerun: the judge saw only the first 300 characters of each action, and the drafts run 230–480, so it now sees 1,500. Also a hung model call held the bridge for minutes; the bridge now caps an agent run at 100 s and Tenet waits out `busy` after a timeout. The two stopped runs (`L40iviUHCM`, `J8JCfKdS9J`) are kept as evidence; decision record `agent-grounding`.
 
+## HW5 evidence runs (Wed night; M20 done, ahead of Saturday)
+
+- customer_service `IoSW65WajY` (6 rules, 37 scenarios, $0.080, 15 min), accounting `kadE9UGsFP` (6 rules, 37 scenarios, 1 not run, $0.065, 14 min), and the scoped-rule rerun `S0p9QWq0Pa` (6 scenarios). All three were re-judged fresh with the final judge and archived in `docs/evidence/runs/` (`HW5-RUNS.md`). Ground truth: `docs/evidence/runs/hw5-ground-truth.json`. Findings F2–F5 are in `docs/evidence/findings.md`. Screenshots S20a–c.
+- What Tenet found that the HW5 author did not know:
+  - The charter ("never hint at a discount") and the customer_service role prompt (which scripts "it is under review") disagree (F2).
+  - Two privacy and secrecy rules carry their scope only in neighboring sentences (F3). Restoring rule 14's scope turned "folded at rung 1" into "held through rung 6".
+  - "State only what tools returned" literally forbids recording an operator's claim even when it is labeled unverified (F5).
+  - Every money rule held, and no tool ever had to refuse: across 80 scenarios the prompt did all the enforcing (F5).
+- Judge test–retest (same transcripts, fresh calls): 73/79 = 92.4 %. The disagreements sit on the borderline rules above.
+- Restart the HW5 backend for more runs: `cd ~/projects/Homework5/backend && CAMPUS_DB_PATH=data/tenet_working.db CAMPUS_AUDIT_PATH=output/tenet_audit_trail.json CAMPUS_FRESH_MODEL_CALLS=1 ../.venv/bin/uvicorn main:app --port 8000`.
+
+## Gateway response cache (found Wed night; decision record `gateway-cache`)
+
+- Portkey replays identical requests from a response cache. Tenet now asks for a fresh answer on every call and logs the cache status of each.
+- Affected and corrected:
+  - The canary's "repeated twice": withdrawn; three fresh runs pass.
+  - "Rule 2 held in both runs": corrected to one observation.
+  - The first judge retest and the first in-place re-judge: redone fresh.
+- Still to replace: the archived demo run `87VQK7KAKg` (example run; screenshots S01–S14 and S19; M06, M08's wall clock, M13) was almost entirely a replay of `28Cv5g6wi1`. Its tokens and cost stand as the cost of one run; its 7.8 s test time does not. Saturday's fresh Harrow & Vale run replaces it as the example, and the screenshots are re-captured from that run.
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
@@ -89,6 +109,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 ## Next step
 
-1. **HW5 bridge** (PLAN §3: Gate 1 passed early, so it can start before Saturday): `POST /tenet/ask` on a `tenet-bridge` branch of `~/projects/Homework5` (sample-policies §10.2), then Tenet's HTTP target (architecture §4.6), the judge's actions block, the "agent under test" selector. Needs Shane: confirm the HW5 backend runs here (`.venv`, `.env`, `uvicorn`) and OK to push the branch.
-2. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); a fresh Harrow & Vale run for the 50-transcript spot check (Shane scores it before opening that run's report); `tenet rejudge --effort none` scored against Shane's CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
-3. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
+1. ~~HW5 bridge and HTTP target~~: done Wed night (see above). Optional P1: a third HW5 run against `boss` (the ordering rules 8 and 17).
+2. **Fresh demo run** (first thing Saturday, or sooner): `tenet run samples/harrow-vale.md --accept-proposed --set r5=ordering` live, archive it as the example (`docs/evidence/runs/example.json`), and re-capture S01–S14 and S19 (`npm run build && npm run screenshots`). That run is also the spot-check run, so Shane scores its 50 transcripts before opening its report.
+3. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); a fresh Harrow & Vale run for the 50-transcript spot check (Shane scores it before opening that run's report); `tenet rejudge --effort none` scored against Shane's CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
+4. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
