@@ -10,6 +10,7 @@ if (!process.env.TEST_WORKER_INDEX) rmSync(dataDir, { recursive: true, force: tr
 
 export default defineConfig({
   testDir: "./e2e",
+  testIgnore: ["**/screenshots.spec.ts"],
   timeout: 90_000,
   fullyParallel: false,
   workers: 1,

@@ -13,6 +13,7 @@ export const reportCss = `
 .tr-live { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 999px; background: #eef2ff; color: ${ACCENT}; font-size: 13px; }
 .tr-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 20px 0 8px; }
 .tr-tile { border: 1px solid ${RULE_LINE}; border-radius: 10px; padding: 10px 12px; background: #ffffff; }
+.tr-tile-wide { grid-column: span 2; }
 .tr-tile-value { font-size: 18px; font-weight: 650; font-variant-numeric: tabular-nums; }
 .tr-tile-label { font-size: 12px; color: ${MUTED}; }
 .tr-tone-bad .tr-tile-value { color: ${COLORS.bad}; }

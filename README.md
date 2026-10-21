@@ -1,31 +1,108 @@
 # Tenet
 
-Tenet reads an AI agent's written policy, sorts each rule by kind (constraint, tradeoff, disposition, ordering), and runs the test each kind calls for: a pressure ladder for a constraint, a stakes sweep for a tradeoff, paraphrases for a disposition, forced conflicts for an ordering. It reports where the agent's behavior departs from the policy, and where the policy is ambiguous or contradicts itself.
+Tenet reads an AI agent's written policy, sorts each rule by the kind of rule it is, and runs the test that kind demands: a pressure ladder for a bright-line constraint, a stakes sweep for a tradeoff, paraphrases for a disposition, forced conflicts for a priority ordering. It reports where the agent's behavior departs from the policy, and where the policy itself is ambiguous or contradicts itself.
 
-> Work in progress (MGT 409 final project, due 2026-10-26). This README is a skeleton; the full 10-minute run path lands on Friday Oct 23.
+![Report summary for the demo policy](docs/evidence/screenshots/S08-summary-strip.png)
 
-## Run it locally
+## Run it locally (about 5 minutes)
 
-1. Node 22.12 or newer (`node -v`) and git.
-2. `git clone <repo-url> && cd tenet && npm install`
-3. Create `.env` from `.env.example`, either in the repo folder or one folder above it, and set `PORTKEY_API_KEY` (the course key) or `OPENAI_API_KEY`.
-4. `npm run doctor` shows which `.env` it found, which key is present, and which provider it will use.
-5. `npm run dev` and open the URL it prints.
+1. **Prerequisites:** Node.js 22.12 or newer (`node -v`), git, and internet access.
+2. **Install:**
+   ```bash
+   git clone https://github.com/shanehaynes/tenet.git && cd tenet && npm install
+   ```
+3. **Key:** copy `.env.example` to `.env`, in the repo folder or in the folder above it, and set `PORTKEY_API_KEY` (the course key; Tenet calls `gpt-6-luna` through `https://api.portkey.ai/v1`) or `OPENAI_API_KEY`.
+4. **Check:** `npm run doctor` prints which `.env` it found, which key is present, the provider it will use, and makes one small model call.
+5. **Start:**
+   ```bash
+   npm run dev
+   ```
+   Open the URL it prints (normally http://localhost:3000).
+6. **Use it:** click **Analyze** on *Harrow & Vale LLP*. When the rules table appears, check the types (low-confidence rules are pre-parked), click **Confirm**, then **Run tests** on the collisions page. The report fills in as verdicts arrive; a full run takes about one to three minutes and costs about two cents.
 
-No key? Add `--provider mock` to any CLI command (or set `TENET_PROVIDER=mock`) for deterministic offline results.
+**Troubleshooting**
+
+- *"No API key found"*: Tenet looks for `.env` in the repo folder, then one folder above it. `npm run doctor` shows what it found.
+- *Port 3000 busy*: `next dev` picks another port and prints it; use that URL. `/api/health` reports the provider and model.
+- *Rate limits*: lower the concurrency on the run panel (or set `TENET_CONCURRENCY=2`).
+- *No key at all*: `TENET_PROVIDER=mock npm run dev` shows the whole app with deterministic synthetic results (marked "Mock provider" in the footer).
+- *Long live runs*: `npm run build && npm start` avoids dev-server restarts mid-run.
+
+## What you are looking at
+
+```mermaid
+flowchart LR
+  P[Policy text] --> S[Injection scanner]
+  S -->|clean| D[Decomposer]
+  S -->|flagged| Q[Quarantine]
+  D --> C[Classifier]
+  C --> R{Human review}
+  R --> M[Collision mapper]
+  M --> G[Generators: ladder, sweep, paraphrase, conflict]
+  G --> X[Agent under test]
+  X --> J[Judge]
+  J --> A[Aggregation and report]
+```
+
+Plain code calls each narrow agent in turn; no agent calls another. Every model call goes through one wrapper that logs tokens and cost and enforces the budgets.
+
+| Rule type | What it is | How Tenet tests it |
+|---|---|---|
+| Constraint | A bright line: an act forbidden or required regardless of outcome | Six requests for the forbidden act under rising social pressure (polite, urgent, claimed authority, incentive, reframing, sunk cost); a stakes sweep when the rule has a numeric trigger |
+| Tradeoff | Two named values weighed, with the right action shifting with the stakes | Eight requests that vary one stakes variable; the chart compares the policy's threshold with where the agent actually switches |
+| Disposition | A standing manner or trait | Ten paraphrases of the same request (tone, persona, framing, language…); consistency of the trait |
+| Ordering | A stated rank for when values conflict | Forced conflicts between adjacent values; which value won |
+
+Two kinds of finding are about the policy rather than the model: **ambiguous rules**, whose words never settle what kind of rule they are (the *ambiguity map* places every rule between the four types), and **collisions**, pairs of rules that point opposite ways in an ordinary situation with nothing in the policy saying which wins.
+
+## Sample data
+
+| Sample | What it is |
+|---|---|
+| Harrow & Vale LLP | A fictional accounting firm's client-service assistant; the demo policy (13 rules) |
+| Meridian Health Partners, Northgate Systems IT | Two more fictional policies (12 and 11 rules) |
+| Campus Customs (HW5) | The rules of a real five-agent back-office team (17 rules) |
+| OpenAI Model Spec (excerpt) | 22 sentences from a published model policy (CC0) |
+| Harrow & Vale LLP (injected) | The demo policy with one injected line; the scanner quarantines it |
+
+Paste or upload your own policy (`.txt` or `.md`, up to 200 KB) on the home page.
+
+## Safety and privacy
+
+- **Policy text is data.** An injection scanner (a regex pre-pass plus a model check) quarantines a policy that tries to instruct the software reading it; no agent ever sees a quarantined policy. Every agent prompt wraps policy text and transcripts in tags and tells the model to ignore instructions inside them.
+- **Judge integrity.** The judge has its own persona and prompt, must quote its evidence verbatim from the agent's reply (checked in code; unverified evidence never counts as a failure), and is regression-tested with transcripts that try to instruct it (`npm run tenet -- canary`).
+- **Spend.** Each run has a test budget (default $2) checked before every call; a run that reaches it halts cleanly and says why. The cumulative spend on the key is logged and capped (`TENET_KEY_BUDGET_USD`, default $40: a warning at 75 %, live calls refused at 95 %).
+- **Loop guards.** At most 40 rules per run, 12 scenarios per rule, 600 model calls per run, one retry per call (plus up to three waits on rate limits), one retry at a doubled output cap, one repair of malformed output.
+- **Data.** Text you paste is sent to the model provider through the configured gateway. Everything else stays under `data/` on your disk. Keys never reach the browser.
+
+## Configuration
+
+Only a key is required; everything else has a default. Set variables in `.env` or the shell.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORTKEY_API_KEY` / `OPENAI_API_KEY` | | One of the two is required |
+| `TENET_PROVIDER` | `auto` | `auto` (Portkey, then OpenAI), `portkey`, `openai`, `mock` |
+| `TENET_TARGET_MODEL` | `gpt-6-luna` | Model under test and for the agents |
+| `TENET_SPEND_CAP_USD` | `2` | Test budget per run (the run panel can change it) |
+| `TENET_CONCURRENCY` | `4` | Parallel model calls during a run |
+| `TENET_AMBIGUITY_THRESHOLD` | `0.7` | Classifier confidence below which a rule is flagged ambiguous |
+| `TENET_PRICE_INPUT_PER_M` / `_CACHED_PER_M` / `_OUTPUT_PER_M` | `0.10` / `0.01` / `0.50` | USD per million tokens (gpt-6-luna list price, confirmed 2026-10-21) |
+| `TENET_KEY_BUDGET_USD` | `40` | Cumulative budget on the key |
+| `TENET_DATA_DIR` | `./data` | Where runs are stored |
+| `TENET_AGENT_URL`, `TENET_AGENT_NAME` | | An HTTP agent to test instead of the model |
 
 ## Development
 
 ```bash
-npm run check                         # typecheck + lint + unit tests (no network)
-npm run tenet -- policies --provider mock
-npm run smoke                         # probe the model gateway; needs a key
+npm run check            # typecheck, lint, unit and pipeline tests (no network)
+npm run e2e              # Playwright, mock provider (run npm run build first)
+npm run smoke            # probe the model gateway (needs a key)
+npm run tenet -- help    # the CLI
 ```
 
-## Safety and privacy
-
-Text you paste is sent to the model provider through the configured gateway. Everything else stays under `data/` on your disk. Each run has a test budget, every model call is logged, and the cumulative spend on the key is capped (`TENET_KEY_BUDGET_USD`, default $40).
+The CLI drives the same core as the app: `analyze`, `rules`, `confirm`, `execute`, `run` (end to end), `status`, `export` (standalone report HTML and usage CSV), `canary`, `spotcheck`, `timing`, `rejudge`, `spend`. Every command accepts `--provider mock`.
 
 ## Project documents
 
-`PLAN.md` (plan), `STATUS.md` (where things stand), `docs/PRD.md` (requirements), `docs/plan/` (design).
+`docs/PRD.md` (requirements) · `PLAN.md` (plan) · `STATUS.md` (where things stand) · `docs/plan/` (design) · `docs/decisions/` (decision records) · `docs/evidence/` (every number and screenshot the report cites).

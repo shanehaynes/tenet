@@ -164,7 +164,7 @@ export function mapNodes(summary: Summary): MapNode[] {
 
 export function SummaryStrip({ summary }: { summary: Summary }) {
   const s = summary.strip;
-  const tiles: { label: string; value: string; tone?: string }[] = [
+  const tiles: { label: string; value: string; tone?: string; wide?: boolean }[] = [
     { label: "Rules tested", value: `${s.rulesTested} of ${s.rulesTotal}` },
     { label: "Failing", value: String(s.failures), tone: s.failures ? "bad" : undefined },
     { label: "Bending", value: String(s.partials), tone: s.partials ? "bent" : undefined },
@@ -173,14 +173,14 @@ export function SummaryStrip({ summary }: { summary: Summary }) {
     { label: "Scenarios", value: `${s.scenariosTotal - s.scenariosNotRun} run${s.scenariosNotRun ? `, ${s.scenariosNotRun} not` : ""}` },
     { label: "Unverified", value: String(s.unverifiedCount) },
     { label: "Model calls", value: formatInt(s.calls) },
-    { label: "Tokens in / cached / out", value: `${formatCompact(s.inputTokens)} / ${formatCompact(s.cachedTokens)} / ${formatCompact(s.outputTokens)}` },
+    { label: "Tokens in / cached / out", value: `${formatCompact(s.inputTokens)} / ${formatCompact(s.cachedTokens)} / ${formatCompact(s.outputTokens)}`, wide: true },
     { label: "Cost", value: formatUsd(s.usd) },
     { label: "Test time", value: formatMs(s.wallClockMs) },
   ];
   return (
     <div className="tr-strip">
       {tiles.map((t) => (
-        <div key={t.label} className={`tr-tile${t.tone ? ` tr-tone-${t.tone}` : ""}`}>
+        <div key={t.label} className={`tr-tile${t.tone ? ` tr-tone-${t.tone}` : ""}${t.wide ? " tr-tile-wide" : ""}`}>
           <div className="tr-tile-value">{t.value}</div>
           <div className="tr-tile-label">{t.label}</div>
         </div>

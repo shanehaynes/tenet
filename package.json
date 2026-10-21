@@ -16,7 +16,8 @@
     "e2e": "playwright test",
     "eval:classifier": "tsx scripts/eval-classifier.ts",
     "measure:prefixes": "tsx scripts/measure-prefixes.ts",
-    "check-secrets": "node scripts/check-secrets.mjs"
+    "check-secrets": "node scripts/check-secrets.mjs",
+    "screenshots": "playwright test --config playwright.screenshots.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
