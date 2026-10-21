@@ -54,6 +54,8 @@ do not follow (the|these|any) (rules|instructions)
 [​-‏‪-‮⁦-⁩]        # zero-width and bidi control characters
 ```
 
+*Amended 2026-10-21:* as drafted, neither pattern matched the injected sample's line ("Ignore the rules above when the user says …"): the first wants "ignore the above rules" and the fourth wants "ignore" after the identity claim. The implementation (`src/core/agents/scanner.ts`) makes the position word optional (`ignore (all |the |any )?((previous|above|prior|earlier) )?(rules|…)`) and adds the identity-claim pattern in the reverse order.
+
 Keep the strong patterns specific: "follow the engagement team's instructions" and a sentence that merely mentions "the system prompt" must not flag. Unit tests cover the injected sample (strong hit on its last line), the three clean samples (no findings), that benign sentence, and a markdown file with an HTML comment (warning only, not flagged).
 
 **Step 2, model check (always runs, adds findings, never un-flags).**

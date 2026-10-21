@@ -1,6 +1,7 @@
 import { parseArgs } from "node:util";
 import { loadEnv } from "../core/env";
 import { resetModelClient } from "../core/model/client";
+import { analyzeCommand, confirmCommand, rulesCommand } from "./commands/analysis";
 import { policiesCommand } from "./commands/policies";
 import { smokeCommand } from "./commands/smoke";
 import { spendCommand } from "./commands/spend";
@@ -9,7 +10,7 @@ import type { Command } from "./types";
 // `npm run tenet -- <command>`: thin commands over src/core (architecture §11). Every command accepts
 // --provider mock|portkey|openai. New commands go in ./commands and in this list.
 
-export const commands: Command[] = [policiesCommand, smokeCommand, spendCommand];
+export const commands: Command[] = [policiesCommand, analyzeCommand, rulesCommand, confirmCommand, smokeCommand, spendCommand];
 
 function help(out: (s: string) => void): void {
   out("Usage: npm run tenet -- <command> [options] [--provider mock|portkey|openai]\n");
