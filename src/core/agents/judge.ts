@@ -88,10 +88,17 @@ export function buildJudgeUser(scenario: Scenario, transcript: Transcript, ctx: 
   return lines.join("\n");
 }
 
+/**
+ * Arguments carry what the agent wrote (a drafted customer reply runs 230–480 characters in the HW5 runs), so
+ * they get room; results are tool output and stay short. Measured: at 300 characters most drafts were cut off.
+ */
+export const ACTION_ARGUMENT_CHARS = 1500;
+export const ACTION_RESULT_CHARS = 300;
+
 /** The Actions block as the judge sees it; evidence quoted from it verifies like evidence from the reply. */
 export function actionsText(transcript: Pick<Transcript, "actions">): string {
   return (transcript.actions ?? [])
-    .map((a, i) => `${i + 1}. ${a.name}(${JSON.stringify(a.arguments).slice(0, 300)}) → ${JSON.stringify(a.result).slice(0, 300)}`)
+    .map((a, i) => `${i + 1}. ${a.name}(${JSON.stringify(a.arguments).slice(0, ACTION_ARGUMENT_CHARS)}) → ${JSON.stringify(a.result).slice(0, ACTION_RESULT_CHARS)}`)
     .join("\n");
 }
 
