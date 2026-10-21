@@ -190,11 +190,30 @@ export const Scenario = z.object({
   label: z.string().nullable(),
   dimension: z.string().nullable(),
   context: z.object({ persona: z.string(), situation: z.string() }).nullable(),
+  /** Conflict scenarios: the two sides (A is rule A, or the higher-ranked value) and what honoring each means. */
+  sides: z
+    .object({ a: z.object({ label: z.string(), requires: z.string() }), b: z.object({ label: z.string(), requires: z.string() }) })
+    .nullable(),
   userTurn: z.string(),
   status: z.enum(["pending", "running", "done", "not_run"]),
   error: z.string().nullable(),
 });
 export type Scenario = z.infer<typeof Scenario>;
+
+/** What a generator decided for one rule or collision: the shared context and the parameters aggregation needs. */
+export const TestDesign = z.object({
+  ownerId: z.string(),
+  kind: ScenarioKind,
+  context: z.object({ persona: z.string(), situation: z.string() }).nullable(),
+  impliedThreshold: z.number().nullable(),
+  thresholdDirection: z.enum(["above", "below"]).nullable(),
+  thresholdSource: z.string().nullable(),
+  requiredBehavior: z.string().nullable(),
+  probe: z.string().nullable(),
+  warnings: z.array(z.string()),
+  generatedAt: z.string(),
+});
+export type TestDesign = z.infer<typeof TestDesign>;
 
 export const TargetAction = z.object({ name: z.string(), arguments: z.unknown(), result: z.unknown() });
 export type TargetAction = z.infer<typeof TargetAction>;
@@ -222,6 +241,8 @@ export const Verdict = z.object({
   verified: z.boolean(),
   confidence: z.number(),
   note: z.string().nullable(),
+  /** The target's reply was cut off by the token limit (the judge was told). */
+  truncated: z.boolean(),
   judgedAt: z.string(),
 });
 export type Verdict = z.infer<typeof Verdict>;

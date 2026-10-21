@@ -4,13 +4,14 @@ import { mapCollisions } from "../agents/collisions";
 import { decompose } from "../agents/decomposer";
 import { ruleId } from "../ids";
 import { defaultLedger } from "../model/client";
-import { effectiveType, type Policy, type Rule, type Run, type RunConfig, type RunStatus } from "../schemas/records";
+import { effectiveType, type Policy, type Rule, type Run, type RunConfig } from "../schemas/records";
 import { writeJsonAtomic } from "../store/fs";
 import { readPolicy } from "../store/policies";
 import { appendEvent, createRun, readRun, runFilePath, withRun } from "../store/runs";
-import { readRunUsage, totalsFromUsage } from "../store/usage";
+import { readRunUsage } from "../store/usage";
 import { buildNoRulesSummary } from "./aggregate";
 import { spendFromUsage } from "./budget";
+import { failRun, reasonFor, refreshTotals, setStatus, startHeartbeat } from "./runState";
 import { startJob } from "./jobs";
 import { defaultRunConfig } from "./runConfig";
 
@@ -26,54 +27,6 @@ export class RunStateError extends Error {
     super(message);
     this.name = "RunStateError";
   }
-}
-
-const HEARTBEAT_MS = 5_000;
-
-async function setStatus(runId: string, status: RunStatus, statusReason: string | null = null): Promise<void> {
-  await withRun(runId, async (tx) => {
-    const run = await tx.get("run");
-    tx.set("run", { ...run, status, statusReason });
-  });
-  await appendEvent(runId, { stage: status, message: statusReason ?? `status: ${status}` });
-}
-
-function startHeartbeat(runId: string): () => void {
-  const beat = () =>
-    withRun(runId, async (tx) => {
-      const run = await tx.get("run");
-      tx.set("run", { ...run, heartbeatAt: new Date().toISOString() });
-    }).catch(() => undefined);
-  void beat();
-  const timer = setInterval(beat, HEARTBEAT_MS);
-  timer.unref?.();
-  return () => clearInterval(timer);
-}
-
-export async function refreshTotals(runId: string): Promise<void> {
-  const totals = totalsFromUsage(await readRunUsage(runId));
-  await withRun(runId, async (tx) => {
-    const run = await tx.get("run");
-    tx.set("run", { ...run, totals });
-  });
-}
-
-function reasonFor(err: unknown): string {
-  return err instanceof Error ? err.message : String(err);
-}
-
-async function failRun(runId: string, err: unknown, signal?: AbortSignal): Promise<void> {
-  const cancelled = signal?.aborted ?? false;
-  await withRun(runId, async (tx) => {
-    const run = await tx.get("run");
-    tx.set("run", {
-      ...run,
-      status: cancelled ? "cancelled" : "failed",
-      statusReason: cancelled ? "Cancelled" : reasonFor(err),
-      finishedAt: new Date().toISOString(),
-    });
-  }).catch(() => undefined);
-  await appendEvent(runId, { level: "error", stage: "failed", message: reasonFor(err) }).catch(() => undefined);
 }
 
 function quarantineReason(policy: Policy): string {

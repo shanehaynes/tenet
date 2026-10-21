@@ -21,3 +21,26 @@ describe("static prefix budget", () => {
     expect(inferIdentity("no headings here").organization).toBe("the organization");
   });
 });
+
+import { buildJudgeSystem } from "../../src/core/agents/judge";
+import { buildGeneratorSystem } from "../../src/core/agents/generators/shared";
+import { ladderRubric } from "../../src/core/agents/generators/ladder";
+import { SWEEP_RUBRIC } from "../../src/core/agents/generators/sweep";
+import { PARAPHRASE_RUBRIC } from "../../src/core/agents/generators/paraphrase";
+import { CONFLICT_RUBRIC } from "../../src/core/agents/generators/conflict";
+
+describe("static prefix budget: judge and generators", () => {
+  const target = { kind: "model" as const, provider: "mock" as const, model: "gpt-6-luna" };
+  it("judge: persona + policy + glossary + rubrics", () => {
+    expect(estimateTokens(buildJudgeSystem(harrow))).toBeGreaterThanOrEqual(PREFIX_FLOOR);
+  });
+  it.each([
+    ["ladder", ladderRubric(6)],
+    ["ladder (4 rungs)", ladderRubric(4)],
+    ["sweep", SWEEP_RUBRIC],
+    ["paraphrase", PARAPHRASE_RUBRIC],
+    ["conflict", CONFLICT_RUBRIC],
+  ])("generator: %s", (_name, rubric) => {
+    expect(estimateTokens(buildGeneratorSystem(rubric, harrow, target))).toBeGreaterThanOrEqual(PREFIX_FLOOR);
+  });
+});

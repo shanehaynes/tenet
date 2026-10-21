@@ -30,3 +30,11 @@ Pooled over the three fictional policies at 0.7: **34/36 = 94.4 %** (Harrow & Va
 Scored by the pre-registered rule (sample-policies §6.3): a close call agrees only on the labeled type or a flag, so rule 12 counts as a disagreement even though the classifier chose Shane's stated alternative. The HW5 rules were written as prompts for working agents, several as two-sentence units, which the decomposer splits; the prompts were not tuned on this policy.
 
 **Pooled over all four labeled policies at 0.7: 47/53 = 88.7 %** (Harrow & Vale 12/13, Meridian 12/12, Northgate 10/11, Campus Customs 13/17). The PRD target (≥ 80 % on the demo policy) is met at 92.3 %.
+
+### OpenAI Model Spec excerpt (labels committed `acbc970` before this run; prompts as in row 3)
+
+| Date | Policy | Run | Decomposition (recall / precision) | Agreement at 0.6 / 0.7 / 0.8 | Pattern |
+|---|---|---|---|---|---|
+| 2026-10-21 | OpenAI Model Spec excerpt | `wPwWuPQU49` | 22/22 matched; 27 extracted (81.5 %) | 59.1 % / 59.1 % / 59.1 % (13/22); top-2 72.7 % | 9 disagreements, 8 of them the classifier reading a "should …" sentence as a constraint at 0.84–0.96 where Shane read a disposition (5), a tradeoff (2) or ambiguous (1). The published spec is written as overridable defaults ("should", "by default"), not bright lines; the classifier prompt has no test for that, and it is overconfident when a careful human disagrees. |
+
+**Pooled over all five labeled policies at 0.7 (classifier v1): 60/75 = 80.0 %.**

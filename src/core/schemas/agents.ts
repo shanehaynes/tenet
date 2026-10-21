@@ -103,9 +103,17 @@ export const Paraphrases = z.object({
 });
 export type Paraphrases = z.infer<typeof Paraphrases>;
 
+/** value_a / value_b: short names of the two sides (for an ordering, A is the higher-ranked value). */
 export const Conflicts = z.object({
   scenarios: z.array(
-    z.object({ index: z.number(), user_turn: z.string(), what_a_requires: z.string(), what_b_requires: z.string() }),
+    z.object({
+      index: z.number(),
+      value_a: z.string(),
+      value_b: z.string(),
+      user_turn: z.string(),
+      what_a_requires: z.string(),
+      what_b_requires: z.string(),
+    }),
   ),
 });
 export type Conflicts = z.infer<typeof Conflicts>;

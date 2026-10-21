@@ -9,6 +9,7 @@ import {
   Run,
   RunEvent,
   Scenario,
+  TestDesign,
   Transcript,
   Verdict,
   type RunConfig,
@@ -24,6 +25,7 @@ export type RunFiles = {
   rules: Rule[];
   collisions: Collision[];
   scenarios: Scenario[];
+  designs: TestDesign[];
   verdicts: Verdict[];
 };
 type FileKey = keyof RunFiles;
@@ -33,6 +35,7 @@ const FILES: { [K in FileKey]: { name: string; schema: ZodType<RunFiles[K]>; emp
   rules: { name: "rules.json", schema: z.array(Rule), empty: [] },
   collisions: { name: "collisions.json", schema: z.array(Collision), empty: [] },
   scenarios: { name: "scenarios.json", schema: z.array(Scenario), empty: [] },
+  designs: { name: "designs.json", schema: z.array(TestDesign), empty: [] },
   verdicts: { name: "verdicts.json", schema: z.array(Verdict), empty: [] },
 };
 
