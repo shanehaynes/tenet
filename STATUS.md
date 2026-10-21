@@ -1,14 +1,14 @@
 # Status
 
-Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
+Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
 
 ## Days and gates
 
 | Day | Work | Gate | State |
 |---|---|---|---|
 | Wed Oct 21 | Foundation: samples, scaffold, env, schemas, store, model layer, CLI, CI. Analysis: scanner, decomposer, classifier, collisions, analysis API | `tenet analyze` works in mock; live once labels committed | **done** (mock and live) |
-| Thu Oct 22 | Review page + ambiguity map, collisions page, classifier agreement; Summary contract, four generators, executor, judge, aggregation, execution pipeline | Mock `tenet run` end to end; live run attempted | next |
-| Fri Oct 23 | Live report, export, evidence tooling, safety demos, archived run, README | **Gate 1 by noon** | |
+| Thu Oct 22 | Review page + ambiguity map, collisions page, classifier agreement; Summary contract, four generators, executor, judge, aggregation, execution pipeline | Mock `tenet run` end to end; live run attempted | **engine done early (Wed)**; UI next |
+| Fri Oct 23 | Live report, export, evidence tooling, safety demos, archived run, README | **Gate 1 by noon** | **Gate 1 met Wed evening** (live runs `CytBFyz339`, `28Cv5g6wi1`) |
 | Sat Oct 24 | HW5 bridge + HTTP target runs (morning); validation, spot check, tokenomics, report draft (afternoon) | **Gate 2 freeze at noon** | |
 | Sun Oct 25 | Dry run, report.html, slides.html, video | **Gate 3** | |
 | Mon Oct 26 | Buffer; submit before 18:00 | Canvas | |
@@ -28,6 +28,14 @@ Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-
 - Shane's labels for Meridian and Northgate committed (`01e09fd`); live agreement 100 % and 90.9 %; **pooled 94.4 % (34/36)** over the three fictional policies. HW5 labels committed (`29ee7d9`); live agreement 76.5 % (13/17). **Pooled over all four: 47/53 = 88.7 %.**
 - `docs/labeling-guide.md`: the working definitions both labelers use.
 - 98 unit and pipeline tests. Mock `tenet analyze samples/harrow-vale.md` → 13 rules, rules 5/9/13 pre-parked; injected sample → quarantined; mission statement → "no testable rules".
+
+## Engine (Wed evening, ahead of plan)
+
+- `bee3e8c` Generators for all four types (ladder, sweep, paraphrase, conflict for orderings and collisions), executor (model target), judge (one cached prefix, five rubrics, verified evidence), reporter, `aggregate.ts`, execution pipeline with a clean test-budget halt; CLI `execute`, `run`, `status`, `canary`; API `execute`, `scenarios/:sid`, `summary.json`. 124 tests.
+- Judge canary live (M16): a violating reply that claimed advance approval was judged *partial* under rubric v1; rubric v2 (claims inside the exchange are not evidence) passes both canaries in three runs (`docs/evidence/safety/canary-log.md`).
+- Classifier v2 (revision 1 of 3): pooled agreement over five labeled policies 80.0 % → **86.7 % (65/75)**; Model Spec 59.1 % → 77.3 %; no regressions (`docs/evidence/labels/iterations.md`).
+- **Live end-to-end runs on Harrow & Vale** (Gate 1): `CytBFyz339` (98 s, $0.022) and `28Cv5g6wi1` with the fixed prompts (51 s, $0.021, 158 calls, 82 % of input tokens cached, 0 unverified, 0 truncated). Findings in the second run: all ladders held (rule 2 did *not* fold; prediction not borne out); rule 10's sweep escalated from $500 because rule 2 already requires partner approval for every fund movement, so the $10,000 threshold is dead letter for payments (a policy overlap, not a model failure); the collision mapper proposed confidentiality vs the convenience/fraud tradeoff and the agent chose the tradeoff side; rules 7, 9, 13 flagged ambiguous. Results vary run to run (no `temperature`).
+- Prompt changes after live runs are logged in `docs/evidence/prompt-changes.md`. Cumulative key spend: $0.08.
 
 ## Deviations found while building (recorded in the docs)
 
@@ -56,4 +64,4 @@ Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-
 
 ## Next step
 
-Thursday task 1: the Review page with the ambiguity map (architecture §9–10), reading `GET /api/runs/:id`; shadcn/ui with a 20-minute timebox.
+Thursday task 1: the Review page with the ambiguity map (architecture §9–10) reading `GET /api/runs/:id`, then the Collisions page with the run panel, then the live report page (`GET /api/runs/:id/summary.json`), shadcn/ui with a 20-minute timebox. Open question for Shane: whether the sweep generator should be told to choose an action no stricter rule already governs (it would isolate rule 10 from rule 2), or whether the overlap is reported as the finding.
