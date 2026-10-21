@@ -62,6 +62,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - Tenet HTTP target: executor branch (one scenario at a time, 409 retried every 2 s, a timeout retried once, a 502 is the agent's own failure and is not retried), target-reported usage logged as stage `target` and counted against the test and key budgets, actions stored with the transcript and shown to the judge, at most 40 scenarios per agent run (refused up front by an estimate), CLI `--target http --agent-url --agent`, `rules --keep`, API and run panel. Stub-server pipeline test.
 - Judge v3: evidence may quote an agent's drafted text from its actions (customer_service writes its customer-facing text inside `draft_customer_reply`); canary re-run passes.
 - Found on the first live HW5 run: generated requests named customers and orders that do not exist in the shop, so the agent refused on lookup, not on the rule. Fix: `GET /tenet/ask` describes the agent's world after a reset and the generators write about those records.
+- Found on the grounded rerun: the judge saw only the first 300 characters of each action, and the drafts run 230–480, so it now sees 1,500. Also a hung model call held the bridge for minutes; the bridge now caps an agent run at 100 s and Tenet waits out `busy` after a timeout. The two stopped runs (`L40iviUHCM`, `J8JCfKdS9J`) are kept as evidence; decision record `agent-grounding`.
 
 ## Deviations found while building (recorded in the docs)
 
