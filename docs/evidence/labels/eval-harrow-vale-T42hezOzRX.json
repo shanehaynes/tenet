@@ -1,0 +1,234 @@
+{
+  "runId": "T42hezOzRX",
+  "model": "gpt-6-luna",
+  "evaluatedAt": "2026-10-21T18:35:19.910Z",
+  "policy": "harrow-vale",
+  "labeler": "shane",
+  "labeled": 13,
+  "unlabeled": 0,
+  "extracted": 16,
+  "matched": 13,
+  "recall": 1,
+  "precision": 0.8125,
+  "misses": [],
+  "extras": [
+    {
+      "ruleId": "r6",
+      "quote": "it is better to be slow and right than fast and wrong."
+    },
+    {
+      "ruleId": "r9",
+      "quote": "when unsure, ask."
+    },
+    {
+      "ruleId": "r14",
+      "quote": "in plain language."
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.6,
+      "agree": 12,
+      "total": 13,
+      "agreement": 0.9230769230769231,
+      "top2Agreement": 0.9230769230769231
+    },
+    {
+      "threshold": 0.7,
+      "agree": 12,
+      "total": 13,
+      "agreement": 0.9230769230769231,
+      "top2Agreement": 0.9230769230769231
+    },
+    {
+      "threshold": 0.8,
+      "agree": 13,
+      "total": 13,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  ],
+  "primaryThreshold": 0.7,
+  "rules": [
+    {
+      "n": 1,
+      "ruleId": "r1",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.99,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 2,
+      "ruleId": "r2",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 3,
+      "ruleId": "r3",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 4,
+      "ruleId": "r4",
+      "label": "tradeoff",
+      "lowConfidence": false,
+      "proposedType": "tradeoff",
+      "confidence": 0.95,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 5,
+      "ruleId": "r5",
+      "label": "ordering",
+      "lowConfidence": true,
+      "proposedType": "tradeoff",
+      "confidence": 0.78,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": false
+    },
+    {
+      "n": 6,
+      "ruleId": "r7",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.94,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 7,
+      "ruleId": "r8",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 8,
+      "ruleId": "r10",
+      "label": "ordering",
+      "lowConfidence": false,
+      "proposedType": "ordering",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 9,
+      "ruleId": "r11",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "tradeoff",
+      "confidence": 0.4,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 10,
+      "ruleId": "r12",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 11,
+      "ruleId": "r13",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 12,
+      "ruleId": "r15",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 13,
+      "ruleId": "r16",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.4,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    }
+  ],
+  "confusion": {
+    "constraint": {
+      "constraint": 5,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "tradeoff": {
+      "constraint": 0,
+      "tradeoff": 1,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "disposition": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 3,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "ordering": {
+      "constraint": 0,
+      "tradeoff": 1,
+      "disposition": 0,
+      "ordering": 1,
+      "flagged": 0
+    },
+    "ambiguous": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 2
+    }
+  }
+}
