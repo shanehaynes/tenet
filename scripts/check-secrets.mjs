@@ -22,7 +22,7 @@ if (existsSync(".env.example")) {
 
 const PATTERNS = [
   { name: "OpenAI-style key", re: /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}/ },
-  { name: "key assignment with a value", re: /\b(PORTKEY|OPENAI)_API_KEY\s*=\s*["']?[A-Za-z0-9+/_=-]{12,}/ },
+  { name: "key assignment with a value", re: /\b(PORTKEY|OPENAI)_API_KEY\s*=\s*["']?[A-Za-z0-9+/_=-]{20,}/ },
   { name: "bearer token", re: /\bBearer\s+[A-Za-z0-9._~+/-]{24,}/ },
 ];
 

@@ -18,6 +18,8 @@ jobs:
           node-version: 22.x
           cache: npm
       - run: npm ci
+      - name: No secrets in tracked files
+        run: node scripts/check-secrets.mjs
       - name: Gate (typecheck, lint, unit and pipeline tests)
         run: npm run check
       - name: Build
