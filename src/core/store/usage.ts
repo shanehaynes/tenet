@@ -1,6 +1,6 @@
 import { stat } from "node:fs/promises";
 import path from "node:path";
-import { UsageEvent } from "../schemas/records";
+import { TEST_STAGES, UsageEvent, type Totals } from "../schemas/records";
 import { appendJsonl, dataDir, readJsonl } from "./fs";
 import { runFilePath } from "./runs";
 
@@ -23,6 +23,31 @@ export async function readRunUsage(runId: string): Promise<UsageEvent[]> {
 
 export async function readGlobalUsage(): Promise<UsageEvent[]> {
   return readJsonl(globalUsagePath(), UsageEvent);
+}
+
+/** Run totals derived from the usage log, which is the source of truth (the run file holds a cached copy). */
+export function totalsFromUsage(events: UsageEvent[]): Totals {
+  const t: Totals = {
+    calls: 0,
+    inputTokens: 0,
+    cachedTokens: null,
+    reasoningTokens: null,
+    outputTokens: 0,
+    usd: 0,
+    analysisUsd: 0,
+    testUsd: 0,
+  };
+  for (const e of events) {
+    if (!e.reportedByTarget) t.calls += 1;
+    t.inputTokens += e.inputTokens;
+    t.outputTokens += e.outputTokens;
+    if (e.cachedTokens !== null) t.cachedTokens = (t.cachedTokens ?? 0) + e.cachedTokens;
+    if (e.reasoningTokens !== null) t.reasoningTokens = (t.reasoningTokens ?? 0) + e.reasoningTokens;
+    t.usd += e.usd;
+    if (e.reportedByTarget || TEST_STAGES.has(e.stage)) t.testUsd += e.usd;
+    else t.analysisUsd += e.usd;
+  }
+  return t;
 }
 
 /** Providers whose calls are billed to a real key. Mock calls are logged but cost nothing. */
