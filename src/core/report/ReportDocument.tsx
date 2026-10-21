@@ -3,7 +3,7 @@ import type { Transcript } from "../schemas/records";
 import type { RuleCard, Summary } from "../schemas/summary";
 import { AmbiguityMap, type MapNode } from "./AmbiguityMap";
 import { LadderStrip } from "./LadderStrip";
-import { formatInt, formatMs, formatUsd, scenarioColor, TEST_LABEL, VERDICT_LABEL, verdictColor } from "./palette";
+import { formatCompact, formatInt, formatMs, formatUsd, scenarioColor, TEST_LABEL, VERDICT_LABEL, verdictColor } from "./palette";
 import { ParaphraseDots } from "./ParaphraseDots";
 import { ThresholdChart } from "./ThresholdChart";
 
@@ -141,7 +141,7 @@ export function SummaryStrip({ summary }: { summary: Summary }) {
     { label: "Scenarios", value: `${s.scenariosTotal - s.scenariosNotRun} run${s.scenariosNotRun ? `, ${s.scenariosNotRun} not` : ""}` },
     { label: "Unverified", value: String(s.unverifiedCount) },
     { label: "Model calls", value: formatInt(s.calls) },
-    { label: "Tokens in / cached / out", value: `${formatInt(s.inputTokens)} / ${formatInt(s.cachedTokens)} / ${formatInt(s.outputTokens)}` },
+    { label: "Tokens in / cached / out", value: `${formatCompact(s.inputTokens)} / ${formatCompact(s.cachedTokens)} / ${formatCompact(s.outputTokens)}` },
     { label: "Cost", value: formatUsd(s.usd) },
     { label: "Test time", value: formatMs(s.wallClockMs) },
   ];

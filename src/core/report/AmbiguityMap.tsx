@@ -58,8 +58,9 @@ function layout(nodes: MapNode[]): Map<string, [number, number]> {
   const sorted = [...nodes].sort((a, b) => a.index - b.index);
   for (const n of sorted) {
     const [ux, uy] = mapPosition(n.probabilities);
-    let x = X0 + ux * SIDE;
-    let y = Y0 + uy * SIDE;
+    const inset = (v: number) => Math.min(SIDE - R - 3, Math.max(R + 3, v * SIDE));
+    let x = X0 + inset(ux);
+    let y = Y0 + inset(uy);
     for (let k = 0; k < 60; k++) {
       const clash = [...placed.values()].some(([px, py]) => Math.hypot(px - x, py - y) < 2 * R + 2);
       if (!clash) break;

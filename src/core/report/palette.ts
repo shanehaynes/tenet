@@ -90,6 +90,14 @@ export function formatInt(n: number | null | undefined): string {
   return n === null || n === undefined ? "—" : n.toLocaleString("en-US");
 }
 
+/** 231540 → "232k" for tight tiles; small numbers stay exact. */
+export function formatCompact(n: number | null | undefined): string {
+  if (n === null || n === undefined) return "—";
+  if (n < 10_000) return n.toLocaleString("en-US");
+  if (n < 1_000_000) return `${Math.round(n / 1000)}k`;
+  return `${(n / 1_000_000).toFixed(1)}M`;
+}
+
 export function formatMs(ms: number | null | undefined): string {
   if (ms === null || ms === undefined) return "—";
   const s = Math.round(ms / 1000);
