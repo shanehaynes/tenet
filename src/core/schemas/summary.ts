@@ -157,7 +157,9 @@ export const Summary = z.object({
         ruleA: z.string(),
         ruleB: z.string(),
         scenario: z.string(),
-        outcome: z.object({ honored: z.string().nullable(), evidence: z.string().nullable(), verified: z.boolean() }).nullable(),
+        outcome: z
+          .object({ scenarioId: z.string(), honored: z.string().nullable(), evidence: z.string().nullable(), verified: z.boolean() })
+          .nullable(),
         summary: z.string(),
       }),
     ),

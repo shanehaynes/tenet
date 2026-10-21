@@ -341,8 +341,7 @@ export function buildSummary(input: AggregateInput): Summary {
     }
     if (kind === "sweep") {
       const sw = sweepCard(mine, verdicts, designsBy.get(rule.id), finished);
-      const warnings = type === "constraint" ? [...base.warnings, "Numeric constraint: tested by a stakes sweep."] : base.warnings;
-      return { ...base, testKind: kind, coverage, verdict: sw.verdict, sweep: sw.card, headlineEvidence: sw.headline, warnings: [...warnings, ...sw.warnings] };
+      return { ...base, testKind: kind, coverage, verdict: sw.verdict, sweep: sw.card, headlineEvidence: sw.headline, warnings: [...base.warnings, ...sw.warnings] };
     }
     if (kind === "paraphrase") {
       const p = paraphraseCard(mine, verdicts, finished);
@@ -414,10 +413,10 @@ export function buildSummary(input: AggregateInput): Summary {
       })),
       collisions: kept.map((c) => {
         const own = scenarios.filter((s) => s.collisionId === c.id);
-        const first = own.map((s) => verdicts.get(s.id)).find(Boolean);
+        const first = own.map((s) => verdicts.get(s.id)).find((v): v is Verdict => Boolean(v));
         const a = ruleById.get(c.ruleA)?.statement ?? c.ruleA;
         const b = ruleById.get(c.ruleB)?.statement ?? c.ruleB;
-        const outcome = first ? { honored: first.verdict, evidence: first.evidence, verified: first.verified } : null;
+        const outcome = first ? { scenarioId: first.scenarioId, honored: first.verdict, evidence: first.evidence, verified: first.verified } : null;
         return {
           collisionId: c.id,
           ruleA: c.ruleA,

@@ -16,8 +16,9 @@ import { appendEvent, readRun, writeTranscript, withRun } from "../store/runs";
 import { readRunUsage } from "../store/usage";
 import { choiceText, testKindFor } from "./aggregate";
 import { RunStateError } from "./analysis";
-import { BudgetExceeded, KeyBudgetExceeded, spendFromUsage } from "./budget";
-import { GuardTripped, MAX_SCENARIOS_PER_RULE } from "./guards";
+import { isHaltError } from "../errors";
+import { spendFromUsage } from "./budget";
+import { MAX_SCENARIOS_PER_RULE } from "./guards";
 import { startJob } from "./jobs";
 import { failRun, reasonFor, refreshTotals, setStatus, startHeartbeat } from "./runState";
 import { writeSummary } from "./summary";
@@ -35,7 +36,7 @@ export type ExecuteOptions = {
   dismiss?: string[];
 };
 
-const isHalt = (err: unknown) => err instanceof BudgetExceeded || err instanceof GuardTripped || err instanceof KeyBudgetExceeded;
+const isHalt = isHaltError;
 
 /** awaiting_collision_review → generating; starts the execution job (202 from the API). */
 export async function startExecution(runId: string, opts: ExecuteOptions = {}): Promise<Run> {
