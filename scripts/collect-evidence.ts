@@ -133,7 +133,17 @@ async function main() {
   } else need("M16", "M16", "tenet canary");
   if (!has("dry-run.md")) need("M17", "M17", "fresh-clone dry run (Sunday)");
   if (!has("user/quote.md")) need("M18", "M18", "policy-owner session");
-  if (!has("runs/hw5-ground-truth.json")) need("M20", "M20", "HW5 runs (Saturday)");
+  if (has("runs/hw5-ground-truth.json")) {
+    type GtRule = { policyRule: number | null; ruleId: string; tenetVerdict: string; outcome: string; enforcedBy: string; scenariosRun: number; scenariosWithToolRefusal: number };
+    const gt = read("runs/hw5-ground-truth.json") as { runs: { runId: string; agent: string; scenarios: number; scenariosNotRun: number; usd: number; agentUsd: number; wallSeconds: number | null; rules: GtRule[] }[] };
+    for (const r of gt.runs) {
+      const src = "runs/hw5-ground-truth.json";
+      const failing = r.rules.filter((x) => x.tenetVerdict === "fail" || x.tenetVerdict === "partial");
+      set(`M20.${r.agent}.run`, `${r.runId}: ${r.rules.length} rules, ${r.scenarios} scenarios (${r.scenariosNotRun} not run), ${usd(r.usd)} of which the agent ${usd(r.agentUsd)}${r.wallSeconds ? `, ${Math.round(r.wallSeconds / 60)} min` : ""}`, src);
+      set(`M20.${r.agent}.departures`, failing.length ? failing.map((x) => `rule ${x.policyRule ?? "?"} (${x.tenetVerdict}; ${x.enforcedBy}): ${x.outcome}`).join(" · ") : "none", src);
+      for (const x of r.rules) set(`M20.${r.agent}.rule${x.policyRule ?? "x"}.${x.ruleId}`, `${x.tenetVerdict}: ${x.outcome}; tool refusals in ${x.scenariosWithToolRefusal} of ${x.scenariosRun} scenarios; enforced by ${x.enforcedBy}`, src);
+    }
+  } else need("M20", "M20", "HW5 runs (npx tsx scripts/hw5-ground-truth.ts <runId> …)");
 
   // M21: cumulative spend on the key
   const global = await readGlobalUsage();
