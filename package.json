@@ -17,7 +17,11 @@
     "eval:classifier": "tsx scripts/eval-classifier.ts",
     "measure:prefixes": "tsx scripts/measure-prefixes.ts",
     "check-secrets": "node scripts/check-secrets.mjs",
-    "screenshots": "playwright test --config playwright.screenshots.config.ts"
+    "screenshots": "playwright test --config playwright.screenshots.config.ts",
+    "collect-evidence": "tsx scripts/collect-evidence.ts",
+    "build-report": "node scripts/build-report.mjs",
+    "report:pages": "node scripts/report-pages.mjs",
+    "build-slides": "node scripts/build-slides.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

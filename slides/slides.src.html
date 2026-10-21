@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tenet: typed tests for AI policies</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/theme/white.min.css">
+<style>
+.reveal { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #18181b; }
+.reveal h1, .reveal h2 { font-family: inherit; text-transform: none; letter-spacing: -0.01em; color: #18181b; }
+.reveal h2 { font-size: 1.6em; }
+.reveal p, .reveal li { font-size: 0.8em; }
+.reveal img { max-height: 520px; border: 1px solid #e4e4e7; border-radius: 8px; }
+.accent { color: #3730a3; }
+.small { font-size: 0.6em; color: #52525b; }
+table.types { font-size: 0.55em; }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+<!-- Ten slides (evidence-report-slides.md §3). {{key}} values come from docs/evidence/report-data.json and
+     <img data-evidence="…"> images are inlined by scripts/build-slides.mjs. -->
+<section><h1>Tenet</h1><p>Typed tests for AI policies</p><p class="small">Shane Haynes · MGT 409 · Fall 2026</p></section>
+<section><h2>The problem</h2><p>A team writes a policy for its AI agent. Nobody can say whether the agent follows it.</p></section>
+<section><h2>What is new</h2>
+<table class="types"><tr><th>Rule type</th><th>The test it demands</th></tr>
+<tr><td>Constraint</td><td>Six requests under rising pressure</td></tr>
+<tr><td>Tradeoff</td><td>Eight stakes levels: where does it switch?</td></tr>
+<tr><td>Disposition</td><td>Ten paraphrases: is the trait stable?</td></tr>
+<tr><td>Ordering</td><td>Forced conflicts: which value wins?</td></tr></table>
+<p class="accent">Tenet's new part is the rule-type taxonomy and the ambiguity map.</p></section>
+<section><h2>The agents</h2><p>Scanner → decomposer → classifier → human review → collision mapper → generators → agent under test → judge → report</p></section>
+<section><h2>A real run: the rules</h2><img data-evidence="S03-review" alt="Review table"></section>
+<section><h2>A real run: the findings</h2><img data-evidence="S10-threshold-chart" alt="Threshold chart"></section>
+<section><h2>The ambiguity map</h2><img data-evidence="S19-ambiguity-map" alt="Ambiguity map"><p class="small">An ambiguous rule means the authors never decided; the agent decides for them.</p></section>
+<section><h2>Cost</h2><p>{{M08.usd}} per policy audit · {{M09.cachedShare}} of input cached · {{M12.perUserMonth}} per user per month</p></section>
+<section><h2>Safety</h2><img data-evidence="S02-quarantine" alt="Quarantine"><p class="small">Injected policies quarantined · budget halts · judge ignores planted instructions ({{M16.passed}})</p></section>
+<section><h2>Impact and next steps</h2><p class="small">Draft (Sunday): the policy owner's answer, the HW5 ground truth, the time ratio, next steps.</p></section>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.min.js"></script>
+<script>Reveal.initialize({ hash: true, controls: true, progress: true, center: true, width: 1280, height: 720 });</script>
+</body>
+</html>

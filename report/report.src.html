@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tenet: typed tests for AI policies</title>
+<style>/*{{CSS}}*/</style>
+</head>
+<body>
+<main>
+<!-- Every {{key}} is filled from docs/evidence/report-data.json by scripts/build-report.mjs; every
+     <img data-evidence="…"> is inlined from docs/evidence/screenshots/. Prose marked .draft is a placeholder. -->
+
+<h1>Tenet: typed tests for AI policies</h1>
+<p class="meta">Shane Haynes · MGT 409, Yale SOM, Fall 2026 · Repository: https://github.com/shanehaynes/tenet · Runs locally (no hosted link); an archived real run opens at /runs/example.</p>
+<p>Tenet reads an AI agent's written policy, sorts each rule by the kind of rule it is, runs the test that kind demands, and reports where the agent departs from the policy and where the policy contradicts itself.</p>
+
+<h2>1. Motivation</h2>
+<p class="draft">Draft (Saturday): the platform lead who cannot verify that an agent follows its policy; what teams do today; the real policy owner's situation (M18).</p>
+
+<h2>2. What is new</h2>
+<p class="draft">Draft (Saturday): pass/fail is a category error; promptfoo, Giskard, garak, Patronus, Haize Labs, UK AISI Inspect, Braintrust, LangSmith Evals and OpenAI Evals are harnesses where you bring the tests. Tenet's new part is the rule-type taxonomy and the ambiguity map.</p>
+<figure><img data-evidence="S19-ambiguity-map" alt="Ambiguity map of the demo policy"><figcaption>The ambiguity map of the demo policy: rules placed by their type probabilities.</figcaption></figure>
+
+<h2>3. The agents</h2>
+<p class="draft">Draft (Saturday): the pipeline; the agents table; why gpt-6-luna; one real run step by step.</p>
+<p>On the five labeled policies the classifier agreed with the hand labels on {{M03.pooled}} of rules (demo policy: {{M03.harrow-vale.agreement}}). A second human labeler: {{M04}}. The judge agreed with Shane's verdicts on {{M05.exact}} of 50 transcripts.</p>
+<figure><img data-evidence="S03-review" alt="Review table"><figcaption>Review: the decomposed rules with proposed types and confidence.</figcaption></figure>
+<figure><img data-evidence="S09a-ladder" alt="Pressure ladder"><figcaption>A constraint under a six-step pressure ladder.</figcaption></figure>
+<figure><img data-evidence="S10-threshold-chart" alt="Threshold chart"><figcaption>Rule 10's stakes sweep (finding F1).</figcaption></figure>
+
+<h2>4. Tokenomics</h2>
+<p>The demo run made {{M08.calls}} model calls: {{M08.inputTokens}} input tokens ({{M08.cachedTokens}} cached), {{M08.outputTokens}} output tokens including {{M08.reasoningTokens}} reasoning tokens, for {{M08.usd}} ({{M08.analysisUsd}} analysis, {{M08.testUsd}} tests) in {{M08.wallSeconds}} seconds of testing. Caching served {{M09.cachedShare}} of input tokens; without it the run would have cost {{M09.usdWithoutCaching}} ({{M09.saving}} more). At four policies tested three times a month per user, that is {{M12.perUserMonth}} per user per month, {{M12.users100}} at 100 users and {{M12.users10000}} at 10,000. Classifying all rules in one call instead of one call per rule: {{M11.batched}} versus {{M11.perRule}}. Cumulative spend on the course key while building: {{M21.usd}} over {{M21.calls}} calls.</p>
+<figure><img data-evidence="S13-usage" alt="Usage by stage"><figcaption>Usage by stage for the demo run.</figcaption></figure>
+
+<h2>5. Safety</h2>
+<p>The injected copy of the demo policy is quarantined before any agent sees it; a run against a $0.01 test budget halts and says why; the judge ignores instructions planted in transcripts ({{M16.passed}} canaries pass). In the demo run {{M15.unverified}} verdicts had unverified evidence and {{M15.notRun}} scenarios did not run.</p>
+<figure><img data-evidence="S02-quarantine" alt="Quarantine banner"><figcaption>The injection scanner's quarantine.</figcaption></figure>
+<figure><img data-evidence="S07-halted" alt="Halted run"><figcaption>A run halted at its test budget.</figcaption></figure>
+
+<h2>6. Impact</h2>
+<p class="draft">Draft (Saturday–Sunday): defects found per untested policy (M07); the HW5 ground truth (M20); the time ratio (M13); the policy owner's answer (M18).</p>
+
+<h2>7. Limits and next steps</h2>
+<p>Planted findings on the demo policy: {{M14.found}}. <span class="draft">Draft: same-model judge; typology blur; thresholds chosen on the evaluation set; predictions that did not come true; next steps.</span></p>
+
+<h2>8. Appendix: evidence</h2>
+<p>Every number above is computed from files in <code>docs/evidence/</code> by <code>scripts/collect-evidence.ts</code>; the archived demo run is <code>{{M06.runId}}</code>.</p>
+</main>
+</body>
+</html>

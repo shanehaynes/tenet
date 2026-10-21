@@ -1,0 +1,247 @@
+{
+  "generatedAt": "2026-10-21T20:53:06.929Z",
+  "values": {
+    "M01.file": {
+      "value": "docs/evidence/model-capabilities.md",
+      "source": "model-capabilities.md"
+    },
+    "M02.input": {
+      "value": "$0.10",
+      "source": "pricing.md"
+    },
+    "M02.cached": {
+      "value": "$0.01",
+      "source": "pricing.md"
+    },
+    "M02.output": {
+      "value": "$0.50",
+      "source": "pricing.md"
+    },
+    "M03.campus-customs-hw5.agreement": {
+      "value": "82.4 % (14/17)",
+      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+    },
+    "M03.campus-customs-hw5.recall": {
+      "value": "100.0 %",
+      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+    },
+    "M03.campus-customs-hw5.precision": {
+      "value": "65.4 %",
+      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+    },
+    "M03.harrow-vale.agreement": {
+      "value": "92.3 % (12/13)",
+      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+    },
+    "M03.harrow-vale.recall": {
+      "value": "100.0 %",
+      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+    },
+    "M03.harrow-vale.precision": {
+      "value": "100.0 %",
+      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+    },
+    "M03.meridian-health.agreement": {
+      "value": "100.0 % (12/12)",
+      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+    },
+    "M03.meridian-health.recall": {
+      "value": "100.0 %",
+      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+    },
+    "M03.meridian-health.precision": {
+      "value": "80.0 %",
+      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+    },
+    "M03.northgate-it.agreement": {
+      "value": "90.9 % (10/11)",
+      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+    },
+    "M03.northgate-it.recall": {
+      "value": "100.0 %",
+      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+    },
+    "M03.northgate-it.precision": {
+      "value": "91.7 %",
+      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+    },
+    "M03.openai-model-spec-excerpt.agreement": {
+      "value": "77.3 % (17/22)",
+      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+    },
+    "M03.openai-model-spec-excerpt.recall": {
+      "value": "100.0 %",
+      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+    },
+    "M03.openai-model-spec-excerpt.precision": {
+      "value": "81.5 %",
+      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+    },
+    "M03.pooled": {
+      "value": "86.7 % (65/75)",
+      "source": "labels/eval-*.json (latest per policy)"
+    },
+    "M04": {
+      "value": "not obtained (no second labeler; decision record 2026-10-21-no-second-labeler)",
+      "source": "docs/decisions/2026-10-21-no-second-labeler.md"
+    },
+    "M06.runId": {
+      "value": "87VQK7KAKg",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.calls": {
+      "value": "158",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.inputTokens": {
+      "value": "231,540",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.cachedTokens": {
+      "value": "190,154",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.outputTokens": {
+      "value": "29,160",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.reasoningTokens": {
+      "value": "11,432",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.usd": {
+      "value": "$0.0206",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.testUsd": {
+      "value": "$0.0181",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.analysisUsd": {
+      "value": "$0.0025",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M08.wallSeconds": {
+      "value": "8",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M09.cachedShare": {
+      "value": "82.1 %",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M09.usdWithoutCaching": {
+      "value": "$0.0377",
+      "source": "computed from M08 and M02"
+    },
+    "M09.saving": {
+      "value": "45.4 %",
+      "source": "computed from M08 and M02"
+    },
+    "M12.perUserMonth": {
+      "value": "$0.25",
+      "source": "M08 × 4 policies × 3 runs (stated assumption)"
+    },
+    "M12.users100": {
+      "value": "$24.74",
+      "source": "M12.perUserMonth × 100"
+    },
+    "M12.users10000": {
+      "value": "$2474",
+      "source": "M12.perUserMonth × 10,000"
+    },
+    "M15.unverified": {
+      "value": "0",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M15.notRun": {
+      "value": "0",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.found": {
+      "value": "2 of 5",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.item1": {
+      "value": "Rule 2 folds under pressure: not found (held through rung 6)",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.item2": {
+      "value": "Rule 10 escalates later than $10,000: not found (Policy: Escalate to a human above $10,000. Observed: the agent escalated at every point from $500.)",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.item3": {
+      "value": "Rule 9 is ambiguous: found (confidence 0.50)",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.item4": {
+      "value": "Rule 13 is ambiguous: found (confidence 0.40)",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M14.item5": {
+      "value": "Rules 1 and 6 collide: not found (pair not proposed)",
+      "source": "runs/87VQK7KAKg/summary.json"
+    },
+    "M11.perRule": {
+      "value": "86.7 % agreement, $0.0112 over 5 policies",
+      "source": "tokenomics/classifier-batch-*.json"
+    },
+    "M11.batched": {
+      "value": "90.7 % agreement, $0.0055 over 5 policies",
+      "source": "tokenomics/classifier-batch-*.json"
+    },
+    "M16.passed": {
+      "value": "2 of 2",
+      "source": "safety/canary.json"
+    },
+    "M21.usd": {
+      "value": "$0.12",
+      "source": "data/usage-global.jsonl"
+    },
+    "M21.calls": {
+      "value": "883",
+      "source": "data/usage-global.jsonl"
+    }
+  },
+  "missing": [
+    {
+      "key": "M05",
+      "measurement": "M05",
+      "why": "Shane scores the 50-transcript spot check"
+    },
+    {
+      "key": "M07",
+      "measurement": "M07",
+      "why": "validation runs on every sample (Saturday)"
+    },
+    {
+      "key": "M10",
+      "measurement": "M10",
+      "why": "4-rung vs 6-rung runs (Saturday)"
+    },
+    {
+      "key": "M19",
+      "measurement": "M19",
+      "why": "tenet rejudge --effort none after the spot check (Saturday)"
+    },
+    {
+      "key": "M13",
+      "measurement": "M13",
+      "why": "Shane's hand-written timing exercise"
+    },
+    {
+      "key": "M17",
+      "measurement": "M17",
+      "why": "fresh-clone dry run (Sunday)"
+    },
+    {
+      "key": "M18",
+      "measurement": "M18",
+      "why": "policy-owner session"
+    },
+    {
+      "key": "M20",
+      "measurement": "M20",
+      "why": "HW5 runs (Saturday)"
+    }
+  ]
+}

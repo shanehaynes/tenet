@@ -1,0 +1,21 @@
+/* report.html: screen and print (Letter, 1-inch margins, 11 pt). */
+:root { --ink: #18181b; --muted: #52525b; --rule: #e4e4e7; --accent: #3730a3; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: #fff; font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+main { max-width: 820px; margin: 0 auto; padding: 48px 24px 64px; }
+h1 { font-size: 30px; line-height: 1.15; margin: 0 0 6px; letter-spacing: -0.01em; }
+h2 { font-size: 21px; margin: 36px 0 10px; padding-top: 10px; border-top: 1px solid var(--rule); break-after: avoid; }
+h3 { font-size: 16px; margin: 20px 0 6px; break-after: avoid; }
+p, li { max-width: 72ch; }
+.meta { color: var(--muted); font-size: 14px; }
+.draft { background: #fef9c3; padding: 2px 4px; }
+figure { margin: 18px 0; break-inside: avoid; }
+figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 8px; }
+figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 12px 0; break-inside: avoid; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: #f8fafc; }
+@page { size: Letter; margin: 1in; }
+@media print { body { font-size: 11pt; } main { padding: 0; max-width: none; } h2 { margin-top: 24px; } }
