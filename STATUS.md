@@ -56,6 +56,13 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - `collect-evidence` → `docs/evidence/report-data.json` (50 values with sources); `report/report.src.html` + `build-report.mjs --allow-missing` + `report:pages` (skeleton prints to 6 pages); `slides/slides.src.html` + `build-slides.mjs` (10 slides, reveal.js 6.0.2 from cdnjs). The prose is the weekend's work.
 - New numbers: caching served 82.1 % of the demo run's input tokens and saved 45 %; at the PRD's usage assumption, about $0.25 per user per month ($2,474 a month at 10,000 users).
 
+## HW5 bridge and HTTP target (Wed night, ahead of plan)
+
+- HW5 branch [`tenet-bridge`](https://github.com/shanehaynes/Homework5/tree/tenet-bridge) pushed: `POST /tenet/ask` runs one agent on one operator request from freshly restored books and returns its report, its tool calls (from the audit trail) and its token usage; `409 busy` during another run; `502` with usage when the agent ends without a report. `CAMPUS_DB_PATH` / `CAMPUS_AUDIT_PATH` keep test sessions in separate, git-ignored files, so the homework evidence is untouched. Smoke-tested live (customer_service: 6.6 s, 2 requests, one `get_catalog` call).
+- Tenet HTTP target: executor branch (one scenario at a time, 409 retried every 2 s, a timeout retried once, a 502 is the agent's own failure and is not retried), target-reported usage logged as stage `target` and counted against the test and key budgets, actions stored with the transcript and shown to the judge, at most 40 scenarios per agent run (refused up front by an estimate), CLI `--target http --agent-url --agent`, `rules --keep`, API and run panel. Stub-server pipeline test.
+- Judge v3: evidence may quote an agent's drafted text from its actions (customer_service writes its customer-facing text inside `draft_customer_reply`); canary re-run passes.
+- Found on the first live HW5 run: generated requests named customers and orders that do not exist in the shop, so the agent refused on lookup, not on the rule. Fix: `GET /tenet/ask` describes the agent's world after a reset and the generators write about those records.
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
@@ -72,17 +79,15 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 |---|---|---|
 | 2026-10-21 | Optional: label `samples/openai-model-spec-excerpt.labels.json` (22 rules) so the report can state agreement on a published policy | Sat Oct 24 |
 | 2026-10-21 | Contact a policy owner (Eide Bailly colleague, Yale IT, compliance contact) for Saturday or Sunday; no classmate labeler (in finals; kappa not obtained) | Fri Oct 23 |
-| 2026-10-21 | HW5 backend runnable on this machine: `.venv`, `.env` with the key, `cd backend && ../.venv/bin/uvicorn main:app --port 8000` (HW5 cloned read-only at `~/projects/Homework5`) | Fri Oct 23 |
 
 ## Known gaps
 
 - gpt-6-luna rejects `temperature`, so live results vary run to run; every reported number names its run id.
 - The executor prefix (1,075 tokens on the demo policy) caches; a much shorter user policy would fall under the 1,024-token floor, and the report should say so.
-- No UI pages yet beyond a placeholder home page (Thursday task 1).
-- The Playwright suite is a placeholder (`--pass-with-no-tests`) until Thursday's pages exist.
+- An agent run is serial (each scenario is a full agent run, 10–25 s), so a 40-scenario HW5 run takes 10–15 minutes.
 
 ## Next step
 
 1. **HW5 bridge** (PLAN §3: Gate 1 passed early, so it can start before Saturday): `POST /tenet/ask` on a `tenet-bridge` branch of `~/projects/Homework5` (sample-policies §10.2), then Tenet's HTTP target (architecture §4.6), the judge's actions block, the "agent under test" selector. Needs Shane: confirm the HW5 backend runs here (`.venv`, `.env`, `uvicorn`) and OK to push the branch.
 2. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); a fresh Harrow & Vale run for the 50-transcript spot check (Shane scores it before opening that run's report); `tenet rejudge --effort none` scored against Shane's CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
-3. Open decision for Shane: make the batched classifier the default (half the cost, agreement as good or better in this sample)?
+3. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).

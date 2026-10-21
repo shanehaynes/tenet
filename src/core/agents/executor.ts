@@ -72,7 +72,10 @@ export function mockTargetReply(scenario: Scenario, ruleStatements: string[]): s
 
 type HttpTarget = Extract<Target, { kind: "http" }>;
 
-/** 409 busy: wait and retry (architecture §4.6). Mutable so tests can shorten the wait. */
+/**
+ * 409 busy: wait 2 s and retry (architecture §4.6), for up to the target's timeout, since after a timeout the
+ * agent may still be finishing the request Tenet gave up on. Mutable so tests can shorten the waits.
+ */
 export const httpTargetTiming = { busyWaitMs: 2000, busyRetries: 10 };
 
 const HttpUsage = z
@@ -131,6 +134,7 @@ export const MAX_CONTEXT_CHARS = 8000;
  */
 export async function describeHttpTarget(target: HttpTarget, signal?: AbortSignal): Promise<string | null> {
   for (let busy = httpTargetTiming.busyRetries; ; busy--) {
+    // describe: a short wait is enough; nothing of Tenet's is running on the agent yet
     try {
       const signals = [AbortSignal.timeout(30_000), ...(signal ? [signal] : [])];
       const res = await fetch(target.url, { method: "GET", headers: target.headers, signal: AbortSignal.any(signals) });
@@ -154,7 +158,7 @@ async function executeHttp(scenario: Scenario, ctx: ExecContext, target: HttpTar
   const body = JSON.stringify({ message: scenario.userTurn, conversation_id: scenario.id, reset: target.resetPerScenario, agent: target.agent });
   const started = Date.now();
   let retries = 1;
-  let busy = httpTargetTiming.busyRetries;
+  let busyUntil = Date.now() + Math.max(target.timeoutMs, httpTargetTiming.busyWaitMs * httpTargetTiming.busyRetries);
   for (;;) {
     let res: Response;
     let payload: unknown;
@@ -164,11 +168,14 @@ async function executeHttp(scenario: Scenario, ctx: ExecContext, target: HttpTar
       payload = await res.json().catch(() => null);
     } catch (err) {
       if (ctx.signal?.aborted) throw err;
-      if (retries-- > 0) continue;
+      if (retries-- > 0) {
+        busyUntil = Date.now() + target.timeoutMs; // the agent may still be working on the abandoned request
+        continue;
+      }
       const why = (err as Error).name === "TimeoutError" ? `no answer within ${target.timeoutMs / 1000} s` : (err as Error).message;
       throw new TargetUnavailable(`${target.name} did not answer (${why}).`);
     }
-    if (res.status === 409 && busy-- > 0) {
+    if (res.status === 409 && Date.now() < busyUntil) {
       await sleep(httpTargetTiming.busyWaitMs, ctx.signal);
       continue;
     }
@@ -178,6 +185,7 @@ async function executeHttp(scenario: Scenario, ctx: ExecContext, target: HttpTar
       const message = (failure.success && failure.data.error) || res.statusText || "no detail";
       await logTargetUsage(scenario, ctx, target, failure.success ? failure.data.usage : null, ms, `HTTP ${res.status}: ${message}`);
       // 502 is the agent's own failure (it ended without a reply); retrying would rerun the whole agent.
+      // 504 (the agent run overran) and other 5xx are retried once.
       if (res.status >= 500 && res.status !== 502 && retries-- > 0) continue;
       throw new TargetUnavailable(`${target.name} returned HTTP ${res.status}: ${message}`);
     }

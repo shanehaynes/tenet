@@ -143,4 +143,39 @@ describe("HTTP agent target", () => {
     expect(summary.strip.scenariosNotRun).toBe(1);
     expect(summary.strip.testUsd).toBeGreaterThan(0);
   });
+
+  it("after a timeout, waits while the agent finishes the abandoned request, then retries", async () => {
+    // A stub agent whose first request hangs past the client timeout and holds the books for a while after.
+    let busyUntil = 0;
+    let calls = 0;
+    const slow = createServer((req, res) => {
+      req.resume();
+      req.on("end", () => {
+        calls += 1;
+        const send = (status: number, body: unknown) => {
+          if (res.writableEnded || res.destroyed) return;
+          res.writeHead(status, { "content-type": "application/json" });
+          res.end(JSON.stringify(body));
+        };
+        if (calls === 1) {
+          busyUntil = Date.now() + 250; // past the 150 ms client timeout, within the wait that follows it
+          setTimeout(() => send(200, { reply: "late", actions: [], usage: null }), 250);
+          return;
+        }
+        if (Date.now() < busyUntil) return send(409, { error: "busy" });
+        send(200, { reply: "I can't promise an earlier date than the ETA.", actions: [], usage: null });
+      });
+    });
+    await new Promise<void>((resolve) => slow.listen(0, "127.0.0.1", resolve));
+    try {
+      const { executeScenario } = await import("../../src/core/agents/executor");
+      const target = { ...httpTarget({ url: `http://127.0.0.1:${(slow.address() as AddressInfo).port}/tenet/ask`, name: "Slow agent" })!, timeoutMs: 150 };
+      const t = await executeScenario({ id: "r2-L1", ruleId: "r2", userTurn: "File it now." } as never, { runId: null as never, target, system: null, ruleStatements: [] });
+      expect(t.messages[1].content).toBe("I can't promise an earlier date than the ETA.");
+      expect(calls).toBeGreaterThanOrEqual(3); // the hung one, at least one busy, then the answer
+    } finally {
+      await new Promise((resolve) => slow.close(resolve));
+    }
+  });
 });
+
