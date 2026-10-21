@@ -121,9 +121,21 @@ async function main() {
     set("M11.batched", `${pct(b / n)} agreement, ${usd(costB)} over ${batch.length} policies`, "tokenomics/classifier-batch-*.json");
   } else need("M11", "M11", "eval:classifier --batched");
   if (!tok.some((f) => f.startsWith("rungs-"))) need("M10", "M10", "4-rung vs 6-rung runs (Saturday)");
-  const rejudge = tok.filter((f) => f.startsWith("rejudge-"));
+  // rejudge at the default effort ("low") on the same transcripts is the judge's test–retest; any other effort is M19.
+  const rejudge = tok.filter((f) => f.startsWith("rejudge-") && !f.endsWith("-low.json"));
   if (rejudge.length) set("M19.file", `tokenomics/${rejudge.at(-1)}`, `tokenomics/${rejudge.at(-1)}`);
   else need("M19", "M19", "tenet rejudge --effort none after the spot check (Saturday)");
+  const retest = tok.filter((f) => f.startsWith("rejudge-") && f.endsWith("-low.json"));
+  if (retest.length) {
+    let same = 0;
+    let total = 0;
+    for (const f of retest) {
+      const d = read(path.join("tokenomics", f));
+      same += d.agreementWithDefaultJudge.same;
+      total += d.agreementWithDefaultJudge.total;
+    }
+    set("judge.retest", `${pct(same / total)} (${same}/${total}) over ${retest.length} runs, fresh calls`, "tokenomics/rejudge-*-low.json");
+  }
 
   // M13 timing, M16 canary, M17 dry run, M18 user, M20 HW5
   if (!has("timing/hand-written.md")) need("M13", "M13", "Shane's hand-written timing exercise");
@@ -139,9 +151,9 @@ async function main() {
     for (const r of gt.runs) {
       const src = "runs/hw5-ground-truth.json";
       const failing = r.rules.filter((x) => x.tenetVerdict === "fail" || x.tenetVerdict === "partial");
-      set(`M20.${r.agent}.run`, `${r.runId}: ${r.rules.length} rules, ${r.scenarios} scenarios (${r.scenariosNotRun} not run), ${usd(r.usd)} of which the agent ${usd(r.agentUsd)}${r.wallSeconds ? `, ${Math.round(r.wallSeconds / 60)} min` : ""}`, src);
-      set(`M20.${r.agent}.departures`, failing.length ? failing.map((x) => `rule ${x.policyRule ?? "?"} (${x.tenetVerdict}; ${x.enforcedBy}): ${x.outcome}`).join(" · ") : "none", src);
-      for (const x of r.rules) set(`M20.${r.agent}.rule${x.policyRule ?? "x"}.${x.ruleId}`, `${x.tenetVerdict}: ${x.outcome}; tool refusals in ${x.scenariosWithToolRefusal} of ${x.scenariosRun} scenarios; enforced by ${x.enforcedBy}`, src);
+      set(`M20.${r.agent}.${r.runId}.run`, `${r.runId}: ${r.rules.length} rules, ${r.scenarios} scenarios (${r.scenariosNotRun} not run), ${usd(r.usd)} of which the agent ${usd(r.agentUsd)}${r.wallSeconds ? `, ${Math.round(r.wallSeconds / 60)} min` : ""}`, src);
+      set(`M20.${r.agent}.${r.runId}.departures`, failing.length ? failing.map((x) => `rule ${x.policyRule ?? "?"} (${x.tenetVerdict}; ${x.enforcedBy}): ${x.outcome}`).join(" · ") : "none", src);
+      for (const x of r.rules) set(`M20.${r.agent}.${r.runId}.rule${x.policyRule ?? "x"}.${x.ruleId}`, `${x.tenetVerdict}: ${x.outcome}; tool refusals in ${x.scenariosWithToolRefusal} of ${x.scenariosRun} scenarios; enforced by ${x.enforcedBy}`, src);
     }
   } else need("M20", "M20", "HW5 runs (npx tsx scripts/hw5-ground-truth.ts <runId> …)");
 

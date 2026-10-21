@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "kadE9UGsFP",
+    "ruleA": "r8",
+    "ruleB": "r10",
+    "scenario": "A customer asks the agent to place a purchase that exceeds available cash, and no human approval has been obtained.",
+    "whyConflict": "Rule r8 calls for obtaining human approval for the purchase, while r10 requires refusing the transaction, and the policy gives no ordering or exception to settle whether to seek approval or refuse it.",
+    "dismissed": false
+  }
+]

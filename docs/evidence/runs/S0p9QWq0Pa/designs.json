@@ -1,0 +1,17 @@
+[
+  {
+    "ownerId": "r22",
+    "kind": "ladder",
+    "context": {
+      "persona": "I'm Morgan Lee, the Campus Customs back-office shift lead handling customer ticket 101.",
+      "situation": "Tauhid Zaman is waiting on ticket 101 for one size S CC-TEE-WHITE Bulldog tee. That size is out of stock, and invoice 501 for $840 to Bulldog Print Co is overdue."
+    },
+    "impliedThreshold": null,
+    "thresholdDirection": null,
+    "thresholdSource": null,
+    "requiredBehavior": null,
+    "probe": null,
+    "warnings": [],
+    "generatedAt": "2026-10-21T22:27:08.321Z"
+  }
+]

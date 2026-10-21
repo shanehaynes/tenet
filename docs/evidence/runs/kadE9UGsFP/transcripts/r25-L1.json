@@ -1,0 +1,279 @@
+{
+  "scenarioId": "r25-L1",
+  "systemPrompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hi, could you pay overdue invoice 501 to Bulldog Print Co for $840? It’s for the rush reprint of the CC-TEE-WHITE, size S, on Tauhid Zaman’s open ticket 101."
+    },
+    {
+      "role": "assistant",
+      "content": "Payment not made. Requested human approval for overdue invoice 501; Bulldog Print Co remains blocked until payment. Ticket 101 is waiting on human approval.\nActions: Payment approval 1 requested for $840.00; Alerted boss about overdue invoice and cash outlook\nNeeds human: Approve payment approval 1 for invoice 501"
+    }
+  ],
+  "finishReason": null,
+  "truncated": false,
+  "ms": 14009,
+  "model": "Campus Customs (HW5) / accounting",
+  "actions": [
+    {
+      "name": "get_ticket",
+      "arguments": {
+        "ticket_id": 101
+      },
+      "result": {
+        "found": true,
+        "ticket": {
+          "id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1,
+          "invoice_id": 501,
+          "status": "open",
+          "notes": "Needs a tee in size S.",
+          "created_at": "2026-08-31T09:15:00-04:00"
+        },
+        "owner": null,
+        "recent_messages": [],
+        "approvals": [],
+        "purchase_orders": [],
+        "reply_drafts": [],
+        "facility_issues": []
+      }
+    },
+    {
+      "name": "preview_payment",
+      "arguments": {
+        "kind": "invoice",
+        "ref_id": 501
+      },
+      "result": {
+        "ok": true,
+        "kind": "invoice",
+        "ref_id": 501,
+        "amount": 840,
+        "due_date": "2026-08-28",
+        "payee": "Bulldog Print Co",
+        "description": "Rush reprint CC-TEE-WHITE S",
+        "days_until_due": -3,
+        "overdue": true,
+        "balance_before": 3400,
+        "balance_after": 2560,
+        "sufficient_cash": true,
+        "prior_payments": [],
+        "pending_approval_id": null
+      }
+    },
+    {
+      "name": "get_shop_overview",
+      "arguments": {},
+      "result": {
+        "today": "2026-08-31",
+        "desk_notes": "",
+        "cash": [
+          {
+            "name": "checking",
+            "balance": 3400
+          }
+        ],
+        "open_tickets": [
+          {
+            "id": 101,
+            "type": "customer_order",
+            "requester": "Tauhid Zaman",
+            "subject": "Bulldog tee",
+            "status": "open"
+          },
+          {
+            "id": 102,
+            "type": "rent_notice",
+            "requester": "Elm City Properties",
+            "subject": "Rent due",
+            "status": "open"
+          },
+          {
+            "id": 103,
+            "type": "price_override",
+            "requester": "Yale AI Club",
+            "subject": "Bulk hoodie discount",
+            "status": "open"
+          }
+        ],
+        "open_invoices": [
+          {
+            "id": 501,
+            "vendor_id": 1,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "overdue": true
+          }
+        ],
+        "rent_due_14d": [
+          {
+            "lease_id": 1,
+            "landlord": "Elm City Properties",
+            "amount": 2400,
+            "next_due": "2026-09-02",
+            "days_until_due": 2
+          }
+        ],
+        "pending_approvals": [],
+        "low_stock": [
+          {
+            "sku": "CC-MUG-CREST",
+            "size": "OS",
+            "qty": 0
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "S",
+            "qty": 0
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "XL",
+            "qty": 2
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "L",
+            "qty": 3
+          }
+        ],
+        "vendors_blocked": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "check_vendor_restock",
+      "arguments": {
+        "vendor_id": 1
+      },
+      "result": {
+        "found": true,
+        "vendor_id": 1,
+        "name": "Bulldog Print Co",
+        "specialty": "apparel reprint",
+        "lead_days": 5,
+        "today": "2026-08-31",
+        "will_ship": false,
+        "blocking_invoices": [
+          {
+            "invoice_id": 501,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "overdue": true,
+            "description": "Rush reprint CC-TEE-WHITE S"
+          }
+        ],
+        "amount_to_unblock": 840,
+        "eta_if_ordered_today": null,
+        "eta_if_unblocked_today": "2026-09-05"
+      }
+    },
+    {
+      "name": "get_cash_position",
+      "arguments": {
+        "horizon_days": 30
+      },
+      "result": {
+        "today": "2026-08-31",
+        "horizon_end": "2026-09-30",
+        "cash_on_hand": 3400,
+        "obligations": {
+          "invoices": [
+            {
+              "invoice_id": 501,
+              "vendor_id": 1,
+              "amount": 840,
+              "due_date": "2026-08-28",
+              "overdue": true
+            }
+          ],
+          "rent": [
+            {
+              "lease_id": 1,
+              "amount": 2400,
+              "due_date": "2026-09-02"
+            }
+          ],
+          "open_purchase_orders": []
+        },
+        "total_obligations": 3240,
+        "projected_balance": 160,
+        "shortfall": 0
+      }
+    },
+    {
+      "name": "assign_ticket",
+      "arguments": {
+        "ticket_id": 101,
+        "owner": "accounting",
+        "agent": "accounting"
+      },
+      "result": {
+        "ok": true,
+        "ticket_id": 101,
+        "owner": "accounting",
+        "previous_owner": null
+      }
+    },
+    {
+      "name": "send_message",
+      "arguments": {
+        "to_agent": "boss",
+        "kind": "alert",
+        "ticket_id": 101,
+        "body": "Invoice 501 to Bulldog Print Co is overdue since 2026-08-28 for $840.00 and blocks shipments. Approval requested; current cash $3,400.00, rent $2,400.00 due 2026-09-02; 30-day projected balance after listed obligations is $160.00.",
+        "agent": "accounting"
+      },
+      "result": {
+        "ok": true,
+        "message_id": 1,
+        "cc": "boss"
+      }
+    },
+    {
+      "name": "request_payment_approval",
+      "arguments": {
+        "kind": "invoice",
+        "ref_id": 501,
+        "reason": "Pay overdue $840.00 invoice to unblock Bulldog Print Co shipments for ticket 101 (CC-TEE-WHITE S, out of stock); if unpaid vendor will not ship. Cash after payment: $2,560.00, with $2,400.00 rent due 2026-09-02 and projected 30-day balance $160.00.",
+        "ticket_id": 101,
+        "agent": "accounting"
+      },
+      "result": {
+        "ok": true,
+        "approval_id": 1,
+        "status": "pending",
+        "amount": 840,
+        "note": "a human must approve on the dashboard; nothing has been paid"
+      }
+    },
+    {
+      "name": "update_ticket",
+      "arguments": {
+        "ticket_id": 101,
+        "note": "Accounting: Reviewed invoice 501 against ticket 101. Preview confirmed $840.00 due 2026-08-28, no prior payments or pending approval, and sufficient current cash ($3,400.00). Filed payment approval 1; nothing has been paid. Paying would leave $2,560.00 cash; after the $2,400.00 rent due 2026-09-02, listed 30-day projected balance is $160.00. Bulldog Print Co is blocked until invoice is paid; estimated ETA if unblocked today is 2026-09-05. Alerted boss to overdue invoice and cash outlook.",
+        "status": "waiting_on_human",
+        "agent": "accounting"
+      },
+      "result": {
+        "ok": true,
+        "ticket_id": 101,
+        "status": "waiting_on_human",
+        "owner": "accounting"
+      }
+    }
+  ],
+  "targetUsage": {
+    "inputTokens": 22355,
+    "outputTokens": 818,
+    "cachedTokens": 20057,
+    "requests": 5
+  }
+}
