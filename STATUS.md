@@ -8,7 +8,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 |---|---|---|---|
 | Wed Oct 21 | Foundation: samples, scaffold, env, schemas, store, model layer, CLI, CI. Analysis: scanner, decomposer, classifier, collisions, analysis API | `tenet analyze` works in mock; live once labels committed | **done** (mock and live) |
 | Thu Oct 22 | Review page + ambiguity map, collisions page, classifier agreement; Summary contract, four generators, executor, judge, aggregation, execution pipeline | Mock `tenet run` end to end; live run attempted | **engine and UI done early (Wed)** |
-| Fri Oct 23 | Live report, export, evidence tooling, safety demos, archived run, README | **Gate 1 by noon** | **Gate 1 met Wed evening** (live runs `CytBFyz339`, `28Cv5g6wi1`) |
+| Fri Oct 23 | Live report, export, evidence tooling, safety demos, archived run, README | **Gate 1 by noon** | **Gate 1 met Wed; Friday list done Wed night** |
 | Sat Oct 24 | HW5 bridge + HTTP target runs (morning); validation, spot check, tokenomics, report draft (afternoon) | **Gate 2 freeze at noon** | |
 | Sun Oct 25 | Dry run, report.html, slides.html, video | **Gate 3** | |
 | Mon Oct 26 | Buffer; submit before 18:00 | Canvas | |
@@ -45,6 +45,17 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - Playwright e2e in mock mode (happy path through every page, quarantine of a pasted injection, empty submit, halted run) green locally; 129 unit and pipeline tests.
 - Finding F1 recorded (`docs/evidence/findings.md`): rule 10's $10,000 threshold is dead letter for payments because rule 2 requires partner approval for every fund movement; Tenet now flags sweeps that escalate far below the stated threshold. Decision record `overlap-as-finding`.
 
+## Friday's list (done Wed night, ahead of plan)
+
+- Export: standalone `report.html` per run (CSS and every transcript inlined; route via `react-dom/server.edge`, CLI `tenet export`), usage CSV, buttons on the report page.
+- `scripts/check-secrets.mjs` (also searches for the local key value), in CI before the gate.
+- Evidence commands: `tenet spotcheck export|score` (blind, seeded, rubric-stratified 50; scorer writes `agreement-<run>.json`), `tenet rejudge --effort none` (the gateway accepts `none`, `low`, `medium`; not `minimal`), `tenet timing`, `eval:classifier --batched` (M11 done: batched 68/75 = 90.7 % vs per-rule 65/75 = 86.7 % at about half the cost, single runs).
+- **Evidence screenshots S01–S14, S19 captured live** (`npm run screenshots`; demo run `87VQK7KAKg`, halted run `7wWBDu449L`); `RUN_ID=<id> npm run screenshots` re-captures the report shots without a new run.
+- **Archived example run** `87VQK7KAKg` in `docs/evidence/runs/`, rendered at `/runs/example` without a key, linked from the home page.
+- README full draft (10-minute path, troubleshooting, what the report shows, safety numbers, configuration, CLI).
+- `collect-evidence` → `docs/evidence/report-data.json` (50 values with sources); `report/report.src.html` + `build-report.mjs --allow-missing` + `report:pages` (skeleton prints to 6 pages); `slides/slides.src.html` + `build-slides.mjs` (10 slides, reveal.js 6.0.2 from cdnjs). The prose is the weekend's work.
+- New numbers: caching served 82.1 % of the demo run's input tokens and saved 45 %; at the PRD's usage assumption, about $0.25 per user per month ($2,474 a month at 10,000 users).
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
@@ -72,4 +83,6 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 ## Next step
 
-Friday's list, in order (PLAN §3): export routes (standalone HTML through `renderToStaticMarkup` with transcripts inlined, usage CSV); evidence tooling (`tenet spotcheck export|score` n 50, `tenet timing`, `tenet rejudge --effort minimal`, `eval:classifier --batched`, `scripts/check-secrets.mjs`, `collect-evidence` skeleton, `report/report.src.html` + `build-report.mjs --allow-missing`, `report:pages`, `build-slides.mjs` skeleton); safety demo screenshots (S02 quarantine, S07 halted at $0.01, S17 canary); a fresh live demo run on Harrow & Vale with `npm run build && npm start` and fixtures; archived example run + `/runs/example`; `e2e/screenshots.spec.ts` for S01–S14 and S19; README full draft with the 10-minute path. Saturday morning: HW5 bridge + HTTP target.
+1. **HW5 bridge** (PLAN §3: Gate 1 passed early, so it can start before Saturday): `POST /tenet/ask` on a `tenet-bridge` branch of `~/projects/Homework5` (sample-policies §10.2), then Tenet's HTTP target (architecture §4.6), the judge's actions block, the "agent under test" selector. Needs Shane: confirm the HW5 backend runs here (`.venv`, `.env`, `uvicorn`) and OK to push the branch.
+2. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); a fresh Harrow & Vale run for the 50-transcript spot check (Shane scores it before opening that run's report); `tenet rejudge --effort none` scored against Shane's CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
+3. Open decision for Shane: make the batched classifier the default (half the cost, agreement as good or better in this sample)?
