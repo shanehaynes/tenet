@@ -222,8 +222,8 @@ describe("capability resolver", () => {
     const results = await Promise.all([1, 2, 3, 4].map(() => resolve(provider, "gpt-6-luna")));
     const callsAfterFirst = rawCalls;
     expect(results.every((r) => r === results[0])).toBe(true);
-    expect(results[0]).toMatchObject({ modelString: "gpt-6-luna", responseMode: "strict", temperature: false, reasoningEffort: ["low", "minimal"] });
-    expect(callsAfterFirst).toBe(5); // model string, strict schema, temperature, two effort values
+    expect(results[0]).toMatchObject({ modelString: "gpt-6-luna", responseMode: "strict", temperature: false, reasoningEffort: ["low", "none", "minimal", "medium"] });
+    expect(callsAfterFirst).toBe(7); // model string, strict schema, temperature, four effort values
     await resolve(provider, "gpt-6-luna");
     expect(rawCalls).toBe(callsAfterFirst);
   });

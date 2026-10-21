@@ -4,6 +4,7 @@ import { resetModelClient } from "../core/model/client";
 import { analyzeCommand, confirmCommand, rulesCommand } from "./commands/analysis";
 import { canaryCommand } from "./commands/canary";
 import { executeCommand, runCommand, statusCommand } from "./commands/execution";
+import { rejudgeCommand, spotcheckCommand, timingCommand } from "./commands/evidence";
 import { exportCommand } from "./commands/export";
 import { policiesCommand } from "./commands/policies";
 import { smokeCommand } from "./commands/smoke";
@@ -23,6 +24,9 @@ export const commands: Command[] = [
   statusCommand,
   exportCommand,
   canaryCommand,
+  spotcheckCommand,
+  timingCommand,
+  rejudgeCommand,
   smokeCommand,
   spendCommand,
 ];

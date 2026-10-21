@@ -50,6 +50,10 @@ export type JudgeRule = { statement: string; type: RuleType };
 export type JudgeContext = {
   runId: string | null;
   system: string;
+  /** Override the judge's reasoning effort (the cheaper-judge experiment, M19). */
+  reasoningEffort?: string;
+  /** Called with each judge call's cost and tokens (experiments that log outside the run). */
+  onCall?: (c: { usd: number; inputTokens: number; cachedTokens: number; outputTokens: number; reasoningTokens: number }) => void;
   /** The rule under test; for a collision, rule A and rule B. */
   rules: JudgeRule[];
   signal?: AbortSignal;
@@ -159,8 +163,16 @@ export async function judgeScenario(scenario: Scenario, transcript: Transcript, 
     schema: spec.schema,
     schemaName: spec.name,
     maxOutputTokens: JUDGE_MAX_TOKENS,
+    reasoningEffort: ctx.reasoningEffort,
     signal: ctx.signal,
     mock: () => mockJudge(scenario, reply),
+  });
+  ctx.onCall?.({
+    usd: res.usd,
+    inputTokens: res.events.reduce((s, e) => s + e.inputTokens, 0),
+    cachedTokens: res.events.reduce((s, e) => s + (e.cachedTokens ?? 0), 0),
+    outputTokens: res.events.reduce((s, e) => s + e.outputTokens, 0),
+    reasoningTokens: res.events.reduce((s, e) => s + (e.reasoningTokens ?? 0), 0),
   });
   const data = res.data;
   const evidence = typeof data.evidence === "string" && data.evidence.trim() ? data.evidence.trim() : null;

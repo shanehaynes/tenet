@@ -121,7 +121,7 @@ export async function probeCapabilities(raw: RawCallFn, provider: Provider, mode
   }
 
   const efforts: string[] = [];
-  for (const effort of ["low", "minimal"]) {
+  for (const effort of ["low", "none", "minimal", "medium"]) {
     try {
       await raw(provider, probeRequest(modelString, "Reply with the single word OK.", { reasoningEffort: effort }), meta);
       efforts.push(effort);
