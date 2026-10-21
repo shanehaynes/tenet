@@ -5,12 +5,13 @@ import type { GenContext, GenRule } from "../agents/generators/common";
 import { CONFLICT_RUBRIC, generateCollisionConflicts, generateOrderingConflicts } from "../agents/generators/conflict";
 import { generateLadder, ladderRubric } from "../agents/generators/ladder";
 import { generateParaphrases, PARAPHRASE_RUBRIC } from "../agents/generators/paraphrase";
+import { PARAPHRASE_ITEMS } from "../agents/generators/paraphrase";
 import { buildGeneratorSystem } from "../agents/generators/shared";
-import { generateSweep, SWEEP_RUBRIC } from "../agents/generators/sweep";
+import { generateSweep, SWEEP_POINTS, SWEEP_RUBRIC } from "../agents/generators/sweep";
 import { buildJudgeSystem, judgeScenario, type JudgeRule } from "../agents/judge";
 import { summarizeDefects, type Defect } from "../agents/reporter";
 import { defaultLedger } from "../model/client";
-import { effectiveType, type Collision, type Rule, type Run, type Scenario, type ScenarioKind, type TestDesign } from "../schemas/records";
+import { effectiveType, type Collision, type Rule, type Run, type Scenario, type ScenarioKind, type Target, type TestDesign } from "../schemas/records";
 import { readPolicy } from "../store/policies";
 import { appendEvent, readRun, writeTranscript, withRun } from "../store/runs";
 import { readRunUsage } from "../store/usage";
@@ -18,7 +19,7 @@ import { choiceText, testKindFor } from "./aggregate";
 import { RunStateError } from "./analysis";
 import { isHaltError } from "../errors";
 import { spendFromUsage } from "./budget";
-import { MAX_SCENARIOS_PER_RULE } from "./guards";
+import { MAX_HTTP_SCENARIOS, MAX_SCENARIOS_PER_RULE } from "./guards";
 import { startJob } from "./jobs";
 import { failRun, reasonFor, refreshTotals, setStatus, startHeartbeat } from "./runState";
 import { writeSummary } from "./summary";
@@ -34,6 +35,8 @@ export type ExecuteOptions = {
   rungs?: number;
   flatComparison?: boolean;
   dismiss?: string[];
+  /** The agent under test; omitted keeps the run's target (the model, unless set before). */
+  target?: Target;
 };
 
 const isHalt = isHaltError;
@@ -53,7 +56,8 @@ export async function startExecution(runId: string, opts: ExecuteOptions = {}): 
         collisions.map((c) => (opts.dismiss!.includes(c.id) ? { ...c, dismissed: true } : c)),
       );
     }
-    const http = r.config.target.kind === "http";
+    const target = opts.target ?? r.config.target;
+    const http = target.kind === "http";
     const next: Run = {
       ...r,
       status: "generating",
@@ -61,12 +65,21 @@ export async function startExecution(runId: string, opts: ExecuteOptions = {}): 
       startedExecutionAt: now,
       config: {
         ...r.config,
+        target,
         spendCapUsd: opts.spendCapUsd ?? r.config.spendCapUsd,
         concurrency: http ? 1 : Math.max(1, Math.floor(opts.concurrency ?? r.config.concurrency)),
         rungs: opts.rungs ?? r.config.rungs,
         flatComparison: opts.flatComparison ?? r.config.flatComparison,
       },
     };
+    if (http) {
+      const estimate = estimateScenarios(next, await tx.get("rules"), await tx.get("collisions"));
+      if (estimate > MAX_HTTP_SCENARIOS) {
+        throw new RunStateError(
+          `This run would send about ${estimate} scenarios to ${target.name}; an agent run is limited to ${MAX_HTTP_SCENARIOS}, because each scenario is a full agent run. Park some rules${next.config.rungs > 4 ? " or use 4 rungs" : ""}.`,
+        );
+      }
+    }
     tx.set("run", next);
     return next;
   });
@@ -90,6 +103,15 @@ function planTests(run: Run, rules: Rule[]): Plan {
     plan.push({ rule: { id: r.id, statement: r.statement, quote: r.quote, type }, kind });
   }
   return plan;
+}
+
+/** Scenarios a run will generate, at most (generators may write fewer): the HTTP cap is checked against this. */
+export function estimateScenarios(run: Run, rules: Rule[], collisions: Collision[]): number {
+  const per: Record<ScenarioKind, number> = { ladder: run.config.rungs, sweep: SWEEP_POINTS, paraphrase: PARAPHRASE_ITEMS, conflict: 3, flat: 1 };
+  const typed = new Set(rules.filter((r) => !r.parked && effectiveType(r, run.config.ambiguityThreshold)).map((r) => r.id));
+  const fromRules = planTests(run, rules).reduce((n, p) => n + per[p.kind], 0);
+  const fromCollisions = collisions.filter((c) => !c.dismissed && typed.has(c.ruleA) && typed.has(c.ruleB)).length * 2;
+  return fromRules + fromCollisions;
 }
 
 const RUBRIC_FOR: Record<Exclude<ScenarioKind, "flat">, (rungs: number) => string> = {
@@ -155,6 +177,7 @@ export async function runExecution(runId: string, signal?: AbortSignal): Promise
       },
     }));
     for (const c of collisions) {
+      if (ruleById.get(c.ruleA)?.parked || ruleById.get(c.ruleB)?.parked) continue; // a parked rule is not tested, alone or in a pair
       const a = genRule(c.ruleA);
       const b = genRule(c.ruleB);
       if (a && b) tasks.push({ owner: c.id, kind: "conflict", go: () => generateCollisionConflicts(c, a, b, ctxFor("conflict")) });
@@ -192,7 +215,17 @@ export async function runExecution(runId: string, signal?: AbortSignal): Promise
       await setStatus(runId, "executing");
       const executorSystem = run.config.target.kind === "model" ? buildExecutorSystemPrompt(policy.text) : null;
       const judgeSystem = buildJudgeSystem(policy.text);
-      const scenarios = await withRun(runId, (tx) => tx.get("scenarios"));
+      let scenarios = await withRun(runId, (tx) => tx.get("scenarios"));
+      if (run.config.target.kind === "http" && scenarios.filter((s) => s.status === "pending").length > MAX_HTTP_SCENARIOS) {
+        // Backstop for the estimate check in startExecution: the scenarios past the cap are not sent.
+        const keep = new Set(scenarios.filter((s) => s.status === "pending").slice(0, MAX_HTTP_SCENARIOS).map((s) => s.id));
+        scenarios = await withRun(runId, async (tx) => {
+          const next = (await tx.get("scenarios")).map((s) => (s.status === "pending" && !keep.has(s.id) ? { ...s, status: "not_run" as const, error: `agent run limit (${MAX_HTTP_SCENARIOS} scenarios)` } : s));
+          tx.set("scenarios", next);
+          return next;
+        });
+        await appendEvent(runId, { level: "warn", stage: "executor", message: `Only the first ${MAX_HTTP_SCENARIOS} scenarios are sent to ${run.config.target.name}` });
+      }
       const pending = scenarios.filter((s) => s.status === "pending");
       const rulesFor = (s: Scenario): JudgeRule[] => {
         if (s.collisionId) {

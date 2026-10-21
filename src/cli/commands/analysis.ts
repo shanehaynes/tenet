@@ -81,13 +81,14 @@ export const analyzeCommand: Command = {
 
 export const rulesCommand: Command = {
   name: "rules",
-  summary: "Override rule types, park or unpark rules; --accept-proposed parks anything still untyped",
-  usage: "tenet rules <runId> [--set r5=ordering] [--park r13] [--unpark r9] [--accept-proposed]",
+  summary: "Override rule types, park or unpark rules; --accept-proposed parks anything still untyped; --keep parks every other rule",
+  usage: "tenet rules <runId> [--set r5=ordering] [--park r13] [--unpark r9] [--accept-proposed] [--keep r2,r7,r11]",
   options: {
     set: { type: "string", multiple: true },
     park: { type: "string", multiple: true },
     unpark: { type: "string", multiple: true },
     "accept-proposed": { type: "boolean" },
+    keep: { type: "string", multiple: true },
   },
   async run({ values, positionals, out, err }) {
     const runId = positionals[0];
@@ -107,10 +108,19 @@ export const rulesCommand: Command = {
     }
     for (const id of list(values.park)) ops.push({ park: { ruleId: id } });
     for (const id of list(values.unpark)) ops.push({ unpark: { ruleId: id } });
-    if (values["accept-proposed"]) {
+    const keep = new Set(list(values.keep).flatMap((k) => k.split(",").map((x) => x.trim()).filter(Boolean)));
+    if (values["accept-proposed"] || keep.size) {
       const view = await readRunView(runId);
+      const unknown = [...keep].filter((id) => !view.rules.some((r) => r.id === id));
+      if (unknown.length) {
+        err(`--keep: no rule ${unknown.join(", ")} in this run.`);
+        return 1;
+      }
+      const parking = new Set(ops.flatMap((o) => ("park" in o ? [o.park.ruleId] : [])));
       for (const r of view.rules) {
-        if (!r.parked && effectiveType(r, view.run.config.ambiguityThreshold) === null) ops.push({ park: { ruleId: r.id } });
+        if (r.parked || parking.has(r.id)) continue;
+        const untyped = effectiveType(r, view.run.config.ambiguityThreshold) === null && !ops.some((o) => "set_type" in o && o.set_type.ruleId === r.id);
+        if ((keep.size && !keep.has(r.id)) || (values["accept-proposed"] && untyped)) ops.push({ park: { ruleId: r.id } });
       }
     }
     try {

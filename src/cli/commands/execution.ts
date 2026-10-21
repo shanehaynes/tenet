@@ -1,11 +1,12 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { confirmRun, RunStateError, startAnalysis } from "../../core/pipeline/analysis";
-import { startExecution } from "../../core/pipeline/execution";
+import { startExecution, type ExecuteOptions } from "../../core/pipeline/execution";
 import { waitForJob } from "../../core/pipeline/jobs";
 import { policyForFile } from "../../core/pipeline/policies";
 import { applyRuleOps, type RuleOp } from "../../core/pipeline/review";
 import { readRunView } from "../../core/pipeline/status";
+import { httpTarget } from "../../core/pipeline/runConfig";
 import { readOrComputeSummary } from "../../core/pipeline/summary";
 import { effectiveType } from "../../core/schemas/records";
 import type { Summary } from "../../core/schemas/summary";
@@ -62,12 +63,30 @@ const EXEC_OPTIONS = {
   concurrency: { type: "string" },
   rungs: { type: "string" },
   dismiss: { type: "string", multiple: true },
+  target: { type: "string" },
+  "agent-url": { type: "string" },
+  agent: { type: "string" },
+  "agent-name": { type: "string" },
 } as const;
+
+/** --target http [--agent-url URL] [--agent customer_service] [--agent-name "Campus Customs (HW5)"]. */
+function execOptions(values: Record<string, unknown>): ExecuteOptions | string {
+  const opts: ExecuteOptions = { spendCapUsd: num(values.cap), concurrency: num(values.concurrency), rungs: num(values.rungs), dismiss: list(values.dismiss) };
+  const kind = (values.target as string | undefined) ?? (values["agent-url"] ? "http" : undefined);
+  if (kind === "http") {
+    const target = httpTarget({ url: values["agent-url"] as string | undefined, agent: values.agent as string | undefined, name: values["agent-name"] as string | undefined });
+    if (!target) return "--target http needs --agent-url or TENET_AGENT_URL.";
+    opts.target = target;
+  } else if (kind !== undefined && kind !== "model") {
+    return `--target is "model" or "http", not "${kind}".`;
+  }
+  return opts;
+}
 
 export const executeCommand: Command = {
   name: "execute",
   summary: "Generate, run and judge the tests for a confirmed run",
-  usage: "tenet execute <runId> [--cap 0.01] [--concurrency 4] [--rungs 6] [--dismiss c1]",
+  usage: "tenet execute <runId> [--cap 0.01] [--concurrency 4] [--rungs 6] [--dismiss c1] [--target http --agent-url URL --agent NAME]",
   options: EXEC_OPTIONS,
   async run({ values, positionals, out, err }) {
     const runId = positionals[0];
@@ -75,8 +94,13 @@ export const executeCommand: Command = {
       err("Give a run id.");
       return 1;
     }
+    const opts = execOptions(values);
+    if (typeof opts === "string") {
+      err(opts);
+      return 1;
+    }
     try {
-      await startExecution(runId, { spendCapUsd: num(values.cap), concurrency: num(values.concurrency), rungs: num(values.rungs), dismiss: list(values.dismiss) });
+      await startExecution(runId, opts);
     } catch (e) {
       if (e instanceof RunStateError) {
         err(e.message);
@@ -84,7 +108,7 @@ export const executeCommand: Command = {
       }
       throw e;
     }
-    out(`Running tests for ${runId} …`);
+    out(`Running tests for ${runId}${opts.target?.kind === "http" ? ` against ${opts.target.name}${opts.target.agent ? ` (${opts.target.agent})` : ""}, one scenario at a time` : ""} …`);
     await waitForJob(runId);
     const view = await readRunView(runId);
     out(`Status: ${view.run.status}${view.run.statusReason ? ` — ${view.run.statusReason}` : ""}`);
@@ -96,12 +120,17 @@ export const executeCommand: Command = {
 export const runCommand: Command = {
   name: "run",
   summary: "Analyze → accept proposals → confirm → execute → report, end to end",
-  usage: "tenet run <file.md> --accept-proposed [--set r5=ordering] [--cap 2] [--concurrency 4] [--rungs 6]",
+  usage: "tenet run <file.md> --accept-proposed [--set r5=ordering] [--cap 2] [--concurrency 4] [--rungs 6] [--target http --agent-url URL --agent NAME]",
   options: { ...EXEC_OPTIONS, "accept-proposed": { type: "boolean" }, set: { type: "string", multiple: true }, name: { type: "string" } },
   async run({ values, positionals, out, err }) {
     const file = positionals[0];
     if (!file) {
       err("Give a policy file, e.g. samples/harrow-vale.md");
+      return 1;
+    }
+    const opts = execOptions(values);
+    if (typeof opts === "string") {
+      err(opts);
       return 1;
     }
     const policy = await policyForFile(file, await readFile(path.resolve(file), "utf8"), values.name as string | undefined);
@@ -129,7 +158,15 @@ export const runCommand: Command = {
     await waitForJob(run.id);
     view = await readRunView(run.id);
     out(`Confirmed; ${view.collisions.length} collision(s). Running tests …`);
-    await startExecution(run.id, { spendCapUsd: num(values.cap), concurrency: num(values.concurrency), rungs: num(values.rungs), dismiss: list(values.dismiss) });
+    try {
+      await startExecution(run.id, opts);
+    } catch (e) {
+      if (e instanceof RunStateError) {
+        err(`${e.message} (run ${run.id} is confirmed; adjust it with tenet rules and start it with tenet execute)`);
+        return 1;
+      }
+      throw e;
+    }
     await waitForJob(run.id);
     view = await readRunView(run.id);
     out(`Status: ${view.run.status}${view.run.statusReason ? ` — ${view.run.statusReason}` : ""}`);

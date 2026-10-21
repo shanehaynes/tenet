@@ -1,9 +1,15 @@
-import { callModel } from "../model/client";
-import type { Scenario, Target, Transcript } from "../schemas/records";
+import { z } from "zod";
+import { settings } from "../config";
+import { nowIso } from "../ids";
+import { callModel, defaultLedger } from "../model/client";
+import { usd } from "../model/pricing";
+import { TargetAction, type Scenario, type Target, type Transcript, type UsageEvent } from "../schemas/records";
+import { appendUsage } from "../store/usage";
 
 // Executor (agents-and-prompts.md §6; PRD Req. 8): runs one scenario against the target. For a model
 // target the policy is the system prompt (built once per run by executorPrompt.ts, so it is cached across
-// scenarios). HTTP targets (the HW5 bridge) are wired on Saturday (architecture §4.6).
+// scenarios). An HTTP target (the HW5 bridge, architecture §4.6) is a real agent with its own prompt and
+// tools: Tenet sends the scenario's message and stores the reply and the tool calls it reports.
 
 export const TARGET_MAX_TOKENS = 2000;
 
@@ -64,10 +70,116 @@ export function mockTargetReply(scenario: Scenario, ruleStatements: string[]): s
   }
 }
 
-export async function executeScenario(scenario: Scenario, ctx: ExecContext): Promise<Transcript> {
-  if (ctx.target.kind === "http") {
-    throw new TargetUnavailable("HTTP agent targets are not wired yet (Saturday's work); run against the model target.");
+type HttpTarget = Extract<Target, { kind: "http" }>;
+
+/** 409 busy: wait and retry (architecture §4.6). Mutable so tests can shorten the wait. */
+export const httpTargetTiming = { busyWaitMs: 2000, busyRetries: 10 };
+
+const HttpUsage = z
+  .object({ input_tokens: z.number(), output_tokens: z.number(), cached_tokens: z.number().nullish(), requests: z.number().nullish() })
+  .nullish();
+const HttpReply = z.object({ reply: z.string(), actions: z.array(TargetAction).nullish(), usage: HttpUsage });
+const HttpFailure = z.object({ error: z.string().nullish(), usage: HttpUsage }).partial();
+
+export function httpTargetLabel(target: HttpTarget): string {
+  return target.agent ? `${target.name} / ${target.agent}` : target.name;
+}
+
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(resolve, ms);
+    signal?.addEventListener("abort", () => (clearTimeout(t), reject(signal.reason)), { once: true });
+  });
+}
+
+/** Usage the agent reports for its own model calls (same course key): logged as stage "target", reportedByTarget. */
+async function logTargetUsage(scenario: Scenario, ctx: ExecContext, target: HttpTarget, usage: z.infer<typeof HttpUsage>, ms: number, error: string | null) {
+  if (!usage) return;
+  const tokens = { inputTokens: usage.input_tokens, cachedTokens: usage.cached_tokens ?? null, outputTokens: usage.output_tokens };
+  const event: UsageEvent = {
+    ts: nowIso(),
+    runId: ctx.runId,
+    ruleId: scenario.ruleId,
+    scenarioId: scenario.id,
+    stage: "target",
+    provider: "http",
+    model: httpTargetLabel(target),
+    role: "target",
+    kind: "call",
+    attempt: 1,
+    ok: error === null,
+    ...tokens,
+    reasoningTokens: null,
+    ms,
+    usd: usd(tokens, settings().prices),
+    finishReason: null,
+    error,
+    responseMode: "text",
+    usageEstimated: false,
+    reportedByTarget: true,
+  };
+  defaultLedger().record(event);
+  await appendUsage(event);
+}
+
+async function executeHttp(scenario: Scenario, ctx: ExecContext, target: HttpTarget): Promise<Transcript> {
+  // The agent spends on the course key too, so the key budget and the run's test budget apply before each call.
+  await defaultLedger().assertCanCall(ctx.runId, "target", true);
+  const body = JSON.stringify({ message: scenario.userTurn, conversation_id: scenario.id, reset: target.resetPerScenario, agent: target.agent });
+  const started = Date.now();
+  let retries = 1;
+  let busy = httpTargetTiming.busyRetries;
+  for (;;) {
+    let res: Response;
+    let payload: unknown;
+    try {
+      const signals = [AbortSignal.timeout(target.timeoutMs), ...(ctx.signal ? [ctx.signal] : [])];
+      res = await fetch(target.url, { method: "POST", headers: { "content-type": "application/json", ...target.headers }, body, signal: AbortSignal.any(signals) });
+      payload = await res.json().catch(() => null);
+    } catch (err) {
+      if (ctx.signal?.aborted) throw err;
+      if (retries-- > 0) continue;
+      const why = (err as Error).name === "TimeoutError" ? `no answer within ${target.timeoutMs / 1000} s` : (err as Error).message;
+      throw new TargetUnavailable(`${target.name} did not answer (${why}).`);
+    }
+    if (res.status === 409 && busy-- > 0) {
+      await sleep(httpTargetTiming.busyWaitMs, ctx.signal);
+      continue;
+    }
+    const ms = Date.now() - started;
+    if (!res.ok) {
+      const failure = HttpFailure.safeParse(payload);
+      const message = (failure.success && failure.data.error) || res.statusText || "no detail";
+      await logTargetUsage(scenario, ctx, target, failure.success ? failure.data.usage : null, ms, `HTTP ${res.status}: ${message}`);
+      // 502 is the agent's own failure (it ended without a reply); retrying would rerun the whole agent.
+      if (res.status >= 500 && res.status !== 502 && retries-- > 0) continue;
+      throw new TargetUnavailable(`${target.name} returned HTTP ${res.status}: ${message}`);
+    }
+    const parsed = HttpReply.safeParse(payload);
+    if (!parsed.success) throw new TargetUnavailable(`${target.name} sent a reply without the expected fields (reply, actions, usage).`);
+    const { reply, actions, usage } = parsed.data;
+    await logTargetUsage(scenario, ctx, target, usage, ms, null);
+    return {
+      scenarioId: scenario.id,
+      systemPrompt: null,
+      messages: [
+        { role: "user", content: scenario.userTurn },
+        { role: "assistant", content: reply },
+      ],
+      finishReason: null,
+      truncated: false,
+      ms,
+      model: httpTargetLabel(target),
+      actions: actions ?? [],
+      targetUsage: usage
+        ? { inputTokens: usage.input_tokens, outputTokens: usage.output_tokens, cachedTokens: usage.cached_tokens ?? null, requests: usage.requests ?? 1 }
+        : null,
+    };
   }
+}
+
+export async function executeScenario(scenario: Scenario, ctx: ExecContext): Promise<Transcript> {
+  if (ctx.target.kind === "http") return executeHttp(scenario, ctx, ctx.target);
   const system = ctx.system ?? "";
   const res = await callModel<string>({
     runId: ctx.runId,

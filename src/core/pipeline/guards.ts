@@ -3,6 +3,9 @@
 
 export const MAX_RULES_PER_RUN = 40;
 export const MAX_SCENARIOS_PER_RULE = 12;
+/** An HTTP agent run (each scenario is a full agent run, 10–20 s and several model calls): architecture §7. */
+export const MAX_HTTP_SCENARIOS = 40;
+export const HTTP_TIMEOUT_MS = 120_000;
 export const MAX_CALLS_PER_RUN = 600;
 
 /** Per model call: one retry on a network error, 5xx or timeout; up to three waits on a 429. */

@@ -20,6 +20,10 @@ export function CollisionsClient({ initial, defaults }: { initial: RunResponse; 
   const { run, rules, collisions } = data;
   const [cap, setCap] = useState(String(defaults.spendCapUsd));
   const [concurrency, setConcurrency] = useState(String(defaults.concurrency));
+  const [targetKind, setTargetKind] = useState<"model" | "http">("model");
+  const [agentUrl, setAgentUrl] = useState(defaults.agentUrl ?? "");
+  const [agent, setAgent] = useState("");
+  const [rungs, setRungs] = useState<4 | 6>(6);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const byId = new Map(rules.map((r) => [r.id, r]));
@@ -48,9 +52,14 @@ export function CollisionsClient({ initial, defaults }: { initial: RunResponse; 
       setError("Set a test budget above $0.");
       return;
     }
+    if (targetKind === "http" && !agentUrl.trim()) {
+      setError("Give the agent's URL.");
+      return;
+    }
     setBusy(true);
     try {
-      await sendJson(`/api/runs/${runId}/execute`, "POST", { spendCapUsd, concurrency: Math.max(1, Math.min(16, Math.round(conc) || 1)) });
+      const target = targetKind === "http" ? { kind: "http", url: agentUrl.trim(), agent: agent.trim() || undefined, name: defaults.agentName ?? undefined } : undefined;
+      await sendJson(`/api/runs/${runId}/execute`, "POST", { spendCapUsd, concurrency: Math.max(1, Math.min(16, Math.round(conc) || 1)), rungs, target });
       router.push(`/runs/${runId}/report`);
     } catch (err) {
       setError((err as Error).message);
@@ -117,28 +126,48 @@ export function CollisionsClient({ initial, defaults }: { initial: RunResponse; 
           <fieldset className="space-y-2">
             <legend className="text-sm font-medium">Agent under test</legend>
             <label className="flex items-start gap-2 text-sm">
-              <input type="radio" name="target" defaultChecked className="mt-1" />
+              <input type="radio" name="target" checked={targetKind === "model"} onChange={() => setTargetKind("model")} className="mt-1" data-testid="target-model" />
               <span>
                 {run.config.targetModel} with this policy as its system prompt
                 <span className="block text-xs text-zinc-500">via {run.config.provider}</span>
               </span>
             </label>
-            <label className="flex items-start gap-2 text-sm text-zinc-400">
-              <input type="radio" name="target" disabled className="mt-1" />
+            <label className="flex items-start gap-2 text-sm">
+              <input type="radio" name="target" checked={targetKind === "http"} onChange={() => setTargetKind("http")} className="mt-1" data-testid="target-http" />
               <span>
-                {defaults.agentName ?? "An HTTP agent"} {defaults.agentUrl ? `(${defaults.agentUrl})` : ""}
-                <span className="block text-xs">Live agents over HTTP are wired on Saturday; set TENET_AGENT_URL to point at one.</span>
+                {defaults.agentName ?? "An agent over HTTP"}
+                <span className="block text-xs text-zinc-500">A running agent with its own prompt and tools; Tenet sends each test message and records the reply and the tool calls.</span>
               </span>
             </label>
+            {targetKind === "http" && (
+              <div className="space-y-2 pl-6">
+                <div className="space-y-1">
+                  <Label htmlFor="agent-url">Agent URL</Label>
+                  <Input id="agent-url" value={agentUrl} onChange={(e) => setAgentUrl(e.target.value)} placeholder="http://localhost:8000/tenet/ask" />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="agent-name">Agent (optional)</Label>
+                  <Input id="agent-name" value={agent} onChange={(e) => setAgent(e.target.value)} placeholder="e.g. customer_service" />
+                </div>
+                <p className="text-xs text-zinc-500">One scenario at a time, each from a fresh reset; at most 40 scenarios per run, since each is a full agent run.</p>
+              </div>
+            )}
           </fieldset>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
               <Label htmlFor="cap">Test budget (USD)</Label>
               <Input id="cap" inputMode="decimal" value={cap} onChange={(e) => setCap(e.target.value)} />
             </div>
             <div className="space-y-1">
               <Label htmlFor="concurrency">Concurrency</Label>
-              <Input id="concurrency" inputMode="numeric" value={concurrency} onChange={(e) => setConcurrency(e.target.value)} />
+              <Input id="concurrency" inputMode="numeric" value={targetKind === "http" ? "1" : concurrency} disabled={targetKind === "http"} onChange={(e) => setConcurrency(e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="rungs">Pressure rungs</Label>
+              <select id="rungs" value={rungs} onChange={(e) => setRungs(Number(e.target.value) as 4 | 6)} className="h-8 w-full rounded-lg border border-zinc-200 bg-white px-2 text-sm">
+                <option value={6}>6</option>
+                <option value={4}>4</option>
+              </select>
             </div>
           </div>
           <p className="text-xs text-zinc-500">
