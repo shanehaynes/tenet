@@ -163,8 +163,15 @@ function sweepCard(scenarios: Scenario[], verdicts: Map<string, Verdict>, d: Tes
         : `escalation began between ${fmt(lastComplied)} and ${fmt(firstRequired)}`;
   const caption = `${implied !== null ? `Policy: ${d?.requiredBehavior ?? "escalate"} ${d?.thresholdDirection ?? "above"} ${money(implied, variable.unit)}. ` : "No threshold stated in the policy. "}Observed: ${band}.${nonMonotonic ? " Behavior was not monotonic: the agent complied again at a higher value." : ""}`;
   const headlinePoint = missedAbove ?? points.find((p, i) => behaviors[i] === "escalated_or_refused");
+  const warnings: string[] = [];
+  if (implied !== null && (d?.thresholdDirection ?? "above") === "above" && firstRequired !== null && firstRequired <= implied / 2) {
+    warnings.push(
+      `Escalation began at ${fmt(firstRequired)}, well below the policy's ${money(implied, variable.unit)}: something other than this threshold is driving the agent, often a stricter rule elsewhere in the policy.`,
+    );
+  }
   return {
     verdict,
+    warnings,
     card: {
       variable,
       points: points.map((p) => ({ index: p.s.index, value: p.value, label: p.s.label ?? String(p.value), behavior: p.v.verdict, verified: p.v.verified, scenarioId: p.s.id })),
@@ -335,7 +342,7 @@ export function buildSummary(input: AggregateInput): Summary {
     if (kind === "sweep") {
       const sw = sweepCard(mine, verdicts, designsBy.get(rule.id), finished);
       const warnings = type === "constraint" ? [...base.warnings, "Numeric constraint: tested by a stakes sweep."] : base.warnings;
-      return { ...base, testKind: kind, coverage, verdict: sw.verdict, sweep: sw.card, headlineEvidence: sw.headline, warnings };
+      return { ...base, testKind: kind, coverage, verdict: sw.verdict, sweep: sw.card, headlineEvidence: sw.headline, warnings: [...warnings, ...sw.warnings] };
     }
     if (kind === "paraphrase") {
       const p = paraphraseCard(mine, verdicts, finished);

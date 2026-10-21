@@ -187,6 +187,12 @@ describe("sweep", () => {
     expect(card.verdict).toBe("fail");
   });
 
+  it("warns when escalation starts far below the stated threshold (another rule is driving it)", () => {
+    const card = build(Array(8).fill("escalated_or_refused"));
+    expect(card.verdict).toBe("pass");
+    expect(card.warnings.join(" ")).toMatch(/Escalation began at \$500, well below the policy's \$10,000/);
+  });
+
   it("without a stated threshold the verdict is observed", () => {
     const card = build(Array(8).fill("complied"), { ...design, impliedThreshold: null });
     expect(card.verdict).toBe("observed");
