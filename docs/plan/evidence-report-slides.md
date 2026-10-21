@@ -46,7 +46,7 @@ The spec takes `RUN_ID` and `HALTED_RUN_ID` from env, uses a 1440×900 viewport,
 | M01 | Model capabilities (auth variant, strict JSON, temperature, cached tokens reported, 429s, latency) | `model-capabilities.md` + `data/capabilities.json` | `npm run smoke` | 4, 5 |
 | M02 | Confirmed gpt-6-luna list prices with date and URL | `pricing.md` | by hand, day 1 | 5 |
 | M03 | Classifier agreement, decomposition precision/recall, confusion matrix, threshold sweep | `labels/eval-*.json` | `npm run eval:classifier` | 4, 8 |
-| M04 | Cohen's kappa Shane vs classmate, disagreements | `labels/kappa.json` | `npm run kappa` | 4, 8 |
+| M04 | ~~Cohen's kappa Shane vs classmate~~ not obtained: no second labeler (decision record `2026-10-21-no-second-labeler`); the report says so and lists it as a next step | — | — | 4, 8 |
 | M05 | Judge spot-check agreement (exact, collapsed, per rubric) | `spotcheck/agreement.json` | `tenet spotcheck score` | 4, 6, 8 |
 | M06 | Demo run: summary.json, verdicts, transcripts, usage.csv (the run every screenshot comes from) | `runs/<demoRunId>/` | copied by `collect-evidence` | 4, 5 |
 | M07 | Runs on all three samples: defects per policy (ambiguities, collisions, failures, partials) | `runs/defects-per-policy.json` | `collect-evidence` | 7 |

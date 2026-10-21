@@ -44,7 +44,7 @@ Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-
 | Since | Item | Needed by |
 |---|---|---|
 | 2026-10-21 | Optional: label `samples/openai-model-spec-excerpt.labels.json` (22 rules) so the report can state agreement on a published policy | Sat Oct 24 |
-| 2026-10-21 | Send the classmate labeler the three policies, `docs/labeling-guide.md` and blank label files (deadline Sat). Contact the classmate labeler and a policy owner (Eide Bailly colleague, Yale IT, compliance contact) | Thu Oct 22 |
+| 2026-10-21 | Contact a policy owner (Eide Bailly colleague, Yale IT, compliance contact) for Saturday or Sunday; no classmate labeler (in finals; kappa not obtained) | Fri Oct 23 |
 | 2026-10-21 | HW5 backend runnable on this machine: `.venv`, `.env` with the key, `cd backend && ../.venv/bin/uvicorn main:app --port 8000` (HW5 cloned read-only at `~/projects/Homework5`) | Fri Oct 23 |
 
 ## Known gaps

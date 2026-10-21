@@ -153,7 +153,7 @@ Shane: labels committed by 10 AM, a hard deadline; send the labeler the policies
 2. Live report page: the report renders from the moment execution starts and fills in as verdicts arrive; the progress view becomes the report's header (counters, test spend vs budget, event feed, halted states) (architecture §9).
 3. `ReportDocument` visuals: `LadderStrip`, `ThresholdChart`, `ParaphraseDots`, conflict table, `AmbiguityMap` with verdict colors and collision arcs, policy-defects section, usage-by-stage table; transcript drawer.
 4. Export routes: standalone HTML through the proven path, usage CSV, `summary.json`.
-5. Evidence tooling (architecture §11; evidence §1–3): `tenet spotcheck export|score` (n 50), `tenet timing`, `tenet canary`, `tenet rejudge --effort minimal`, `eval:classifier --batched`, `scripts/kappa.ts`, `scripts/check-secrets.mjs`, `scripts/collect-evidence.ts` skeleton, `report/report.src.html` skeleton with `build-report.mjs --allow-missing`, `report:pages`, `build-slides.mjs` skeleton.
+5. Evidence tooling (architecture §11; evidence §1–3): `tenet spotcheck export|score` (n 50), `tenet timing`, `tenet canary`, `tenet rejudge --effort minimal`, `eval:classifier --batched`, `scripts/check-secrets.mjs`, `scripts/collect-evidence.ts` skeleton, `report/report.src.html` skeleton with `build-report.mjs --allow-missing`, `report:pages`, `build-slides.mjs` skeleton.
 6. Safety demos live: halted run at a $0.01 test budget (S07); quarantine (S02); canary (S17).
 7. Archived example run copied to `docs/evidence/runs/<demoRunId>/` and the `/runs/example` route (evidence §6).
 8. README draft with the 10-minute path and troubleshooting; "pick an agent to test" documented.
@@ -179,7 +179,7 @@ Morning, before noon:
 Afternoon:
 
 6. Validation runs on every sample with the final prompts (M07). Spot-check export of 50 transcripts from a fresh Harrow & Vale run **before anyone opens its report**; hand the CSV to Shane (sample-policies §7).
-7. Kappa when the classmate's labels arrive (M04).
+7. ~~Kappa (M04)~~: no second labeler (decision record `2026-10-21-no-second-labeler`); the report says so.
 8. Tokenomics: caching (M09), 4 rungs vs 6 (M10), batched classifier (M11), cheaper judge (M19), cost-per-user math (M12), cumulative spend on the course key (M21).
 9. `tenet timing` (M13); `collect-evidence`; `build-report --allow-missing M17,M18`; report.html sections 1–6 drafted; screenshots re-captured if the UI changed, with S19–S21 added.
 10. Support the policy-owner session: show the ambiguity map of their policy (or of the published policy), ask whether they would change the policy and which line, capture the quote (sample-policies §9).
@@ -213,7 +213,7 @@ Morning: if Gate 3 failed, README and repo first. Re-run `screenshots.spec` only
 | Day | Task | Feeds |
 |---|---|---|
 | Wed Oct 21 | Answer the kickoff questions; confirm Harrow & Vale labels; label Meridian, Northgate and the HW5 excerpt tonight; contact the classmate labeler and a policy owner (Eide Bailly colleague, Yale IT, compliance contact); confirm the `.env` path; confirm the HW5 repo runs locally | Wed–Thu |
-| Thu Oct 22 | Labels committed by 10 AM (hard deadline); send the labeler the policies and the definitions card (deadline Sat); 10 minutes with the live ambiguity map | M03, M04 |
+| Thu Oct 22 | Labels committed by 10 AM (hard deadline); 10 minutes with the live ambiguity map | M03 |
 | Fri Oct 23 | 10 minutes with the first live report; timing exercise for rules 2, 4, 10 with a stopwatch (sample-policies §8); book the policy-owner session; HW5 backend runnable on his machine | Gate 1, M13 |
 | Sat Oct 24 | HW5 backend running with his key if needed (morning); hand-score 50 transcripts before reading that run's report (afternoon, about an hour); policy-owner session: show the ambiguity map, ask "would you change the policy, and which line?", capture the quote; collect the classmate's labels | M20, M05, M18, M04 |
 | Sun Oct 25 | Dry run from a fresh clone on another machine with `.env` one level up, stopwatch running; read every sentence of `report.html`; record the video | Gate 3, M17 |
@@ -241,7 +241,7 @@ Morning: if Gate 3 failed, README and repo first. Re-run `screenshots.spec` only
 | Judge agreement under 85 % | M05 | Tighten the rubric wording where disagreements cluster; re-score a fresh sample; report both |
 | Decomposer output does not align with hand labels | Eval misses/extras | Report decomposition precision and recall; keep the split/merge UI prominent |
 | No real user by Saturday | Candidate silent by Thursday | Classmate fallback; state it plainly; impact section still has M07 and M13 |
-| No classmate labels | Silent by Friday | Report kappa as not obtained, with the plan; the ambiguity feature stands on M03 and the two planted ambiguities |
+| No classmate labels | **Happened 2026-10-21** (classmate in finals) | Kappa not obtained; the ambiguity feature stands on M03, the human–classifier disagreements and the two planted ambiguities (decision record `no-second-labeler`) |
 | Fresh-clone run exceeds 10 minutes | Gate 3 | Simplify README steps; remove optional tooling from install; `npm ci`; pre-generate nothing that needs the key |
 | Report under 10 or over 15 pages | `report:pages` | Resize figures; move transcripts to an appendix within the limit or cut |
 | Numbers in the report drift from the logs | A hand-typed number | Every number comes from `report-data.json`; the build fails on blanks |
