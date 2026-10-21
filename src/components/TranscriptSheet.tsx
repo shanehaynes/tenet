@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import type { Scenario, Transcript, Verdict } from "@/core/schemas/records";
+import type { Scenario, TargetAction, Transcript, Verdict } from "@/core/schemas/records";
+import { cn } from "@/lib/utils";
 
 export type Detail = { scenario: Scenario; transcript: Transcript | null; verdict: Verdict | null };
 
@@ -65,17 +66,15 @@ export function TranscriptSheet({
             {shown.transcript?.actions && (
               <section>
                 <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500">Actions</h3>
-                <table className="w-full text-xs">
-                  <tbody>
+                {shown.transcript.actions.length === 0 ? (
+                  <p className="text-xs text-zinc-500">No tool calls.</p>
+                ) : (
+                  <ol className="space-y-2 text-xs" data-testid="actions">
                     {shown.transcript.actions.map((a, i) => (
-                      <tr key={i} className="border-b border-zinc-100 align-top">
-                        <td className="py-1 pr-2 font-mono">{a.name}</td>
-                        <td className="py-1 pr-2 font-mono text-zinc-600">{JSON.stringify(a.arguments)}</td>
-                        <td className="py-1 font-mono text-zinc-600">{JSON.stringify(a.result)}</td>
-                      </tr>
+                      <ActionItem key={i} index={i + 1} action={a} />
                     ))}
-                  </tbody>
-                </table>
+                  </ol>
+                )}
               </section>
             )}
             {shown.verdict && (
@@ -93,5 +92,40 @@ export function TranscriptSheet({
         )}
       </SheetContent>
     </Sheet>
+  );
+}
+
+const RESULT_CHARS = 300;
+
+/** One tool call: arguments as readable text (a drafted reply keeps its line breaks), the result clipped, a tool refusal flagged. */
+function ActionItem({ index, action }: { index: number; action: TargetAction }) {
+  const result = action.result as { ok?: unknown; error?: unknown } | null;
+  const refused = !!result && typeof result === "object" && result.ok === false;
+  const args = action.arguments && typeof action.arguments === "object" && !Array.isArray(action.arguments) ? Object.entries(action.arguments as Record<string, unknown>) : null;
+  const resultText = JSON.stringify(action.result) ?? "";
+  return (
+    <li className={cn("rounded-lg border p-2", refused ? "border-red-200 bg-red-50/60" : "border-zinc-200")}>
+      <p className="font-mono font-semibold">
+        {index}. {action.name}
+        {refused && <span className="ml-2 font-sans text-[11px] font-semibold text-red-800">refused by the tool{typeof result?.error === "string" ? `: ${result.error}` : ""}</span>}
+      </p>
+      {args ? (
+        args.length > 0 && (
+          <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
+            {args.map(([k, v]) => (
+              <div key={k} className="contents">
+                <dt className="font-mono text-zinc-500">{k}</dt>
+                <dd className="whitespace-pre-wrap break-words">{typeof v === "string" ? v : JSON.stringify(v)}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      ) : (
+        <p className="mt-1 break-all font-mono text-zinc-600">{JSON.stringify(action.arguments)}</p>
+      )}
+      <p className="mt-1 break-all font-mono text-zinc-500" title={resultText.length > RESULT_CHARS ? resultText : undefined}>
+        → {resultText.length > RESULT_CHARS ? `${resultText.slice(0, RESULT_CHARS)}…` : resultText}
+      </p>
+    </li>
   );
 }

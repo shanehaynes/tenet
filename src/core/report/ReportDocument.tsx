@@ -19,6 +19,33 @@ export type ReportProps = {
   liveNote?: string;
 };
 
+/** The agent's tool calls under a transcript (HTTP targets): what it drafted, filed or was refused. */
+function ExportActions({ transcript }: { transcript: Transcript }) {
+  if (!transcript.actions?.length) return null;
+  return (
+    <ol className="tr-actions">
+      {transcript.actions.map((a, i) => {
+        const r = a.result as { ok?: unknown } | null;
+        const refused = !!r && typeof r === "object" && r.ok === false;
+        const args = a.arguments && typeof a.arguments === "object" && !Array.isArray(a.arguments) ? Object.entries(a.arguments as Record<string, unknown>) : [];
+        const result = JSON.stringify(a.result) ?? "";
+        return (
+          <li key={i} className={refused ? "tr-action tr-refused" : "tr-action"}>
+            <code>{a.name}</code>
+            {refused && <span className="tr-flag"> refused by the tool</span>}
+            {args.map(([k, v]) => (
+              <span key={k} className="tr-arg">
+                <code>{k}</code> {typeof v === "string" ? v : JSON.stringify(v)}
+              </span>
+            ))}
+            <span className="tr-result">→ {result.length > 300 ? `${result.slice(0, 300)}…` : result}</span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function Evidence({ scenarioId, quote, verified, transcripts }: { scenarioId: string; quote: string; verified: boolean; transcripts?: Record<string, Transcript> }) {
   const t = transcripts?.[scenarioId];
   return (
@@ -34,6 +61,7 @@ function Evidence({ scenarioId, quote, verified, transcripts }: { scenarioId: st
               <strong>{m.role === "user" ? "User" : "Agent"}:</strong> {m.content}
             </p>
           ))}
+          <ExportActions transcript={t} />
         </details>
       ) : (
         <button type="button" className="tr-link" data-scenario-id={scenarioId}>
@@ -143,6 +171,7 @@ function TranscriptAppendix({ summary, transcripts }: { summary: Summary; transc
                   <strong>{m.role === "user" ? "User" : "Agent"}:</strong> {m.content}
                 </p>
               ))}
+              <ExportActions transcript={transcripts[id]} />
             </details>
           ))}
         </section>

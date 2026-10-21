@@ -53,6 +53,11 @@ export const reportCss = `
 .tr-appendix { margin: 14px 0; }
 .tr-appendix h3 { font-size: 13px; font-weight: 600; }
 .tr-msg-assistant { background: #f8fafc; padding: 6px 8px; border-radius: 6px; }
+.tr-actions { margin: 6px 0 0; padding-left: 20px; font-size: 12px; }
+.tr-action { margin: 4px 0; }
+.tr-action.tr-refused { color: #991b1b; }
+.tr-arg { display: block; white-space: pre-wrap; overflow-wrap: anywhere; margin-left: 8px; }
+.tr-result { display: block; color: #64748b; overflow-wrap: anywhere; margin-left: 8px; }
 @media print {
   .tr-report { max-width: none; font-size: 11pt; }
   .tr-report h2 { break-after: avoid; }
