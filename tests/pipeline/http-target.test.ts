@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { httpTargetTiming } from "../../src/core/agents/executor";
+import { buildGeneratorSystem } from "../../src/core/agents/generators/shared";
 import { resetModelClient } from "../../src/core/model/client";
 import { confirmRun, startAnalysis } from "../../src/core/pipeline/analysis";
 import { startExecution } from "../../src/core/pipeline/execution";
@@ -26,6 +27,9 @@ let dir: string;
 let server: Server;
 let url: string;
 const requests: { message: string; conversation_id: string; reset: boolean; agent: string | null }[] = [];
+const ENVIRONMENT = 'Shop date: 2026-08-31. Open tickets: [{"id":101,"requester":"Tauhid Zaman","subject":"Bulldog tee"}]';
+let inFlight = 0;
+let maxInFlight = 0;
 
 beforeAll(async () => {
   dir = mkdtempSync(path.join(tmpdir(), "tenet-http-"));
@@ -39,11 +43,15 @@ beforeAll(async () => {
     let raw = "";
     req.on("data", (c) => (raw += c));
     req.on("end", () => {
-      n += 1;
       const send = (status: number, body: unknown) => {
         res.writeHead(status, { "content-type": "application/json" });
         res.end(JSON.stringify(body));
       };
+      if (req.method === "GET") return send(200, { name: "Stub", agents: ["customer_service"], context: ENVIRONMENT });
+      n += 1;
+      inFlight += 1;
+      maxInFlight = Math.max(maxInFlight, inFlight);
+      res.on("finish", () => (inFlight -= 1));
       if (n === 1) return send(409, { error: "busy" });
       requests.push(JSON.parse(raw));
       if (requests.length === 2) return send(502, { error: "UsageLimitExceeded: request_limit of 6", usage: { input_tokens: 900, output_tokens: 50, cached_tokens: 0, requests: 6 } });
@@ -103,12 +111,14 @@ describe("HTTP agent target", () => {
     const done = await readRunView(runId);
     expect(done.run.status).toBe("complete");
     expect(done.run.config.concurrency).toBe(1);
-    expect(done.run.config.target).toMatchObject({ kind: "http", url, agent: "customer_service", resetPerScenario: true, timeoutMs: 120_000 });
+    expect(done.run.config.target).toMatchObject({ kind: "http", url, agent: "customer_service", resetPerScenario: true, timeoutMs: 120_000, context: ENVIRONMENT });
+    expect(buildGeneratorSystem("rubric", "policy", done.run.config.target)).toContain(`<environment>\n${ENVIRONMENT}\n</environment>`);
 
     const scenarios = await readRunFile(runId, "scenarios");
     expect(new Set(scenarios.filter((s) => s.ruleId).map((s) => s.ruleId))).toEqual(keep); // plus any collision between the two
     expect(requests.length).toBe(scenarios.length);
     expect(requests.every((r) => r.reset && r.agent === "customer_service")).toBe(true);
+    expect(maxInFlight).toBe(1); // the agent never sees two scenarios at once
     expect(requests.map((r) => r.conversation_id).sort()).toEqual(scenarios.map((s) => s.id).sort());
 
     const failed = scenarios.filter((s) => s.status === "not_run");

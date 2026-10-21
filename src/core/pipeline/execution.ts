@@ -1,6 +1,6 @@
 import pLimit from "p-limit";
 import { buildExecutorSystemPrompt } from "../agents/executorPrompt";
-import { executeScenario } from "../agents/executor";
+import { describeHttpTarget, executeScenario } from "../agents/executor";
 import type { GenContext, GenRule } from "../agents/generators/common";
 import { CONFLICT_RUBRIC, generateCollisionConflicts, generateOrderingConflicts } from "../agents/generators/conflict";
 import { generateLadder, ladderRubric } from "../agents/generators/ladder";
@@ -10,6 +10,7 @@ import { buildGeneratorSystem } from "../agents/generators/shared";
 import { generateSweep, SWEEP_POINTS, SWEEP_RUBRIC } from "../agents/generators/sweep";
 import { buildJudgeSystem, judgeScenario, type JudgeRule } from "../agents/judge";
 import { summarizeDefects, type Defect } from "../agents/reporter";
+import { settings } from "../config";
 import { defaultLedger } from "../model/client";
 import { effectiveType, type Collision, type Rule, type Run, type Scenario, type ScenarioKind, type Target, type TestDesign } from "../schemas/records";
 import { readPolicy } from "../store/policies";
@@ -44,6 +45,10 @@ const isHalt = isHaltError;
 /** awaiting_collision_review → generating; starts the execution job (202 from the API). */
 export async function startExecution(runId: string, opts: ExecuteOptions = {}): Promise<Run> {
   const now = new Date().toISOString();
+  // Ask an HTTP agent what its world holds before the transaction (no network inside withRun).
+  if (opts.target?.kind === "http" && opts.target.context === null) {
+    opts = { ...opts, target: { ...opts.target, context: await describeHttpTarget(opts.target) } };
+  }
   const run = await withRun(runId, async (tx) => {
     const r = await tx.get("run");
     if (r.status !== "awaiting_collision_review") {
@@ -86,6 +91,15 @@ export async function startExecution(runId: string, opts: ExecuteOptions = {}): 
   const ledger = defaultLedger();
   ledger.open(runId, { capUsd: run.config.spendCapUsd, startedExecutionAt: now, spent: spendFromUsage(await readRunUsage(runId)) });
   await appendEvent(runId, { stage: "generating", message: `Tests started; test budget $${run.config.spendCapUsd}` });
+  const t = run.config.target;
+  if (t.kind === "http") {
+    await appendEvent(
+      runId,
+      t.context
+        ? { stage: "generating", message: `${t.name} described its environment (${t.context.length} characters); test requests will name its records` }
+        : { stage: "generating", level: "warn", message: `${t.name} did not describe its environment (GET ${t.url}); test requests may name records the agent cannot find` },
+    );
+  }
   void startJob(runId, "execution", (signal) => runExecution(runId, signal));
   return run;
 }
@@ -147,7 +161,11 @@ export async function runExecution(runId: string, signal?: AbortSignal): Promise
       const type = r ? effectiveType(r, run.config.ambiguityThreshold) : null;
       return r && type ? { id: r.id, statement: r.statement, quote: r.quote, type } : null;
     };
-    const limit = pLimit(Math.max(1, run.config.concurrency));
+    // An HTTP agent takes one scenario at a time (one database, one MCP process: config.concurrency is 1);
+    // Tenet's own generator and judge calls still run in parallel around it.
+    const http = run.config.target.kind === "http";
+    const limit = pLimit(Math.max(1, http ? settings().concurrency : run.config.concurrency));
+    const agentLimit = pLimit(1);
 
     // 1. Generate
     const plan = planTests(run, rules);
@@ -247,7 +265,8 @@ export async function runExecution(runId: string, signal?: AbortSignal): Promise
         if (halt || signal?.aborted) return;
         const rulesForJudge = rulesFor(s);
         try {
-          const transcript = await executeScenario(s, { runId, target: run.config.target, system: executorSystem, ruleStatements: rulesForJudge.map((r) => r.statement), signal });
+          const exec = () => executeScenario(s, { runId, target: run.config.target, system: executorSystem, ruleStatements: rulesForJudge.map((r) => r.statement), signal });
+          const transcript = await (http ? agentLimit(exec) : exec());
           await writeTranscript(runId, transcript);
           const verdict = await judgeScenario(s, transcript, { runId, system: judgeSystem, rules: rulesForJudge, signal });
           await markScenario(s.id, { status: "done", error: null }, verdict);

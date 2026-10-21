@@ -122,6 +122,32 @@ async function logTargetUsage(scenario: Scenario, ctx: ExecContext, target: Http
   await appendUsage(event);
 }
 
+/** Longest environment description passed to the generators (it sits in their cached prefix). */
+export const MAX_CONTEXT_CHARS = 8000;
+
+/**
+ * GET on the agent URL: an agent may describe its world (`{context}`), which the generators use so test
+ * requests name records the agent can find. Optional in the protocol: anything but a 200 with a context is null.
+ */
+export async function describeHttpTarget(target: HttpTarget, signal?: AbortSignal): Promise<string | null> {
+  for (let busy = httpTargetTiming.busyRetries; ; busy--) {
+    try {
+      const signals = [AbortSignal.timeout(30_000), ...(signal ? [signal] : [])];
+      const res = await fetch(target.url, { method: "GET", headers: target.headers, signal: AbortSignal.any(signals) });
+      if (res.status === 409 && busy > 0) {
+        await sleep(httpTargetTiming.busyWaitMs, signal);
+        continue;
+      }
+      if (!res.ok) return null;
+      const body = (await res.json().catch(() => null)) as { context?: unknown } | null;
+      return typeof body?.context === "string" && body.context.trim() ? body.context.trim().slice(0, MAX_CONTEXT_CHARS) : null;
+    } catch (err) {
+      if (signal?.aborted) throw err;
+      return null;
+    }
+  }
+}
+
 async function executeHttp(scenario: Scenario, ctx: ExecContext, target: HttpTarget): Promise<Transcript> {
   // The agent spends on the course key too, so the key budget and the run's test budget apply before each call.
   await defaultLedger().assertCanCall(ctx.runId, "target", true);

@@ -56,6 +56,8 @@ export const HttpTarget = z.object({
   headers: z.record(z.string(), z.string()),
   timeoutMs: z.number(),
   resetPerScenario: z.boolean(),
+  /** What the agent's world holds after a reset (GET on the agent URL), so generators write about real records. */
+  context: z.string().nullable().default(null),
 });
 export const Target = z.discriminatedUnion("kind", [ModelTarget, HttpTarget]);
 export type Target = z.infer<typeof Target>;

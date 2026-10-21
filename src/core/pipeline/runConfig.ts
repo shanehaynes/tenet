@@ -36,5 +36,5 @@ export function httpTarget(opts: { url?: string | null; agent?: string | null; n
       name = url;
     }
   }
-  return { kind: "http", name, url, agent, headers: {}, timeoutMs: HTTP_TIMEOUT_MS, resetPerScenario: true };
+  return { kind: "http", name, url, agent, headers: {}, timeoutMs: HTTP_TIMEOUT_MS, resetPerScenario: true, context: null };
 }

@@ -67,6 +67,16 @@ Two kinds of finding are about the policy rather than the model: **ambiguous rul
 
 Paste or upload your own policy (`.txt` or `.md`, up to 200 KB) on the home page.
 
+## Testing a running agent instead of the model
+
+By default the agent under test is `gpt-6-luna` with the policy as its system prompt. Tenet can also test a running agent that has its own prompt and tools, over HTTP: choose **An agent over HTTP** on the run panel, or
+
+```bash
+npm run tenet -- execute <runId> --target http --agent-url http://localhost:8000/tenet/ask --agent customer_service --rungs 4
+```
+
+Tenet POSTs `{message, conversation_id, reset: true, agent}` for each scenario and expects `{reply, actions, usage}` back (`409 {"error": "busy"}` is retried every 2 s). The agent sees one scenario at a time, from a fresh reset; its tool calls are stored with the transcript and shown to the judge; the tokens it reports are logged as stage `target` and count against the test budget and the key budget. An agent run is limited to 40 scenarios (`tenet rules <runId> --keep r4,r14,…` parks the rest). The Campus Customs agent team implements this endpoint on the [`tenet-bridge` branch](https://github.com/shanehaynes/Homework5/tree/tenet-bridge) of its repo; see its README, section 7.
+
 ## Safety and privacy
 
 - **Policy text is data.** An injection scanner (a regex pre-pass plus a model check) quarantines a policy that tries to instruct the software reading it; no agent ever sees a quarantined policy. Every agent prompt wraps policy text and transcripts in tags and tells the model to ignore instructions inside them.
