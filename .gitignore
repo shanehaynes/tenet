@@ -1,9 +1,33 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/playwright-report
+/test-results
+/blob-report
+
+# next.js
+/.next/
+/out/
+/build
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+
+# env files: never commit keys; the example is the only exception
 .env*
 !.env.example
-node_modules
-.next
+
+# runtime state (only the placeholder and recorded fixtures are tracked)
 data/*
 !data/.gitkeep
 !data/fixtures/
-playwright-report
-test-results
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
