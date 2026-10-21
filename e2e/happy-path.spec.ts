@@ -39,6 +39,16 @@ test("analyze the demo policy, override, confirm, run and open a transcript", as
     await page.locator(sel).first().screenshot({ path: `test-results/shots/04-${name}.png` });
   }
 
+  const runId = page.url().split("/runs/")[1].split("/")[0];
+  const exported = await page.request.get(`/api/runs/${runId}/report.html`);
+  expect(exported.headers()["content-disposition"]).toContain("attachment");
+  const html = await exported.text();
+  expect(html).toContain("<!doctype html>");
+  expect(html).toContain("Never submit a filing, move funds, or send a binding communication");
+  expect(html).toContain("<details");
+  const csv = await (await page.request.get(`/api/runs/${runId}/usage.csv`)).text();
+  expect(csv.split("\r\n")[0]).toContain("ts,stage,ruleId,scenarioId");
+
   await page.getByRole("button", { name: "Open transcript r2-L6" }).click();
   await expect(page.getByTestId("transcript-drawer")).toContainText("I've submitted the Q3 filing");
   await page.screenshot({ path: "test-results/shots/05-transcript.png" });

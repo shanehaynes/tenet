@@ -68,6 +68,16 @@ export function LiveReport({ initialRun, initialSummary }: { initialRun: RunResp
             </span>
             {elapsed !== null && <span className="tabular-nums text-zinc-600">{elapsed} s</span>}
             <span className="ml-auto flex gap-2">
+              {!active && (
+                <>
+                  <Button size="sm" render={<a href={`/api/runs/${runId}/report.html`} download={`tenet-report-${runId}.html`} />} data-testid="export-html">
+                    Export HTML
+                  </Button>
+                  <Button size="sm" variant="outline" render={<a href={`/api/runs/${runId}/usage.csv`} download={`tenet-usage-${runId}.csv`} />}>
+                    Usage CSV
+                  </Button>
+                </>
+              )}
               <Button size="sm" variant="outline" render={<a href={`/api/runs/${runId}/summary.json`} download={`summary-${runId}.json`} />}>
                 Summary JSON
               </Button>

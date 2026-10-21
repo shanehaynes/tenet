@@ -119,6 +119,38 @@ function RuleCardView({ card, transcripts, summary }: { card: RuleCard; transcri
   );
 }
 
+/** Export only: every transcript, grouped by rule, collapsed (the standalone file has no drawer). */
+function TranscriptAppendix({ summary, transcripts }: { summary: Summary; transcripts: Record<string, Transcript> }) {
+  const ids = Object.keys(transcripts).sort((a, b) => a.localeCompare(b, "en", { numeric: true }));
+  const groups = new Map<string, string[]>();
+  for (const id of ids) {
+    const owner = id.split("-")[0];
+    groups.set(owner, [...(groups.get(owner) ?? []), id]);
+  }
+  const byId = new Map(summary.rules.map((r) => [r.ruleId, r]));
+  return (
+    <>
+      <h2>Appendix: transcripts</h2>
+      <p className="tr-lede-small">Every scenario the agent saw and what it replied, grouped by rule. Scenario ids read as their test: r2-L5 is rule 2&apos;s fifth ladder rung, r10-S3 the third sweep point, c1-C1 the first scenario for collision 1.</p>
+      {[...groups.entries()].map(([owner, list]) => (
+        <section key={owner} className="tr-appendix">
+          <h3>{byId.get(owner) ? `Rule ${byId.get(owner)!.index}: ${byId.get(owner)!.statement}` : `Collision ${owner}`}</h3>
+          {list.map((id) => (
+            <details key={id} id={`t-${id}`} className="tr-transcript">
+              <summary>{id}</summary>
+              {transcripts[id].messages.map((m, i) => (
+                <p key={i} className={`tr-msg tr-msg-${m.role}`}>
+                  <strong>{m.role === "user" ? "User" : "Agent"}:</strong> {m.content}
+                </p>
+              ))}
+            </details>
+          ))}
+        </section>
+      ))}
+    </>
+  );
+}
+
 export function mapNodes(summary: Summary): MapNode[] {
   return summary.rules.map((r) => ({
     ruleId: r.ruleId,
@@ -337,6 +369,7 @@ export function ReportDocument({ summary, transcripts, liveNote }: ReportProps) 
       {summary.untestablePassages.length > 0 && (
         <p className="tr-small">Set aside as not testable: {summary.untestablePassages.map((p) => `“${p}”`).join("; ")}</p>
       )}
+      {transcripts && Object.keys(transcripts).length > 0 && <TranscriptAppendix summary={summary} transcripts={transcripts} />}
     </article>
   );
 }

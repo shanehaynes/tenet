@@ -49,6 +49,8 @@ export const reportCss = `
 .tr-transcript { margin-top: 6px; font-size: 13px; }
 .tr-transcript summary { cursor: pointer; color: ${ACCENT}; }
 .tr-msg { white-space: pre-wrap; margin: 6px 0; }
+.tr-appendix { margin: 14px 0; }
+.tr-appendix h3 { font-size: 13px; font-weight: 600; }
 .tr-msg-assistant { background: #f8fafc; padding: 6px 8px; border-radius: 6px; }
 @media print {
   .tr-report { max-width: none; font-size: 11pt; }
