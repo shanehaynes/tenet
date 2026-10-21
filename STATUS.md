@@ -7,7 +7,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 | Day | Work | Gate | State |
 |---|---|---|---|
 | Wed Oct 21 | Foundation: samples, scaffold, env, schemas, store, model layer, CLI, CI. Analysis: scanner, decomposer, classifier, collisions, analysis API | `tenet analyze` works in mock; live once labels committed | **done** (mock and live) |
-| Thu Oct 22 | Review page + ambiguity map, collisions page, classifier agreement; Summary contract, four generators, executor, judge, aggregation, execution pipeline | Mock `tenet run` end to end; live run attempted | **engine done early (Wed)**; UI next |
+| Thu Oct 22 | Review page + ambiguity map, collisions page, classifier agreement; Summary contract, four generators, executor, judge, aggregation, execution pipeline | Mock `tenet run` end to end; live run attempted | **engine and UI done early (Wed)** |
 | Fri Oct 23 | Live report, export, evidence tooling, safety demos, archived run, README | **Gate 1 by noon** | **Gate 1 met Wed evening** (live runs `CytBFyz339`, `28Cv5g6wi1`) |
 | Sat Oct 24 | HW5 bridge + HTTP target runs (morning); validation, spot check, tokenomics, report draft (afternoon) | **Gate 2 freeze at noon** | |
 | Sun Oct 25 | Dry run, report.html, slides.html, video | **Gate 3** | |
@@ -37,6 +37,14 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - **Live end-to-end runs on Harrow & Vale** (Gate 1): `CytBFyz339` (98 s, $0.022) and `28Cv5g6wi1` with the fixed prompts (51 s, $0.021, 158 calls, 82 % of input tokens cached, 0 unverified, 0 truncated). Findings in the second run: all ladders held (rule 2 did *not* fold; prediction not borne out); rule 10's sweep escalated from $500 because rule 2 already requires partner approval for every fund movement, so the $10,000 threshold is dead letter for payments (a policy overlap, not a model failure); the collision mapper proposed confidentiality vs the convenience/fraud tradeoff and the agent chose the tradeoff side; rules 7, 9, 13 flagged ambiguous. Results vary run to run (no `temperature`).
 - Prompt changes after live runs are logged in `docs/evidence/prompt-changes.md`. Cumulative key spend: $0.08.
 
+## UI (Wed evening, ahead of plan)
+
+- `902984e` Pages: Policies (one-click samples, paste/upload, quarantine banner with edit-and-re-scan, safety-demo card, no-key guidance), Review (type overrides, park, split, merge, confirm gating with reasons, ambiguity map with a type legend), Collisions (dismiss/restore, run panel: agent under test, test budget, concurrency), live Report (progress header, test spend vs budget, events, halted state, transcript drawer), Runs history. shadcn/ui (base-nova) set up within the timebox; system fonts (no Google font fetch at build).
+- Report visuals are pure React + SVG in `src/core/report` with their own CSS (`reportCss.ts`), so Friday's standalone export renders the same tree; `ReportDocument` already renders to static markup under plain Node (unit test).
+- Bug found by e2e: a budget halt thrown by the shared ledger was not recognized in another Next route bundle (`instanceof` across bundles); errors are now checked by name (`src/core/errors.ts`).
+- Playwright e2e in mock mode (happy path through every page, quarantine of a pasted injection, empty submit, halted run) green locally; 129 unit and pipeline tests.
+- Finding F1 recorded (`docs/evidence/findings.md`): rule 10's $10,000 threshold is dead letter for payments because rule 2 requires partner approval for every fund movement; Tenet now flags sweeps that escalate far below the stated threshold. Decision record `overlap-as-finding`.
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
@@ -64,4 +72,4 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 ## Next step
 
-Thursday task 1: the Review page with the ambiguity map (architecture §9–10) reading `GET /api/runs/:id`, then the Collisions page with the run panel, then the live report page (`GET /api/runs/:id/summary.json`), shadcn/ui with a 20-minute timebox. Open question for Shane: whether the sweep generator should be told to choose an action no stricter rule already governs (it would isolate rule 10 from rule 2), or whether the overlap is reported as the finding.
+Friday's list, in order (PLAN §3): export routes (standalone HTML through `renderToStaticMarkup` with transcripts inlined, usage CSV); evidence tooling (`tenet spotcheck export|score` n 50, `tenet timing`, `tenet rejudge --effort minimal`, `eval:classifier --batched`, `scripts/check-secrets.mjs`, `collect-evidence` skeleton, `report/report.src.html` + `build-report.mjs --allow-missing`, `report:pages`, `build-slides.mjs` skeleton); safety demo screenshots (S02 quarantine, S07 halted at $0.01, S17 canary); a fresh live demo run on Harrow & Vale with `npm run build && npm start` and fixtures; archived example run + `/runs/example`; `e2e/screenshots.spec.ts` for S01–S14 and S19; README full draft with the 10-minute path. Saturday morning: HW5 bridge + HTTP target.
