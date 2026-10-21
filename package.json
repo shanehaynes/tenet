@@ -15,7 +15,8 @@
     "doctor": "tsx scripts/doctor.ts",
     "e2e": "playwright test",
     "eval:classifier": "tsx scripts/eval-classifier.ts",
-    "measure:prefixes": "tsx scripts/measure-prefixes.ts"
+    "measure:prefixes": "tsx scripts/measure-prefixes.ts",
+    "check-secrets": "node scripts/check-secrets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
