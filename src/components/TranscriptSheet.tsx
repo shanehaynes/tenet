@@ -4,14 +4,26 @@ import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import type { Scenario, Transcript, Verdict } from "@/core/schemas/records";
 
-type Detail = { scenario: Scenario; transcript: Transcript | null; verdict: Verdict | null };
+export type Detail = { scenario: Scenario; transcript: Transcript | null; verdict: Verdict | null };
 
 /** The transcript drawer: one scenario's message, the agent's reply, the judge's verdict and quoted evidence. */
-export function TranscriptSheet({ runId, scenarioId, onClose }: { runId: string; scenarioId: string | null; onClose: () => void }) {
-  const [detail, setDetail] = useState<Detail | null>(null);
+export function TranscriptSheet({
+  runId,
+  scenarioId,
+  onClose,
+  details,
+}: {
+  runId: string;
+  scenarioId: string | null;
+  onClose: () => void;
+  /** Static details (the archived example run); otherwise the drawer fetches from the API. */
+  details?: Record<string, Detail>;
+}) {
+  const [fetched, setDetail] = useState<Detail | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const detail = details && scenarioId ? (details[scenarioId] ?? null) : fetched;
   useEffect(() => {
-    if (!scenarioId) return;
+    if (!scenarioId || details) return;
     let alive = true;
     fetch(`/api/runs/${runId}/scenarios/${scenarioId}`, { cache: "no-store" })
       .then(async (r) => {
@@ -26,7 +38,7 @@ export function TranscriptSheet({ runId, scenarioId, onClose }: { runId: string;
     return () => {
       alive = false;
     };
-  }, [runId, scenarioId]);
+  }, [runId, scenarioId, details]);
   const shown = detail && detail.scenario.id === scenarioId ? detail : null;
   const s = shown?.scenario;
   const reply = shown?.transcript?.messages.find((m) => m.role === "assistant")?.content;

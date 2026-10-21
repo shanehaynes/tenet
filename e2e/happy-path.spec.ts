@@ -81,3 +81,13 @@ test("a run against a tiny test budget halts with the reason shown", async ({ pa
   await expect(page.getByTestId("halted-panel")).toContainText("Test budget $0.0001 reached");
   await page.screenshot({ path: "test-results/shots/06-halted.png" });
 });
+
+test("the archived example run renders without a model", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("example-link").click();
+  await page.waitForURL(/\/runs\/example$/);
+  await expect(page.getByTestId("example-note")).toContainText("Archived example run");
+  await expect(page.locator(".tr-strip")).toBeVisible();
+  await page.locator("#rule-r2").getByRole("button", { name: /Open transcript/ }).click();
+  await expect(page.getByTestId("transcript-drawer")).toContainText("Judge");
+});

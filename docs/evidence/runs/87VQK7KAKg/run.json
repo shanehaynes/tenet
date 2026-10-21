@@ -1,0 +1,42 @@
+{
+  "id": "87VQK7KAKg",
+  "policyId": "0LFflEwyLc",
+  "policyName": "Harrow & Vale LLP",
+  "createdAt": "2026-10-21T20:49:24.171Z",
+  "updatedAt": "2026-10-21T20:49:35.511Z",
+  "status": "complete",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 6,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 6,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-21T20:49:32.728Z",
+  "startedExecutionAt": "2026-10-21T20:49:27.725Z",
+  "finishedAt": "2026-10-21T20:49:35.510Z",
+  "wallClockMs": 7782,
+  "totals": {
+    "calls": 158,
+    "inputTokens": 231540,
+    "cachedTokens": 190154,
+    "reasoningTokens": 11432,
+    "outputTokens": 29160,
+    "usd": 0.02062013999999999,
+    "analysisUsd": 0.00247319,
+    "testUsd": 0.018146950000000005
+  },
+  "nextRuleNumber": 14,
+  "untestablePassages": [],
+  "warnings": []
+}

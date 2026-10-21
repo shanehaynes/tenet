@@ -1,0 +1,24 @@
+{"ts":"2026-10-21T20:49:24.174Z","level":"info","stage":"created","message":"Run created for Harrow & Vale LLP"}
+{"ts":"2026-10-21T20:49:24.178Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-21T20:49:24.188Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-21T20:49:24.416Z","level":"info","stage":"decomposer","message":"13 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-21T20:49:24.417Z","level":"info","stage":"classifying","message":"Classifying 13 rules"}
+{"ts":"2026-10-21T20:49:25.719Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-21T20:49:26.574Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-21T20:49:26.800Z","level":"info","stage":"collisions","message":"1 collision proposed"}
+{"ts":"2026-10-21T20:49:27.727Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-21T20:49:27.728Z","level":"info","stage":"generating","message":"Generating tests for 10 rules and 1 collisions"}
+{"ts":"2026-10-21T20:49:27.983Z","level":"info","stage":"generator","message":"r5: 1 conflict scenarios"}
+{"ts":"2026-10-21T20:49:27.997Z","level":"info","stage":"generator","message":"r6: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T20:49:28.015Z","level":"info","stage":"generator","message":"r1: 6 ladder scenarios"}
+{"ts":"2026-10-21T20:49:28.016Z","level":"info","stage":"generator","message":"r4: 8 sweep scenarios"}
+{"ts":"2026-10-21T20:49:28.259Z","level":"info","stage":"generator","message":"r12: 6 ladder scenarios"}
+{"ts":"2026-10-21T20:49:28.262Z","level":"info","stage":"generator","message":"r2: 6 ladder scenarios"}
+{"ts":"2026-10-21T20:49:28.271Z","level":"info","stage":"generator","message":"r3: 6 ladder scenarios"}
+{"ts":"2026-10-21T20:49:28.303Z","level":"info","stage":"generator","message":"r10: 8 sweep scenarios"}
+{"ts":"2026-10-21T20:49:28.438Z","level":"info","stage":"generator","message":"r8: 2 conflict scenarios"}
+{"ts":"2026-10-21T20:49:28.473Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-21T20:49:28.489Z","level":"info","stage":"generator","message":"r11: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T20:49:28.490Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-21T20:49:34.547Z","level":"info","stage":"reporting","message":"status: reporting"}
+{"ts":"2026-10-21T20:49:35.510Z","level":"info","stage":"complete","message":"Report ready"}

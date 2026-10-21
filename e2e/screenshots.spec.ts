@@ -50,7 +50,8 @@ async function reportShots(page: Page, request: APIRequestContext, runId: string
   expect(await defects.count()).toBeGreaterThan(0);
 
   const html = await (await request.get(`/api/runs/${runId}/report.html`)).text();
-  const exported = path.join(OUT, "..", `report-${runId}.html`);
+  const exported = path.join(OUT, "..", "runs", runId, "report.html");
+  mkdirSync(path.dirname(exported), { recursive: true });
   writeFileSync(exported, html);
   await page.goto(`file://${exported}`);
   await page.screenshot({ path: shot("S14-exported-report") });

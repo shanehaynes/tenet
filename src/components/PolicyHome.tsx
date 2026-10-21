@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -262,6 +263,14 @@ export function PolicyHome({ policies, seedError }: { policies: PolicyItem[]; se
           )}
         </section>
       </div>
+
+      <p className="text-sm text-zinc-600">
+        No key, or want to see a finished report first?{" "}
+        <Link className="font-medium text-indigo-800 underline underline-offset-2" href="/runs/example" data-testid="example-link">
+          View an archived example run
+        </Link>{" "}
+        (a real run of the demo policy, read from files in the repo).
+      </p>
 
       <Dialog open={editing !== null} onOpenChange={(open) => !open && setEditing(null)}>
         <DialogContent className="sm:max-w-2xl">
