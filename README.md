@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tenet
 
-## Getting Started
+Tenet reads an AI agent's written policy, sorts each rule by kind (constraint, tradeoff, disposition, ordering), and runs the test each kind calls for: a pressure ladder for a constraint, a stakes sweep for a tradeoff, paraphrases for a disposition, forced conflicts for an ordering. It reports where the agent's behavior departs from the policy, and where the policy is ambiguous or contradicts itself.
 
-First, run the development server:
+> Work in progress (MGT 409 final project, due 2026-10-26). This README is a skeleton; the full 10-minute run path lands on Friday Oct 23.
+
+## Run it locally
+
+1. Node 22.12 or newer (`node -v`) and git.
+2. `git clone <repo-url> && cd tenet && npm install`
+3. Create `.env` from `.env.example`, either in the repo folder or one folder above it, and set `PORTKEY_API_KEY` (the course key) or `OPENAI_API_KEY`.
+4. `npm run doctor` shows which `.env` it found, which key is present, and which provider it will use.
+5. `npm run dev` and open the URL it prints.
+
+No key? Add `--provider mock` to any CLI command (or set `TENET_PROVIDER=mock`) for deterministic offline results.
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run check                         # typecheck + lint + unit tests (no network)
+npm run tenet -- policies --provider mock
+npm run smoke                         # probe the model gateway; needs a key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Safety and privacy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Text you paste is sent to the model provider through the configured gateway. Everything else stays under `data/` on your disk. Each run has a test budget, every model call is logged, and the cumulative spend on the key is capped (`TENET_KEY_BUDGET_USD`, default $40).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project documents
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`PLAN.md` (plan), `STATUS.md` (where things stand), `docs/PRD.md` (requirements), `docs/plan/` (design).

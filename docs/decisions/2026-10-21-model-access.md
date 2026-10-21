@@ -1,0 +1,5 @@
+# Model access
+
+**Decision.** All model calls go through `callModel` (`src/core/model/client.ts`), which uses the OpenAI SDK's Chat Completions API against `https://api.portkey.ai/v1` with the Portkey key as the bearer token and the bare model name `gpt-6-luna`. A capability probe decides strict `json_schema` versus `json_object` versus prompt-only output, whether `temperature` and `reasoning_effort` are accepted, and whether cached tokens are reported; the result is stored per provider and model in `data/capabilities.json`. `TENET_PROVIDER=auto` tries Portkey, then OpenAI, then stops with a clear error; it never falls back to the mock silently. The mock provider is explicit (`--provider mock`) and each agent supplies its own deterministic mock next to its prompt.
+
+**Why.** The course's Codex configuration and Shane's HW5 backend both reach gpt-6-luna this way, so the first probe variant should work. One wrapper is what makes every token countable for the tokenomics section and lets the spend cap, the loop guards and the $40 key budget be enforced in one place. Per-agent mocks keep the provider generic, so later agents add mocks without editing it.

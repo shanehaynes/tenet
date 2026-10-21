@@ -12,12 +12,12 @@ Versions below were current on npm on 2026-10-20. Run `npm view <pkg> version` b
 
 | Layer | Choice | Version guidance | Notes |
 |---|---|---|---|
-| App | Next.js, App Router, Node runtime | 16.x (Turbopack default, React 19) | Node ≥ 20.9 required; `.nvmrc` = `22`, `engines.node = ">=20.9"` |
-| Language | TypeScript | **pin `typescript@^5`** | npm `latest` is 7.0 (native compiler). Next 16 is tested against 5.x. Do not upgrade. |
+| App | Next.js, App Router, Node runtime | 16.x (Turbopack default, React 19) | *Amended 2026-10-21:* Node ≥ 22.12 required (openai 7 and vitest 5); `.nvmrc` = `22`, `engines.node = ">=22.12"` |
+| Language | TypeScript | **pin `typescript@5.9.3` exactly** | npm `latest` is 7.0 (native compiler); typescript-eslint rejects ≥ 6.1. Do not upgrade. eslint stays on 9. |
 | Styling | Tailwind CSS v4 (from create-next-app) | 4.x | Light theme only for v1 (saves time, prints well) |
 | UI kit | shadcn/ui, optional | latest | 20-minute timebox. If `npx shadcn@latest init` fights Tailwind 4 / React 19, drop it and hand-write ~6 components. |
 | Validation | zod | 4.x | Use `zod` (v4 API). OpenAI helpers accept it. |
-| Model SDK | openai | 7.x | Chat Completions via Portkey base URL. Read `node_modules/openai/helpers.md` once (the 7.0.0 changelog has a Zod-related breaking change). |
+| Model SDK | openai | 7.x | Chat Completions via Portkey base URL. *Amended 2026-10-21:* the 7.0.0 breaking change is the Node 22 requirement; `zodResponseFormat` accepts zod v4. Use `.create()`, not `.parse()`. |
 | Concurrency | p-limit | 7.x | Or a 20-line hand-rolled pool |
 | Env | dotenv | 18.x | Only for `../.env`; Next loads `./.env` itself |
 | Unit tests | vitest | 5.x | |
@@ -33,15 +33,16 @@ Versions below were current on npm on 2026-10-20. Run `npm view <pkg> version` b
 
 ```bash
 cd /home/shanehaynes/projects
-npx create-next-app@latest tenet-scaffold --ts --app --tailwind --eslint --src-dir --import-alias "@/*" --use-npm
-# accept defaults for any further prompts (Turbopack yes; React Compiler no)
-rsync -a --exclude .git tenet-scaffold/ Tenet/ && rm -rf tenet-scaffold
-cd Tenet && npm pkg set engines.node=">=20.9" && echo 22 > .nvmrc
-npm i zod openai p-limit dotenv
-npm i -D vitest @playwright/test tsx typescript@^5
+# amended 2026-10-21: --no-cache-components keeps the dynamic/runtime route exports legal
+npx create-next-app@16.4.2 tenet-scaffold --ts --app --tailwind --eslint --src-dir --import-alias "@/*" --use-npm \
+  --no-react-compiler --no-cache-components --no-agent-feedback --agents-md --disable-git --skip-install
+rsync -a --ignore-existing tenet-scaffold/ Tenet/ && rm -rf tenet-scaffold
+cd Tenet && npm pkg set engines.node=">=22.12" && echo 22 > .nvmrc
+npm i zod@^4 openai@^7 p-limit@^7 dotenv@^18
+npm i -D typescript@5.9.3 @types/node@^22 vitest@^5 vite@^8 @playwright/test@^1.64 tsx@^4
 ```
 
-Then commit the skeleton before writing any feature code.
+Then commit the skeleton before writing any feature code. Done 2026-10-21 (`3b81f7c`); see `docs/decisions/2026-10-21-scaffold-and-versions.md`.
 
 ---
 
@@ -165,7 +166,10 @@ export function loadEnv(): string | null {
 | `TENET_RECORD` | no | unset | `1` records live responses into `data/fixtures/` |
 | `TENET_AGENT_URL` | no | unset | Default URL of an HTTP agent target (section 4.6), e.g. `http://localhost:8000/tenet/ask` |
 | `TENET_AGENT_NAME` | no | unset | Display name for that target, e.g. `Campus Customs (HW5)` |
-| `PORT` | no | `3000` | Next.js dev/start port |
+| `TENET_KEY_BUDGET_USD` | no | `40` | *Added 2026-10-21.* Cumulative budget on the key, read from `data/usage-global.jsonl`: warning at 75 %, live calls refused at 95 % |
+| `TENET_ALLOW_OVER_KEY_BUDGET` | no | unset | `1` lets live calls continue past 95 % of the key budget |
+
+*Amended 2026-10-21:* `PORT` is a shell variable only (Next does not read it from `.env`); `next dev` prints the URL it chose.
 
 Prices are third-party reports of OpenAI's list price as of 2026-10-20 ($0.10 / $0.01 cached / $0.50). Confirm at https://developers.openai.com/api/docs/pricing on day 1 and record the confirmed figures (with date) in `docs/evidence/pricing.md`. The report labels cost as "logged tokens × published list price (confirmed <date>)".
 
@@ -201,12 +205,12 @@ const client = new OpenAI({
   apiKey: process.env.PORTKEY_API_KEY!,                // Portkey accepts its key as the bearer token
   baseURL: "https://api.portkey.ai/v1",
   defaultHeaders: { "x-portkey-api-key": process.env.PORTKEY_API_KEY! },  // belt and braces
-  timeout: 60_000,
+  timeout: 90_000,                                       // amended 2026-10-21: one timeout, 90 s per request
   maxRetries: 0,                                         // we do our own retries so they are logged
 });
 ```
 
-Model string order of preference: `gpt-6-luna`, then `@openai/gpt-6-luna` (Portkey model-catalog form). The smoke test finds the first that works and writes it to `data/capabilities.json`; the client reads that file and falls back through the list on a 4xx that names the model/provider.
+Model string order of preference: `gpt-6-luna`, then `@openai/gpt-6-luna` (Portkey model-catalog form). The smoke test finds the first that works and writes it to `data/capabilities.json` (keyed `provider:model`). *Amended 2026-10-21:* the client uses the probed string and does not fall back at runtime; `TENET_PROVIDER=auto` resolves Portkey, then OpenAI, then fails with "no key; use --provider mock" (never a silent mock).
 
 For `TENET_PROVIDER=openai`: `new OpenAI({ apiKey: OPENAI_API_KEY })`, same model string, no headers.
 
@@ -259,7 +263,7 @@ Behavior, in order:
 4. Retry policy: network error, 5xx, timeout → one retry after 1 s. 429 → wait `retry-after` or 2 s / 4 s / 8 s, up to 3 waits; these do not count as the retry. Every attempt is logged as its own `UsageEvent` with `attempt` and `ok`.
 5. Parse: strict mode → `JSON.parse` + `schema.parse`. Other modes → extract the first `{…}` block, `schema.safeParse`; on failure, one repair call with the Zod error appended ("Your previous output failed validation: … Return only corrected JSON."). Still failing → throw `SchemaInvalid` (the caller decides: scenario marked `not_run`, or the stage fails).
 6. Log `UsageEvent { runId, ruleId, scenarioId, stage, model, inputTokens, cachedTokens, reasoningTokens, outputTokens, ms, usd, attempt, ok, finishReason, error? }` to `data/runs/<runId>/usage.jsonl` and always to `data/usage-global.jsonl` (the cumulative spend on the key across every run and probe; the course key has a $40 budget, so the footer, `tenet status` and M21 show this total), and add `usd` to the run's running total.
-7. For `role: "target"` calls, `finish_reason: "length"` triggers one retry with the cap doubled; if still truncated, the transcript is stored with `truncated: true`, the judge's user message says the reply was cut off, and the summary counts it.
+7. For `role: "target"` calls, `finish_reason: "length"` triggers one retry with the cap doubled; if still truncated, the transcript is stored with `truncated: true`, the judge's user message says the reply was cut off, and the summary counts it. *Amended 2026-10-21:* every stage gets the doubled-cap retry (at most 12,000) before any repair call; an agent call still cut off throws `SchemaInvalid`. Before step 1, the key-budget check reads the cumulative spend in `data/usage-global.jsonl` (warning at 75 % of `TENET_KEY_BUDGET_USD`, refusal at 95 %).
 
 Cost: `usd = ((input − cached) × pIn + cached × pCached + output × pOut) / 1e6`, where `output` is `completion_tokens`, which already includes reasoning tokens (billed as output); `reasoningTokens` is logged separately for the tokenomics breakdown. If `cached` is null, treat as 0 and set `cachedTokens: null` in the log so the report can say so.
 
@@ -313,7 +317,7 @@ type RunStatus = "created" | "scanning" | "quarantined" | "decomposing" | "class
 type Run = { id; policyId; policyName; createdAt; updatedAt; status: RunStatus; statusReason: string | null;
   config: { provider; target: Target; targetModel; judgeModel; spendCapUsd; concurrency; ambiguityThreshold; flatComparison: boolean };
   heartbeatAt: string | null; startedExecutionAt; finishedAt; wallClockMs: number | null;
-  totals: { calls; inputTokens; cachedTokens: number | null; outputTokens; usd } };
+  totals: { calls; inputTokens; cachedTokens: number | null; reasoningTokens: number | null; outputTokens; usd; analysisUsd; testUsd } };   // amended 2026-10-21
 type Rule = { id; runId; index; statement; quote; span: { start; end } | null; located: boolean;
   proposedType: RuleType | null; probabilities: Record<RuleType, number> | null; confidence: number | null; rationale: string | null;
   userType: RuleType | null; parked: boolean; parkedReason: "low_confidence" | "user" | "untestable" | null;
@@ -328,7 +332,10 @@ type Transcript = { scenarioId; systemPrompt: string | null; messages: {role; co
   actions: { name; arguments; result }[] | null;                  // HTTP targets: the tool calls the agent made
   targetUsage: { inputTokens; outputTokens; cachedTokens; requests } | null };
 type Verdict = { scenarioId; rubric: ScenarioKind; verdict: string; evidence: string | null; verified: boolean; confidence: number; note: string | null; judgedAt };
-type UsageEvent = { ts; runId; ruleId: string | null; scenarioId: string | null; stage; model; inputTokens; cachedTokens: number | null; reasoningTokens: number | null; outputTokens; ms; usd; attempt; ok: boolean; finishReason: string | null; error: string | null };
+type UsageEvent = { ts; runId; ruleId: string | null; scenarioId: string | null; stage; model; inputTokens; cachedTokens: number | null; reasoningTokens: number | null; outputTokens; ms; usd; attempt; ok: boolean; finishReason: string | null; error: string | null;
+  // amended 2026-10-21:
+  provider; role: "agent" | "target"; kind: "call" | "retry" | "repair" | "length_retry"; responseMode: "strict" | "json_object" | "prompt" | "text"; usageEstimated: boolean; reportedByTarget: boolean };
+// Ids (amended 2026-10-21): policies and runs random base62; rules r{n}; scenarios r2-L5 / r10-S3 / r6-P4 / r8-C1 / c1-C1 / r2-F1; collisions c{n}.
 
 // The contract between aggregate.ts (Phase 2), the report and export (Phase 3) and the evidence scripts (Phase 4). Zod schema in src/core/schemas/summary.ts; finalize it first thing in Phase 2.
 type RuleCard = {
