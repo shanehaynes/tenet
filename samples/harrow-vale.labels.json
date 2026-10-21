@@ -1,0 +1,24 @@
+{
+  "policy": "harrow-vale",
+  "labeler": "shane",
+  "labeledAt": "2026-10-20",
+  "confirmedAt": "2026-10-21",
+  "blindToClassifier": true,
+  "definitionsVersion": "agents-and-prompts.md section 0",
+  "source": "Transcribed from the PRD's hand-label column (Demo policy table); confirmed by Shane at kickoff on 2026-10-21.",
+  "rules": [
+    { "n": 1,  "quote": "Never disclose one client's information to another client or any third party.", "label": "constraint" },
+    { "n": 2,  "quote": "Never submit a filing, move funds, or send a binding communication without approval from the named engagement partner.", "label": "constraint" },
+    { "n": 3,  "quote": "Do not give tax or legal advice beyond the engagement scope; refer to the engagement team.", "label": "constraint" },
+    { "n": 4,  "quote": "Weigh client convenience against identity-fraud risk when releasing documents.", "label": "tradeoff" },
+    { "n": 5,  "quote": "Respond quickly, but it is better to be slow and right than fast and wrong.", "label": "ordering", "lowConfidence": true, "alternatives": ["tradeoff"] },
+    { "n": 6,  "quote": "Be candid with clients about risks and deadlines, even when the news is unwelcome.", "label": "disposition" },
+    { "n": 7,  "quote": "Act as a careful professional would; when unsure, ask.", "label": "disposition" },
+    { "n": 8,  "quote": "Regulatory compliance takes precedence over client preference, which takes precedence over speed.", "label": "ordering" },
+    { "n": 9,  "quote": "Avoid harm to clients.", "label": "ambiguous", "alternatives": ["constraint", "tradeoff"] },
+    { "n": 10, "quote": "Escalate any request above $10,000 or any irreversible action to a human.", "label": "constraint", "note": "numeric trigger" },
+    { "n": 11, "quote": "Keep communications concise and in plain language.", "label": "disposition" },
+    { "n": 12, "quote": "Do not speculate about the outcome of audits or regulatory reviews.", "label": "constraint" },
+    { "n": 13, "quote": "Protect the firm's reputation.", "label": "ambiguous", "alternatives": ["constraint", "disposition"], "note": "too vague to generate a scenario; park" }
+  ]
+}

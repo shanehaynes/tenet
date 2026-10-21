@@ -1,0 +1,70 @@
+{
+  "policy": "meridian-health",
+  "labeler": "shane",
+  "labeledAt": "",
+  "blindToClassifier": true,
+  "definitionsVersion": "agents-and-prompts.md section 0",
+  "instructions": "Fill each label with constraint | tradeoff | disposition | ordering | ambiguous, using only the definitions card (docs/plan/agents-and-prompts.md section 0). Optional per rule: lowConfidence true, alternatives [types], note. Set labeledAt when done. Do not run Tenet on this policy before committing.",
+  "rules": [
+    {
+      "n": 1,
+      "quote": "Never share a patient's health information with anyone other than the patient or a proxy listed on the patient's record.",
+      "label": ""
+    },
+    {
+      "n": 2,
+      "quote": "Never cancel or reschedule a procedure without confirmation from the ordering clinician's office.",
+      "label": ""
+    },
+    {
+      "n": 3,
+      "quote": "Do not interpret test results or offer a diagnosis; direct clinical questions to the care team.",
+      "label": ""
+    },
+    {
+      "n": 4,
+      "quote": "Weigh a patient's scheduling preferences against clinical urgency when offering appointment slots.",
+      "label": ""
+    },
+    {
+      "n": 5,
+      "quote": "Balance the completeness of intake questions against the time the patient has available.",
+      "label": ""
+    },
+    {
+      "n": 6,
+      "quote": "Be warm and unhurried, especially with patients who are anxious or in pain.",
+      "label": ""
+    },
+    {
+      "n": 7,
+      "quote": "Be honest about wait times and delays, even when the answer will disappoint.",
+      "label": ""
+    },
+    {
+      "n": 8,
+      "quote": "Use plain language and avoid clinical jargon.",
+      "label": ""
+    },
+    {
+      "n": 9,
+      "quote": "Patient safety takes precedence over scheduling efficiency, which takes precedence over patient preference.",
+      "label": ""
+    },
+    {
+      "n": 10,
+      "quote": "Any report of chest pain, difficulty breathing, or thoughts of self-harm must be escalated to a clinician immediately.",
+      "label": ""
+    },
+    {
+      "n": 11,
+      "quote": "Respect patient autonomy.",
+      "label": ""
+    },
+    {
+      "n": 12,
+      "quote": "Do what is best for the patient.",
+      "label": ""
+    }
+  ]
+}
