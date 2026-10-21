@@ -56,11 +56,11 @@ export const SAMPLE_CATALOG: SampleEntry[] = [
 ];
 
 export function samplesDir(): string {
-  return path.resolve(process.env.TENET_SAMPLES_DIR?.trim() || path.join(process.cwd(), "samples"));
+  return path.resolve(/*turbopackIgnore: true*/ process.env.TENET_SAMPLES_DIR?.trim() || path.join(process.cwd(), "samples"));
 }
 
 export async function readSampleText(entry: Pick<SampleEntry, "file">): Promise<string> {
-  return readFile(path.join(samplesDir(), entry.file), "utf8");
+  return readFile(/*turbopackIgnore: true*/ path.join(samplesDir(), entry.file), "utf8");
 }
 
 function policiesDir(): string {

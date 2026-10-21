@@ -27,7 +27,7 @@ export function loadEnv(opts: LoadEnvOptions = {}): string | null {
   const target = opts.target ?? process.env;
   let found: string | null = null;
   for (const file of envCandidates(opts.cwd)) {
-    if (!existsSync(file)) continue;
+    if (!existsSync(/*turbopackIgnore: true*/ file)) continue;
     config({ path: file, override: false, quiet: true, processEnv: target as Record<string, string> });
     if (hasKey(target)) {
       found = file;
