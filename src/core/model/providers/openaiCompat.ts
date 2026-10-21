@@ -64,12 +64,18 @@ export function createOpenAICompatProvider(
       if (req.reasoningEffort) body.reasoning_effort = req.reasoningEffort as ReasoningEffort;
       if (req.responseFormat) body.response_format = req.responseFormat;
       if (req.promptCacheKey) body.prompt_cache_key = req.promptCacheKey;
+      // Portkey replays identical requests from a response cache (docs/evidence/tokenomics/gateway-cache.md), which
+      // would make a re-run repeat an earlier run instead of measuring anything. Every call asks for a fresh answer
+      // unless TENET_GATEWAY_CACHE=allow.
+      const headers = name === "portkey" && process.env.TENET_GATEWAY_CACHE?.trim() !== "allow" ? { "x-portkey-cache-force-refresh": "true", ...req.headers } : req.headers;
       try {
-        const res = await client.chat.completions.create(body, {
-          timeout: req.timeoutMs,
-          signal: req.signal,
-          headers: req.headers,
-        });
+        const { data: res, response } = await client.chat.completions
+          .create(body, {
+            timeout: req.timeoutMs,
+            signal: req.signal,
+            headers,
+          })
+          .withResponse();
         const choice = res.choices[0];
         const usage = res.usage;
         return {
@@ -77,6 +83,7 @@ export function createOpenAICompatProvider(
           refusal: choice?.message?.refusal ?? null,
           finishReason: choice?.finish_reason ?? null,
           model: res.model ?? req.model,
+          gatewayCache: response.headers.get("x-portkey-cache-status")?.toLowerCase() ?? null,
           usage: usage
             ? {
                 input: usage.prompt_tokens ?? 0,

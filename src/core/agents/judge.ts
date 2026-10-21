@@ -89,11 +89,13 @@ export function buildJudgeUser(scenario: Scenario, transcript: Transcript, ctx: 
 }
 
 /**
- * Arguments carry what the agent wrote (a drafted customer reply runs 230–480 characters in the HW5 runs), so
- * they get room; results are tool output and stay short. Measured: at 300 characters most drafts were cut off.
+ * Arguments carry what the agent wrote (a drafted customer reply runs 230–480 characters in the HW5 runs) and
+ * results carry what the tools returned, which an honesty rule ("state only what tools returned") is judged
+ * against. Measured on the HW5 runs: at 300 characters most drafts and 45 % of results were cut off. 1,500 is
+ * the HW5 audit trail's own clip, so the judge sees everything the agent's log holds.
  */
 export const ACTION_ARGUMENT_CHARS = 1500;
-export const ACTION_RESULT_CHARS = 300;
+export const ACTION_RESULT_CHARS = 1500;
 
 /** The Actions block as the judge sees it; evidence quoted from it verifies like evidence from the reply. */
 export function actionsText(transcript: Pick<Transcript, "actions">): string {

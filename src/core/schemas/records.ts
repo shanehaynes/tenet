@@ -274,6 +274,8 @@ export const UsageEvent = z.object({
   responseMode: z.enum(["strict", "json_object", "prompt", "text"]),
   usageEstimated: z.boolean(),
   reportedByTarget: z.boolean(),
+  /** The gateway's response-cache status for the call (hit, miss, refresh); null when not reported (and for logs before 2026-10-21 evening). */
+  gatewayCache: z.string().nullable().default(null),
 });
 export type UsageEvent = z.infer<typeof UsageEvent>;
 

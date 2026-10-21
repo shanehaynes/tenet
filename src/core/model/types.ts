@@ -37,6 +37,8 @@ export type ProviderResponse = {
   finishReason: string | null;
   model: string;
   usage: ProviderUsage | null;
+  /** The gateway's response-cache status (Portkey's x-portkey-cache-status: hit, miss, refresh), when reported. */
+  gatewayCache?: string | null;
 };
 
 export interface Provider {

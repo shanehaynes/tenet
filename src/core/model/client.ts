@@ -167,6 +167,7 @@ export function createModelClient(deps: ModelDeps): ModelClient {
       responseMode: meta.responseMode ?? "text",
       usageEstimated: u?.estimated ?? false,
       reportedByTarget: false,
+      gatewayCache: outcome.response?.gatewayCache ?? null,
     };
   }
 

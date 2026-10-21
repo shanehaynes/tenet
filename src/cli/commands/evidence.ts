@@ -7,11 +7,11 @@ import { settings } from "../../core/config";
 import { resolveProvider } from "../../core/env";
 import { exportRows, parseCsv, rowsToCsv, scoreSpotcheck } from "../../core/eval/spotcheck";
 import { readCapabilitiesFile } from "../../core/model/capabilities";
-import { readAllTranscripts } from "../../core/pipeline/summary";
+import { readAllTranscripts, readOrComputeSummary, writeSummary } from "../../core/pipeline/summary";
 import { capabilitiesKey } from "../../core/schemas/capabilities";
 import { effectiveType, Verdict } from "../../core/schemas/records";
 import { readPolicy } from "../../core/store/policies";
-import { readRun, readRunFile, runFilePath } from "../../core/store/runs";
+import { readRun, readRunFile, runFilePath, withRun } from "../../core/store/runs";
 import { readRunUsage } from "../../core/store/usage";
 import { money, table } from "../format";
 import type { Command } from "../types";
@@ -75,18 +75,19 @@ export const spotcheckCommand: Command = {
 
 export const rejudgeCommand: Command = {
   name: "rejudge",
-  summary: "Re-judge a run's transcripts with a cheaper judge setting (M19); writes a second verdicts file",
-  usage: "tenet rejudge <runId> --effort none [--concurrency 6]",
-  options: { effort: { type: "string" }, concurrency: { type: "string" } },
+  summary: "Re-judge a run's transcripts: with a cheaper judge setting (M19, a second verdicts file), or --replace with the current judge after a judge fix",
+  usage: "tenet rejudge <runId> --effort none [--concurrency 6]  |  tenet rejudge <runId> --replace --reason \"why\"",
+  options: { effort: { type: "string" }, concurrency: { type: "string" }, replace: { type: "boolean" }, reason: { type: "string" } },
   async run({ values, positionals, out, err }) {
     const runId = positionals[0];
     const effort = values.effort as string | undefined;
-    if (!runId || !effort) {
+    const replace = values.replace === true;
+    if (!runId || (!effort && !replace) || (replace && !values.reason)) {
       err(this.usage);
       return 1;
     }
     const provider = resolveProvider();
-    if (provider !== "mock") {
+    if (provider !== "mock" && effort) {
       const caps = (await readCapabilitiesFile())[capabilitiesKey(provider, settings().judgeModel)];
       const accepted = caps?.reasoningEffort || [];
       if (!accepted.includes(effort)) {
@@ -147,6 +148,28 @@ export const rejudgeCommand: Command = {
     ).filter((v): v is NonNullable<typeof v> => v !== null);
     const origBy = new Map(original.map((v) => [v.scenarioId, v]));
     const same = verdicts.filter((v) => origBy.get(v.scenarioId)?.verdict === v.verdict).length;
+    if (replace) {
+      // The agent's behavior (the transcripts) is unchanged; only the judge is. Keep the old verdicts beside the
+      // new ones and record every verdict that changed, so the report can say what the fix moved.
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const previous = await readOrComputeSummary(runId);
+      const keep = new Map<string, string>([
+        ...previous.defects.collisions.map((c) => [c.collisionId, c.summary] as [string, string]),
+        ...previous.defects.ambiguities.map((a) => [a.ruleId, a.summary] as [string, string]),
+      ]);
+      await writeJson(runFilePath(runId, `verdicts-before-rejudge-${stamp}.json`), original);
+      const byId = new Map(verdicts.map((v) => [v.scenarioId, v]));
+      await withRun(runId, async (tx) => tx.set("verdicts", (await tx.get("verdicts")).map((v) => byId.get(v.scenarioId) ?? v)));
+      await writeSummary(runId, keep);
+      const changed = verdicts
+        .filter((v) => origBy.get(v.scenarioId)?.verdict !== v.verdict)
+        .map((v) => ({ scenarioId: v.scenarioId, before: origBy.get(v.scenarioId)?.verdict ?? null, after: v.verdict, evidence: v.evidence, verified: v.verified, note: v.note }));
+      const efile = path.join(EVIDENCE, "judge", `rejudge-${runId}-${stamp}.json`);
+      await writeJson(efile, { runId, reason: values.reason, judgedAt: new Date().toISOString(), scenarios: verdicts.length, unchanged: same, changed, cost: totals });
+      out(`Re-judged ${verdicts.length} transcripts with the current judge (${money(totals.usd)}); ${verdicts.length - same} verdicts changed. Old verdicts kept in the run folder; evidence: ${efile}.`);
+      for (const c of changed) out(`  ${c.scenarioId}: ${c.before} → ${c.after}`);
+      return 0;
+    }
     const judgeUsage = usage.filter((e) => e.stage === "judge");
     const baseline = {
       calls: judgeUsage.length,

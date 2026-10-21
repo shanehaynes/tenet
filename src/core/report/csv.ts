@@ -34,6 +34,7 @@ export const USAGE_COLUMNS: (keyof UsageEvent & string)[] = [
   "responseMode",
   "usageEstimated",
   "reportedByTarget",
+  "gatewayCache",
   "error",
 ];
 

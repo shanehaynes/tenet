@@ -40,6 +40,7 @@ export function usageEvent(overrides: Partial<UsageEvent> = {}): UsageEvent {
     responseMode: "strict",
     usageEstimated: false,
     reportedByTarget: false,
+    gatewayCache: null,
     ...overrides,
   };
 }

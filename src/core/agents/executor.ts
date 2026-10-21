@@ -120,6 +120,7 @@ async function logTargetUsage(scenario: Scenario, ctx: ExecContext, target: Http
     responseMode: "text",
     usageEstimated: false,
     reportedByTarget: true,
+    gatewayCache: null,
   };
   defaultLedger().record(event);
   await appendUsage(event);
