@@ -1,5 +1,16 @@
 {
   "capturedAt": "2026-10-21T20:49:41.425Z",
   "demoRunId": "87VQK7KAKg",
-  "haltedRunId": "7wWBDu449L"
+  "haltedRunId": "7wWBDu449L",
+  "agentRunId": "IoSW65WajY",
+  "agentShots": {
+    "capturedAt": "2026-10-21T23:00:00Z",
+    "files": [
+      "S20a-agent-ladder.png",
+      "S20b-agent-transcript.png",
+      "S20c-agent-draft.png"
+    ],
+    "how": "AGENT_RUN_ID=IoSW65WajY npx playwright test -c playwright.screenshots.config.ts --grep S20"
+  },
+  "note": "demoRunId 87VQK7KAKg was largely replayed by the gateway's response cache (decision record gateway-cache); re-capture S01-S14 and S19 from a fresh run."
 }

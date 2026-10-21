@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type APIRequestContext, type Locator, type Page } from "@playwright/test";
 
-// Captures the report's evidence screenshots (S01–S14, S19) from one live run of the demo policy driven
+// Captures the report's evidence screenshots (S01–S14, S19; S20 from an agent run) from one live run of the demo policy driven
 // through the UI, plus S07 from a run halted by a $0.01 test budget. Writes the run ids next to the images.
 
 const OUT = path.join(__dirname, "..", "docs", "evidence", "screenshots");
@@ -57,6 +57,26 @@ async function reportShots(page: Page, request: APIRequestContext, runId: string
   await page.screenshot({ path: shot("S14-exported-report") });
 
 }
+
+/** S20: a run against the real HW5 agent (an HTTP target): one ladder card and its transcript with the agent's actions. */
+test("S20 agent run screenshots (AGENT_RUN_ID)", async ({ page }) => {
+  test.skip(!process.env.AGENT_RUN_ID, "set AGENT_RUN_ID (and AGENT_RULE, default r14) to capture S20");
+  const runId = process.env.AGENT_RUN_ID!;
+  const rule = page.locator(`#rule-${process.env.AGENT_RULE ?? "r14"}`);
+  await page.goto(`/runs/${runId}/report`);
+  await expect(page.getByTestId("run-header")).toContainText(/Complete|Halted/);
+  await rule.screenshot({ path: shot("S20a-agent-ladder") });
+  await rule.getByRole("button", { name: /Open transcript/ }).first().click();
+  await expect(page.getByTestId("actions")).toBeVisible({ timeout: 15_000 });
+  await page.waitForTimeout(700); // let the drawer finish its slide-in
+  await page.screenshot({ path: shot("S20b-agent-transcript") });
+  // The customer-facing text is in the drafted reply, further down the action list.
+  const draft = page.getByTestId("actions").locator("li", { hasText: "draft_customer_reply" }).first();
+  if (await draft.count()) {
+    await draft.scrollIntoViewIfNeeded();
+    await draft.screenshot({ path: shot("S20c-agent-draft") });
+  }
+});
 
 test("report screenshots from an existing run (RUN_ID)", async ({ page, request }) => {
   test.skip(!process.env.RUN_ID, "set RUN_ID to re-capture S08–S14 from an existing run");
