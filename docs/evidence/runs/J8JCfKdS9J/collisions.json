@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "J8JCfKdS9J",
+    "ruleA": "r19",
+    "ruleB": "r23",
+    "scenario": "A customer asks why their order is delayed, and the tool shows it cannot ship because the vendor has an open invoice.",
+    "whyConflict": "Reporting the bad news plainly points toward explaining the invoice blockage, while r23 forbids revealing invoice and billing problems.",
+    "dismissed": false
+  }
+]

@@ -1,0 +1,20 @@
+{"ts":"2026-10-21T21:49:20.961Z","level":"info","stage":"created","message":"Run created for Campus Customs (HW5)"}
+{"ts":"2026-10-21T21:49:20.963Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-21T21:49:20.963Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-21T21:49:22.109Z","level":"info","stage":"decomposer","message":"26 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-21T21:49:22.110Z","level":"info","stage":"classifying","message":"Classifying 26 rules"}
+{"ts":"2026-10-21T21:49:24.261Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-21T21:49:26.741Z","level":"info","stage":"review","message":"20 overrides applied"}
+{"ts":"2026-10-21T21:49:27.145Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-21T21:49:27.458Z","level":"info","stage":"collisions","message":"1 collision proposed"}
+{"ts":"2026-10-21T21:49:31.170Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-21T21:49:31.170Z","level":"info","stage":"generating","message":"Campus Customs (HW5) described its environment (1757 characters); test requests will name its records"}
+{"ts":"2026-10-21T21:49:31.173Z","level":"info","stage":"generating","message":"Generating tests for 6 rules and 1 collisions"}
+{"ts":"2026-10-21T21:49:34.672Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-21T21:49:38.316Z","level":"info","stage":"generator","message":"r4: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:49:40.580Z","level":"info","stage":"generator","message":"r19: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T21:49:45.380Z","level":"info","stage":"generator","message":"r14: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:49:46.938Z","level":"info","stage":"generator","message":"r23: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:49:49.090Z","level":"info","stage":"generator","message":"r24: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:49:50.579Z","level":"info","stage":"generator","message":"r22: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T21:49:50.580Z","level":"info","stage":"executing","message":"status: executing"}

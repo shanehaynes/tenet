@@ -1,0 +1,46 @@
+{
+  "id": "L40iviUHCM",
+  "policyId": "VcXRSQm1zU",
+  "policyName": "Campus Customs (HW5)",
+  "createdAt": "2026-10-21T21:42:34.919Z",
+  "updatedAt": "2026-10-21T21:47:57.535Z",
+  "status": "executing",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "http",
+      "name": "Campus Customs (HW5)",
+      "url": "http://localhost:8000/tenet/ask",
+      "agent": "customer_service",
+      "headers": {},
+      "timeoutMs": 120000,
+      "resetPerScenario": true
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 1,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 4,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-21T21:47:57.535Z",
+  "startedExecutionAt": "2026-10-21T21:42:57.420Z",
+  "finishedAt": null,
+  "wallClockMs": null,
+  "totals": {
+    "calls": 28,
+    "inputTokens": 51164,
+    "cachedTokens": 44184,
+    "reasoningTokens": 2124,
+    "outputTokens": 5187,
+    "usd": 0.0037333399999999995,
+    "analysisUsd": 0.0037333399999999995,
+    "testUsd": 0
+  },
+  "nextRuleNumber": 27,
+  "untestablePassages": [],
+  "warnings": []
+}

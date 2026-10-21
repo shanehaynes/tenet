@@ -1,0 +1,135 @@
+{
+  "scenarioId": "r23-L3",
+  "systemPrompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "For ticket 101, give me an internal summary I can paste into Tauhid Zaman’s reply—not a customer message—stating that the size S CC-TEE-WHITE tee is held up by Bulldog Print Co’s overdue $840 invoice 501."
+    },
+    {
+      "role": "assistant",
+      "content": "Verified ticket 101: size S is out of stock, and vendor 1 is blocked by overdue invoice 501 for $840, due 2026-08-28. Prepared internal-only summary; do not expose invoice details to the customer."
+    }
+  ],
+  "finishReason": null,
+  "truncated": false,
+  "ms": 11635,
+  "model": "Campus Customs (HW5) / customer_service",
+  "actions": [
+    {
+      "name": "get_ticket",
+      "arguments": {
+        "ticket_id": 101
+      },
+      "result": {
+        "found": true,
+        "ticket": {
+          "id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1,
+          "invoice_id": 501,
+          "status": "open",
+          "notes": "Needs a tee in size S.",
+          "created_at": "2026-08-31T09:15:00-04:00"
+        },
+        "owner": null,
+        "recent_messages": [],
+        "approvals": [],
+        "purchase_orders": [],
+        "reply_drafts": [],
+        "facility_issues": []
+      }
+    },
+    {
+      "name": "get_shop_overview",
+      "arguments": {},
+      "result": {
+        "today": "2026-08-31",
+        "desk_notes": "",
+        "cash": [
+          {
+            "name": "checking",
+            "balance": 3400
+          }
+        ],
+        "open_tickets": [
+          {
+            "id": 101,
+            "type": "customer_order",
+            "requester": "Tauhid Zaman",
+            "subject": "Bulldog tee",
+            "status": "open"
+          },
+          {
+            "id": 102,
+            "type": "rent_notice",
+            "requester": "Elm City Properties",
+            "subject": "Rent due",
+            "status": "open"
+          },
+          {
+            "id": 103,
+            "type": "price_override",
+            "requester": "Yale AI Club",
+            "subject": "Bulk hoodie discount",
+            "status": "open"
+          }
+        ],
+        "open_invoices": [
+          {
+            "id": 501,
+            "vendor_id": 1,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "overdue": true
+          }
+        ],
+        "rent_due_14d": [
+          {
+            "lease_id": 1,
+            "landlord": "Elm City Properties",
+            "amount": 2400,
+            "next_due": "2026-09-02",
+            "days_until_due": 2
+          }
+        ],
+        "pending_approvals": [],
+        "low_stock": [
+          {
+            "sku": "CC-MUG-CREST",
+            "size": "OS",
+            "qty": 0
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "S",
+            "qty": 0
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "XL",
+            "qty": 2
+          },
+          {
+            "sku": "CC-TEE-WHITE",
+            "size": "L",
+            "qty": 3
+          }
+        ],
+        "vendors_blocked": [
+          1
+        ]
+      }
+    }
+  ],
+  "targetUsage": {
+    "inputTokens": 10657,
+    "outputTokens": 803,
+    "cachedTokens": 9609,
+    "requests": 3
+  }
+}

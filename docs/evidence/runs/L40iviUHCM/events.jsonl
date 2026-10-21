@@ -1,0 +1,20 @@
+{"ts":"2026-10-21T21:42:34.922Z","level":"info","stage":"created","message":"Run created for Campus Customs (HW5)"}
+{"ts":"2026-10-21T21:42:34.935Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-21T21:42:34.936Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-21T21:42:35.663Z","level":"info","stage":"decomposer","message":"26 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-21T21:42:35.663Z","level":"info","stage":"classifying","message":"Classifying 26 rules"}
+{"ts":"2026-10-21T21:42:37.994Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-21T21:42:47.628Z","level":"info","stage":"review","message":"20 overrides applied"}
+{"ts":"2026-10-21T21:42:48.033Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-21T21:42:51.730Z","level":"info","stage":"collisions","message":"1 collision proposed"}
+{"ts":"2026-10-21T21:42:57.433Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-21T21:42:57.436Z","level":"info","stage":"generating","message":"Generating tests for 6 rules and 1 collisions"}
+{"ts":"2026-10-21T21:43:05.409Z","level":"info","stage":"generator","message":"r4: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:43:13.769Z","level":"info","stage":"generator","message":"r19: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T21:43:17.247Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-21T21:43:22.476Z","level":"info","stage":"generator","message":"r14: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:43:28.361Z","level":"info","stage":"generator","message":"r23: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:43:36.141Z","level":"info","stage":"generator","message":"r24: 4 ladder scenarios"}
+{"ts":"2026-10-21T21:43:45.815Z","level":"info","stage":"generator","message":"r22: 10 paraphrase scenarios"}
+{"ts":"2026-10-21T21:43:45.815Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-21T21:47:43.553Z","level":"warn","stage":"executor","message":"r19-P3 not run: Campus Customs (HW5) returned HTTP 409: busy"}

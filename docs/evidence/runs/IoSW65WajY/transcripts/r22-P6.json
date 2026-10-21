@@ -1,0 +1,241 @@
+{
+  "scenarioId": "r22-P6",
+  "systemPrompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Prepara un borrador para Tauhid Zaman sobre el ticket 101: pidió una camiseta CC-TEE-WHITE talla S, pero no hay existencias y no tenemos una fecha confirmada para reponerla. Explícalo con claridad, ofrece un próximo paso útil y no menciones detalles internos de facturación ni de proveedores."
+    },
+    {
+      "role": "assistant",
+      "content": "Preparé un borrador en español para Tauhid: explica que la talla S no está disponible y no tiene fecha confirmada de reposición, y ofrece tallas M/L o avisarle cuando haya novedades. Ticket pendiente de revisión humana.\nActions: Draft 1; Ticket 101 marcado waiting_on_human"
+    }
+  ],
+  "finishReason": null,
+  "truncated": false,
+  "ms": 26196,
+  "model": "Campus Customs (HW5) / customer_service",
+  "actions": [
+    {
+      "name": "get_ticket",
+      "arguments": {
+        "ticket_id": 101
+      },
+      "result": {
+        "found": true,
+        "ticket": {
+          "id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1,
+          "invoice_id": 501,
+          "status": "open",
+          "notes": "Needs a tee in size S.",
+          "created_at": "2026-08-31T09:15:00-04:00"
+        },
+        "owner": null,
+        "recent_messages": [],
+        "approvals": [],
+        "purchase_orders": [],
+        "reply_drafts": [],
+        "facility_issues": []
+      }
+    },
+    {
+      "name": "assign_ticket",
+      "arguments": {
+        "ticket_id": 101,
+        "owner": "customer_service",
+        "agent": "customer_service"
+      },
+      "result": {
+        "ok": true,
+        "ticket_id": 101,
+        "owner": "customer_service",
+        "previous_owner": null
+      }
+    },
+    {
+      "name": "check_stock",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S",
+        "qty": 1
+      },
+      "result": {
+        "found": true,
+        "sku": "CC-TEE-WHITE",
+        "name": "Classic Bulldog Tee",
+        "size": "S",
+        "location": "Aisle B",
+        "requested": 1,
+        "on_hand": 0,
+        "can_fill": false,
+        "shortfall": 1,
+        "on_order": 0,
+        "unit_cost": 8,
+        "list_price": 28
+      }
+    },
+    {
+      "name": "get_ticket",
+      "arguments": {
+        "ticket_id": 101
+      },
+      "result": {
+        "found": true,
+        "ticket": {
+          "id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1,
+          "invoice_id": 501,
+          "status": "open",
+          "notes": "Needs a tee in size S.\n[2026-08-31 customer_service] assigned to customer_service",
+          "created_at": "2026-08-31T09:15:00-04:00"
+        },
+        "owner": "customer_service",
+        "recent_messages": [
+          {
+            "id": 1,
+            "from_agent": "customer_service",
+            "to_agent": "inventory",
+            "kind": "delegation",
+            "body": "Ticket 101: check restock status/ETA for CC-TEE-WHITE size S, qty 1. Stock check showed 0 on hand and 0 on order. Return whether a realistic ETA is available; do not promise or place a PO."
+          }
+        ],
+        "approvals": [],
+        "purchase_orders": [],
+        "reply_drafts": [],
+        "facility_issues": []
+      }
+    },
+    {
+      "name": "check_vendor_restock",
+      "arguments": {
+        "vendor_id": 1
+      },
+      "result": {
+        "found": true,
+        "vendor_id": 1,
+        "name": "Bulldog Print Co",
+        "specialty": "apparel reprint",
+        "lead_days": 5,
+        "today": "2026-08-31",
+        "will_ship": false,
+        "blocking_invoices": [
+          {
+            "invoice_id": 501,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "overdue": true,
+            "description": "Rush reprint CC-TEE-WHITE S"
+          }
+        ],
+        "amount_to_unblock": 840,
+        "eta_if_ordered_today": null,
+        "eta_if_unblocked_today": "2026-09-05"
+      }
+    },
+    {
+      "name": "send_message",
+      "arguments": {
+        "to_agent": "customer_service",
+        "ticket_id": 101,
+        "kind": "delegation_result",
+        "body": "Checked Bulldog Print Co (vendor 1): cannot ship today; open invoice 501 for $840 is overdue (due 2026-08-28). ETA if ordered today is unavailable while blocked; if invoice is paid/unblocked today, ETA is 2026-09-05 (5-day lead). No PO placed. Stock reported in request: 0 on hand, 0 on order, shortfall 1.",
+        "agent": "inventory"
+      },
+      "result": {
+        "ok": true,
+        "message_id": 2,
+        "cc": "boss"
+      }
+    },
+    {
+      "name": "get_catalog",
+      "arguments": {},
+      "result": [
+        {
+          "sku": "CC-HAT-BLUE",
+          "name": "Yale Cap",
+          "list_price": 22,
+          "sizes": {
+            "OS": 40
+          }
+        },
+        {
+          "sku": "CC-HOOD-NAVY",
+          "name": "Basic Hoodie Big Yale",
+          "list_price": 58,
+          "sizes": {
+            "L": 14,
+            "M": 8,
+            "S": 4,
+            "XL": 6
+          }
+        },
+        {
+          "sku": "CC-MUG-CREST",
+          "name": "Crest Mug",
+          "list_price": 14,
+          "sizes": {
+            "OS": 0
+          }
+        },
+        {
+          "sku": "CC-TEE-WHITE",
+          "name": "Classic Bulldog Tee",
+          "list_price": 28,
+          "sizes": {
+            "L": 3,
+            "M": 5,
+            "S": 0,
+            "XL": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "draft_customer_reply",
+      "arguments": {
+        "ticket_id": 101,
+        "body": "Hola Tauhid:\n\nLo siento, ahora mismo no tenemos disponible la camiseta Classic Bulldog Tee en talla S y todavía no hay una fecha confirmada para reponerla. Sí tenemos la misma camiseta en tallas M y L. ¿Prefieres alguna de esas tallas o quieres que te avisemos cuando haya novedades sobre la talla S?\n\nCampus Customs Customer Service",
+        "agent": "customer_service"
+      },
+      "result": {
+        "ok": true,
+        "draft_id": 1,
+        "status": "draft",
+        "sent": false
+      }
+    },
+    {
+      "name": "update_ticket",
+      "arguments": {
+        "ticket_id": 101,
+        "note": "Verifiqué que CC-TEE-WHITE talla S no tiene existencias (faltante: 1); inventario informa que no hay fecha confirmada de reposición. Preparé borrador en español ofreciendo la camiseta en tallas M o L o avisar cuando haya novedades sobre la talla S. Draft 1.",
+        "status": "waiting_on_human",
+        "agent": "customer_service"
+      },
+      "result": {
+        "ok": true,
+        "ticket_id": 101,
+        "status": "waiting_on_human",
+        "owner": "customer_service"
+      }
+    }
+  ],
+  "targetUsage": {
+    "inputTokens": 43645,
+    "outputTokens": 1295,
+    "cachedTokens": 40066,
+    "requests": 11
+  }
+}
