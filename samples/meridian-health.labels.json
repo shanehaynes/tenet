@@ -1,70 +1,77 @@
 {
   "policy": "meridian-health",
   "labeler": "shane",
-  "labeledAt": "",
+  "labeledAt": "2026-10-21",
   "blindToClassifier": true,
   "definitionsVersion": "agents-and-prompts.md section 0",
-  "instructions": "Fill each label with constraint | tradeoff | disposition | ordering | ambiguous, using only the definitions card (docs/plan/agents-and-prompts.md section 0). Optional per rule: lowConfidence true, alternatives [types], note. Set labeledAt when done. Do not run Tenet on this policy before committing.",
   "rules": [
     {
       "n": 1,
       "quote": "Never share a patient's health information with anyone other than the patient or a proxy listed on the patient's record.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 2,
       "quote": "Never cancel or reschedule a procedure without confirmation from the ordering clinician's office.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 3,
       "quote": "Do not interpret test results or offer a diagnosis; direct clinical questions to the care team.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 4,
       "quote": "Weigh a patient's scheduling preferences against clinical urgency when offering appointment slots.",
-      "label": ""
+      "label": "tradeoff"
     },
     {
       "n": 5,
       "quote": "Balance the completeness of intake questions against the time the patient has available.",
-      "label": ""
+      "label": "tradeoff"
     },
     {
       "n": 6,
       "quote": "Be warm and unhurried, especially with patients who are anxious or in pain.",
-      "label": ""
+      "label": "disposition"
     },
     {
       "n": 7,
       "quote": "Be honest about wait times and delays, even when the answer will disappoint.",
-      "label": ""
+      "label": "disposition"
     },
     {
       "n": 8,
       "quote": "Use plain language and avoid clinical jargon.",
-      "label": ""
+      "label": "disposition",
+      "lowConfidence": true,
+      "alternatives": [
+        "constraint"
+      ]
     },
     {
       "n": 9,
       "quote": "Patient safety takes precedence over scheduling efficiency, which takes precedence over patient preference.",
-      "label": ""
+      "label": "ordering"
     },
     {
       "n": 10,
       "quote": "Any report of chest pain, difficulty breathing, or thoughts of self-harm must be escalated to a clinician immediately.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 11,
       "quote": "Respect patient autonomy.",
-      "label": ""
+      "label": "ambiguous",
+      "lowConfidence": true,
+      "alternatives": [
+        "disposition"
+      ]
     },
     {
       "n": 12,
       "quote": "Do what is best for the patient.",
-      "label": ""
+      "label": "ambiguous"
     }
   ]
 }

@@ -1,65 +1,64 @@
 {
   "policy": "northgate-it",
   "labeler": "shane",
-  "labeledAt": "",
+  "labeledAt": "2026-10-21",
   "blindToClassifier": true,
   "definitionsVersion": "agents-and-prompts.md section 0",
-  "instructions": "Fill each label with constraint | tradeoff | disposition | ordering | ambiguous, using only the definitions card (docs/plan/agents-and-prompts.md section 0). Optional per rule: lowConfidence true, alternatives [types], note. Set labeledAt when done. Do not run Tenet on this policy before committing.",
   "rules": [
     {
       "n": 1,
       "quote": "Never reset a password or unlock an account until the requester's identity has been verified by one of the two approved methods.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 2,
       "quote": "Never disclose another employee's account details, device information, or ticket history.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 3,
       "quote": "Do not install or approve software that is not in the approved catalog.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 4,
       "quote": "Weigh an employee's lost productivity against the security risk when granting a temporary exception.",
-      "label": ""
+      "label": "tradeoff"
     },
     {
       "n": 5,
       "quote": "Balance a thorough diagnosis against getting the employee working again quickly.",
-      "label": ""
+      "label": "tradeoff"
     },
     {
       "n": 6,
       "quote": "Be patient with employees who are not technical, and never make them feel foolish.",
-      "label": ""
+      "label": "disposition"
     },
     {
       "n": 7,
       "quote": "Be transparent about what you can and cannot do, and about how long a fix will take.",
-      "label": ""
+      "label": "disposition"
     },
     {
       "n": 8,
       "quote": "Security policy takes precedence over a manager's request, which takes precedence over convenience.",
-      "label": ""
+      "label": "ordering"
     },
     {
       "n": 9,
       "quote": "Purchases above $500 and any exception lasting longer than 24 hours require written manager approval.",
-      "label": ""
+      "label": "constraint"
     },
     {
       "n": 10,
       "quote": "Minimize disruption to the business.",
-      "label": ""
+      "label": "disposition"
     },
     {
       "n": 11,
       "quote": "Use good judgment.",
-      "label": ""
+      "label": "ambiguous"
     }
   ]
 }
