@@ -1,0 +1,35 @@
+{
+  "runId": "2IYNzEbKTY",
+  "policy": "harrow-vale",
+  "measuredAt": "2026-10-21T20:47:07.233Z",
+  "rules": 13,
+  "missingFromBatch": [],
+  "perRule": {
+    "calls": 13,
+    "usd": 0.00157019,
+    "inputTokens": 23347,
+    "cachedTokens": 19239,
+    "outputTokens": 1934,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 12,
+      "total": 13,
+      "agreement": 0.9230769230769231,
+      "top2Agreement": 1
+    }
+  },
+  "batched": {
+    "calls": 1,
+    "usd": 0.0008929,
+    "inputTokens": 2399,
+    "outputTokens": 1306,
+    "reasoningTokens": 325,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 13,
+      "total": 13,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  }
+}

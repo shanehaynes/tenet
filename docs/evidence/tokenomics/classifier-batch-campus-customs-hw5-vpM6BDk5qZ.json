@@ -1,0 +1,35 @@
+{
+  "runId": "vpM6BDk5qZ",
+  "policy": "campus-customs-hw5",
+  "measuredAt": "2026-10-21T20:47:46.731Z",
+  "rules": 26,
+  "missingFromBatch": [],
+  "perRule": {
+    "calls": 26,
+    "usd": 0.0026596400000000004,
+    "inputTokens": 49082,
+    "cachedTokens": 44184,
+    "outputTokens": 3456,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 14,
+      "total": 17,
+      "agreement": 0.8235294117647058,
+      "top2Agreement": 0.8823529411764706
+    }
+  },
+  "batched": {
+    "calls": 1,
+    "usd": 0.0013437,
+    "inputTokens": 3072,
+    "outputTokens": 2073,
+    "reasoningTokens": 351,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 14,
+      "total": 17,
+      "agreement": 0.8235294117647058,
+      "top2Agreement": 0.8823529411764706
+    }
+  }
+}

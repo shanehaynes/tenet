@@ -3,7 +3,9 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { loadEnv } from "../src/core/env";
+import { classifyBatch } from "../src/core/agents/classifier";
 import { evaluateClassifier, LabelsFile, reportMarkdown, type EvalReport } from "../src/core/eval/classifierEval";
+import { readRunUsage } from "../src/core/store/usage";
 import { startAnalysis } from "../src/core/pipeline/analysis";
 import { waitForJob } from "../src/core/pipeline/jobs";
 import { policyForFile } from "../src/core/pipeline/policies";
@@ -32,7 +34,7 @@ async function loadLabels(file: string): Promise<LabelsFile> {
 async function main(): Promise<number> {
   const { values, positionals } = parseArgs({
     args: process.argv.slice(2),
-    options: { run: { type: "string", multiple: true }, labels: { type: "string" }, provider: { type: "string" }, threshold: { type: "string" } },
+    options: { run: { type: "string", multiple: true }, labels: { type: "string" }, provider: { type: "string" }, threshold: { type: "string" }, batched: { type: "boolean" } },
     allowPositionals: true,
   });
   if (values.provider) process.env.TENET_PROVIDER = values.provider;
@@ -80,6 +82,39 @@ async function main(): Promise<number> {
     const threshold = values.threshold ? Number(values.threshold) : view.run.config.ambiguityThreshold;
     const report = evaluateClassifier(policy.text, view.rules, labels, { primaryThreshold: threshold });
     reports.push(report);
+    if (values.batched) {
+      // M11: the same rules (same decomposition) classified in one call, compared with the run's per-rule calls.
+      const batch = await classifyBatch(view.rules, { policyText: policy.text });
+      const batchedRules = view.rules.map((r) => {
+        const c = batch.results.get(r.id);
+        return c ? { ...r, proposedType: c.type, probabilities: c.probabilities, confidence: c.confidence } : { ...r, proposedType: null, probabilities: null, confidence: null };
+      });
+      const batchedReport = evaluateClassifier(policy.text, batchedRules, labels, { primaryThreshold: threshold });
+      const perRule = (await readRunUsage(runId)).filter((e) => e.stage === "classifier");
+      const at = (r: EvalReport) => r.thresholds.find((t) => t.threshold === r.primaryThreshold)!;
+      const comparison = {
+        runId,
+        policy: report.policy,
+        measuredAt: new Date().toISOString(),
+        rules: view.rules.length,
+        missingFromBatch: view.rules.filter((r) => !batch.results.has(r.id)).map((r) => r.id),
+        perRule: {
+          calls: perRule.length,
+          usd: perRule.reduce((s, e) => s + e.usd, 0),
+          inputTokens: perRule.reduce((s, e) => s + e.inputTokens, 0),
+          cachedTokens: perRule.reduce((s, e) => s + (e.cachedTokens ?? 0), 0),
+          outputTokens: perRule.reduce((s, e) => s + e.outputTokens, 0),
+          agreement: at(report),
+        },
+        batched: { calls: batch.calls, usd: batch.usd, inputTokens: batch.inputTokens, outputTokens: batch.outputTokens, reasoningTokens: batch.reasoningTokens, agreement: at(batchedReport) },
+      };
+      console.log(`Batched: ${comparison.batched.calls} call, $${comparison.batched.usd.toFixed(5)}, agreement ${(100 * comparison.batched.agreement.agreement).toFixed(1)} % vs per-rule ${comparison.perRule.calls} calls, $${comparison.perRule.usd.toFixed(5)}, agreement ${(100 * comparison.perRule.agreement.agreement).toFixed(1)} %`);
+      if (view.run.config.provider !== "mock") {
+        const dir = path.join("docs", "evidence", "tokenomics");
+        await mkdir(dir, { recursive: true });
+        await writeFile(path.join(dir, `classifier-batch-${report.policy}-${runId}.json`), `${JSON.stringify(comparison, null, 2)}\n`);
+      }
+    }
     const md = reportMarkdown(report);
     console.log(`\n${md}`);
     if (view.run.config.provider !== "mock") {

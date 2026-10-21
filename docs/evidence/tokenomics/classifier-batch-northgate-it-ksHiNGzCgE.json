@@ -1,0 +1,35 @@
+{
+  "runId": "ksHiNGzCgE",
+  "policy": "northgate-it",
+  "measuredAt": "2026-10-21T20:47:32.964Z",
+  "rules": 12,
+  "missingFromBatch": [],
+  "perRule": {
+    "calls": 12,
+    "usd": 0.00121788,
+    "inputTokens": 22045,
+    "cachedTokens": 19668,
+    "outputTokens": 1567,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 10,
+      "total": 11,
+      "agreement": 0.9090909090909091,
+      "top2Agreement": 1
+    }
+  },
+  "batched": {
+    "calls": 1,
+    "usd": 0.0008239,
+    "inputTokens": 2419,
+    "outputTokens": 1164,
+    "reasoningTokens": 294,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 11,
+      "total": 11,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  }
+}

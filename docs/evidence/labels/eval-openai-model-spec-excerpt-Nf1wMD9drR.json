@@ -1,7 +1,7 @@
 {
   "runId": "Nf1wMD9drR",
   "model": "gpt-6-luna",
-  "evaluatedAt": "2026-10-21T19:24:36.322Z",
+  "evaluatedAt": "2026-10-21T20:48:03.148Z",
   "policy": "openai-model-spec-excerpt",
   "labeler": "shane",
   "labeled": 22,

@@ -54,6 +54,20 @@ export const Classification = z.object({
 });
 export type Classification = z.infer<typeof Classification>;
 
+/** Tokenomics experiment M11: every rule of a policy classified in one call. */
+export const BatchedClassification = z.object({
+  classifications: z.array(
+    z.object({
+      rule_id: z.string(),
+      type: RuleType,
+      probabilities: Probabilities,
+      rationale: z.string(),
+      ambiguity_note: z.string().nullable(),
+    }),
+  ),
+});
+export type BatchedClassification = z.infer<typeof BatchedClassification>;
+
 // 4. Collision mapper
 export const CollisionPairs = z.object({
   pairs: z.array(
@@ -161,6 +175,7 @@ export const AGENT_SCHEMAS = {
   scan_check: ScanCheck,
   decomposition: Decomposition,
   classification: Classification,
+  batched_classification: BatchedClassification,
   collision_pairs: CollisionPairs,
   ladder: Ladder,
   sweep: Sweep,

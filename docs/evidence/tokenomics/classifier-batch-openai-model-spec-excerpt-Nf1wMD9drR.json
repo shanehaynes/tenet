@@ -1,0 +1,35 @@
+{
+  "runId": "Nf1wMD9drR",
+  "policy": "openai-model-spec-excerpt",
+  "measuredAt": "2026-10-21T20:48:03.147Z",
+  "rules": 27,
+  "missingFromBatch": [],
+  "perRule": {
+    "calls": 27,
+    "usd": 0.0039074,
+    "inputTokens": 60099,
+    "cachedTokens": 54150,
+    "outputTokens": 5542,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 17,
+      "total": 22,
+      "agreement": 0.7727272727272727,
+      "top2Agreement": 0.9090909090909091
+    }
+  },
+  "batched": {
+    "calls": 1,
+    "usd": 0.0015397,
+    "inputTokens": 3797,
+    "outputTokens": 2320,
+    "reasoningTokens": 353,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 18,
+      "total": 22,
+      "agreement": 0.8181818181818182,
+      "top2Agreement": 1
+    }
+  }
+}

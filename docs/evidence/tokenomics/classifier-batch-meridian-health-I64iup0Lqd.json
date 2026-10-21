@@ -1,0 +1,35 @@
+{
+  "runId": "I64iup0Lqd",
+  "policy": "meridian-health",
+  "measuredAt": "2026-10-21T20:47:23.685Z",
+  "rules": 15,
+  "missingFromBatch": [],
+  "perRule": {
+    "calls": 15,
+    "usd": 0.0018754600000000005,
+    "inputTokens": 27708,
+    "cachedTokens": 23426,
+    "outputTokens": 2426,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 12,
+      "total": 12,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  },
+  "batched": {
+    "calls": 1,
+    "usd": 0.0009416,
+    "inputTokens": 2516,
+    "outputTokens": 1380,
+    "reasoningTokens": 316,
+    "agreement": {
+      "threshold": 0.7,
+      "agree": 12,
+      "total": 12,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  }
+}

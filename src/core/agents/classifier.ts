@@ -1,5 +1,5 @@
 import { callModel } from "../model/client";
-import { Classification, RULE_TYPES, type Probabilities, type RuleType } from "../schemas/agents";
+import { BatchedClassification, Classification, RULE_TYPES, type Probabilities, type RuleType } from "../schemas/agents";
 import { DATA_SENTENCE, JSON_ONLY, TYPE_DEFINITIONS } from "./prompts/shared";
 
 // Classifier (agents-and-prompts.md §3; PRD Req. 3). One call per rule. The system prompt is static within a
@@ -117,4 +117,41 @@ export async function classifyRule(
     mock: () => mockClassification(rule.statement),
   });
   return postProcessClassification(res.data);
+}
+
+/**
+ * Tokenomics experiment M11: classify every rule in one call (same instructions and policy prefix), then
+ * post-process each entry exactly as the per-rule path does. Logged outside any run (runId null).
+ */
+export async function classifyBatch(
+  rules: { id: string; statement: string; quote: string; section: string | null }[],
+  opts: { policyText: string; signal?: AbortSignal },
+): Promise<{ results: Map<string, ClassifiedRule>; usd: number; inputTokens: number; outputTokens: number; reasoningTokens: number; calls: number }> {
+  const system = `${buildClassifierSystem(opts.policyText)}
+
+This request lists several rules. Classify each one independently, as if it were the only rule in the request, and return one entry per rule id in classifications.`;
+  const user = rules.map((r) => `${buildClassifierUser(r).replace("<rule>", `<rule id="${r.id}">`)}`).join("\n\n");
+  const res = await callModel<BatchedClassification>({
+    runId: null,
+    stage: "classifier",
+    system,
+    user,
+    schema: BatchedClassification,
+    schemaName: "batched_classification",
+    maxOutputTokens: Math.min(12000, 600 + rules.length * 300),
+    signal: opts.signal,
+    mock: () => ({
+      classifications: rules.map((r) => ({ rule_id: r.id, ...mockClassification(r.statement) })),
+    }),
+  });
+  const results = new Map<string, ClassifiedRule>();
+  for (const c of res.data.classifications) results.set(c.rule_id, postProcessClassification(c));
+  return {
+    results,
+    usd: res.usd,
+    inputTokens: res.events.reduce((s, e) => s + e.inputTokens, 0),
+    outputTokens: res.events.reduce((s, e) => s + e.outputTokens, 0),
+    reasoningTokens: res.events.reduce((s, e) => s + (e.reasoningTokens ?? 0), 0),
+    calls: res.events.length,
+  };
 }
