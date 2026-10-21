@@ -38,3 +38,18 @@ Scored by the pre-registered rule (sample-policies §6.3): a close call agrees o
 | 2026-10-21 | OpenAI Model Spec excerpt | `wPwWuPQU49` | 22/22 matched; 27 extracted (81.5 %) | 59.1 % / 59.1 % / 59.1 % (13/22); top-2 72.7 % | 9 disagreements, 8 of them the classifier reading a "should …" sentence as a constraint at 0.84–0.96 where Shane read a disposition (5), a tradeoff (2) or ambiguous (1). The published spec is written as overridable defaults ("should", "by default"), not bright lines; the classifier prompt has no test for that, and it is overconfident when a careful human disagrees. |
 
 **Pooled over all five labeled policies at 0.7 (classifier v1): 60/75 = 80.0 %.**
+
+## Classifier revision 1 of 3 (classifier v2), 2026-10-21
+
+**Change.** Decision step (1) now uses the labeling guide's bright-line test: a constraint is a specific, checkable act that no good enough reason would justify breaking; a rule written as a default or general aim ("should", "by default", "generally", "try to", "where appropriate") that describes behavior across many situations is usually a disposition, or a tradeoff if it names values to balance. Calibration adds: keep the top probability below 0.8 when a careful reader could reasonably choose another type. One calibration example added (a tutoring "by default … should" rule, another domain). **Motivation:** the Model Spec disagreements above (8 of 9 were "should" defaults read as constraints at 0.84–0.96). Decomposer unchanged (v3).
+
+| Policy | Run | Decomposition (matched / extracted) | v1 agreement at 0.7 | **v2 agreement at 0.7** | v2 top-2 |
+|---|---|---|---|---|---|
+| Harrow & Vale | `2IYNzEbKTY` | 13/13 of 13 | 92.3 % | 92.3 % (12/13) | 100 % |
+| Meridian Health | `I64iup0Lqd` | 12/12 of 15 | 100 % | 100 % (12/12) | 100 % |
+| Northgate IT | `ksHiNGzCgE` | 11/11 of 12 | 90.9 % | 90.9 % (10/11) | 100 % |
+| Campus Customs HW5 | `vpM6BDk5qZ` | 17/17 of 26 | 76.5 % | 82.4 % (14/17) | 88.2 % |
+| OpenAI Model Spec excerpt | `Nf1wMD9drR` | 22/22 of 27 | 59.1 % | 77.3 % (17/22) | 90.9 % |
+| **Pooled** | | | 60/75 = 80.0 % | **65/75 = 86.7 %** | |
+
+Reading: v2 fixed the "should"-default pattern without costing agreement on the three fictional policies. Because v2 was motivated by the Model Spec results, the v1 figures for the Model Spec and HW5 excerpts are the held-out numbers; the v2 figures there are tuned. The report shows both.

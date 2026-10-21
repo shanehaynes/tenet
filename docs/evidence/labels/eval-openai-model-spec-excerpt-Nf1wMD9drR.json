@@ -1,0 +1,341 @@
+{
+  "runId": "Nf1wMD9drR",
+  "model": "gpt-6-luna",
+  "evaluatedAt": "2026-10-21T19:24:36.322Z",
+  "policy": "openai-model-spec-excerpt",
+  "labeler": "shane",
+  "labeled": 22,
+  "unlabeled": 0,
+  "extracted": 27,
+  "matched": 22,
+  "recall": 1,
+  "precision": 0.8148148148148148,
+  "misses": [],
+  "extras": [
+    {
+      "ruleId": "r5",
+      "quote": "ensure each action is proportionate to the established objectives."
+    },
+    {
+      "ruleId": "r10",
+      "quote": "avoid providing advice that if improper could result in immediate physical harm to an individual."
+    },
+    {
+      "ruleId": "r15",
+      "quote": "proactively escalate to a human."
+    },
+    {
+      "ruleId": "r18",
+      "quote": "the assistant should not change its stance solely to agree with the user."
+    },
+    {
+      "ruleId": "r27",
+      "quote": "should not provide meta commentary on the assistant or mention that it's trained by OpenAI"
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.6,
+      "agree": 17,
+      "total": 22,
+      "agreement": 0.7727272727272727,
+      "top2Agreement": 0.9090909090909091
+    },
+    {
+      "threshold": 0.7,
+      "agree": 17,
+      "total": 22,
+      "agreement": 0.7727272727272727,
+      "top2Agreement": 0.9090909090909091
+    },
+    {
+      "threshold": 0.8,
+      "agree": 19,
+      "total": 22,
+      "agreement": 0.8636363636363636,
+      "top2Agreement": 0.9545454545454546
+    }
+  ],
+  "primaryThreshold": 0.7,
+  "rules": [
+    {
+      "n": 1,
+      "ruleId": "r1",
+      "label": "ordering",
+      "lowConfidence": false,
+      "proposedType": "ordering",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 2,
+      "ruleId": "r2",
+      "label": "tradeoff",
+      "lowConfidence": true,
+      "proposedType": "constraint",
+      "confidence": 0.55,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 3,
+      "ruleId": "r3",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.9,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": true
+    },
+    {
+      "n": 4,
+      "ruleId": "r4",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.72,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 5,
+      "ruleId": "r6",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.76,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 6,
+      "ruleId": "r7",
+      "label": "constraint",
+      "lowConfidence": true,
+      "proposedType": "disposition",
+      "confidence": 0.72,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": true
+    },
+    {
+      "n": 7,
+      "ruleId": "r8",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 8,
+      "ruleId": "r9",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.72,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": false
+    },
+    {
+      "n": 9,
+      "ruleId": "r11",
+      "label": "tradeoff",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.66,
+      "flagged": true,
+      "agree": false,
+      "agreeTop2": false
+    },
+    {
+      "n": 10,
+      "ruleId": "r12",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.67,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 11,
+      "ruleId": "r13",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.94,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 12,
+      "ruleId": "r14",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 13,
+      "ruleId": "r16",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.76,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 14,
+      "ruleId": "r17",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.67,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 15,
+      "ruleId": "r19",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.64,
+      "flagged": true,
+      "agree": false,
+      "agreeTop2": true
+    },
+    {
+      "n": 16,
+      "ruleId": "r20",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.72,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 17,
+      "ruleId": "r21",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.91,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 18,
+      "ruleId": "r22",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.84,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 19,
+      "ruleId": "r23",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.78,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 20,
+      "ruleId": "r24",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.88,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 21,
+      "ruleId": "r25",
+      "label": "disposition",
+      "lowConfidence": true,
+      "proposedType": "disposition",
+      "confidence": 0.72,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 22,
+      "ruleId": "r26",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.85,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    }
+  ],
+  "confusion": {
+    "constraint": {
+      "constraint": 4,
+      "tradeoff": 0,
+      "disposition": 1,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "tradeoff": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 2
+    },
+    "disposition": {
+      "constraint": 1,
+      "tradeoff": 0,
+      "disposition": 9,
+      "ordering": 0,
+      "flagged": 3
+    },
+    "ordering": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 1,
+      "flagged": 0
+    },
+    "ambiguous": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 1,
+      "ordering": 0,
+      "flagged": 0
+    }
+  }
+}
