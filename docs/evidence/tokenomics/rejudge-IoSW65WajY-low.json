@@ -1,0 +1,29 @@
+{
+  "runId": "IoSW65WajY",
+  "effort": "low",
+  "judgedAt": "2026-10-21T22:33:39.450Z",
+  "scenarios": 37,
+  "agreementWithDefaultJudge": {
+    "same": 32,
+    "total": 37,
+    "rate": 0.8648648648648649
+  },
+  "cost": {
+    "cheaper": {
+      "calls": 37,
+      "usd": 0.003549179999999999,
+      "inputTokens": 124869,
+      "cachedTokens": 124758,
+      "outputTokens": 4581,
+      "reasoningTokens": 1718
+    },
+    "defaultJudge": {
+      "effort": "low",
+      "calls": 37,
+      "usd": 0.008038899999999998,
+      "outputTokens": 4437,
+      "reasoningTokens": 1650
+    }
+  },
+  "verdictsFile": "/home/shanehaynes/projects/Tenet/data/runs/IoSW65WajY/verdicts-effort-low.json"
+}

@@ -1,0 +1,29 @@
+{
+  "runId": "kadE9UGsFP",
+  "effort": "low",
+  "judgedAt": "2026-10-21T22:33:54.793Z",
+  "scenarios": 36,
+  "agreementWithDefaultJudge": {
+    "same": 35,
+    "total": 36,
+    "rate": 0.9722222222222222
+  },
+  "cost": {
+    "cheaper": {
+      "calls": 36,
+      "usd": 0.0037859100000000004,
+      "inputTokens": 110669,
+      "cachedTokens": 110561,
+      "outputTokens": 5339,
+      "reasoningTokens": 2957
+    },
+    "defaultJudge": {
+      "effort": "low",
+      "calls": 36,
+      "usd": 0.007713669999999998,
+      "outputTokens": 5317,
+      "reasoningTokens": 2983
+    }
+  },
+  "verdictsFile": "/home/shanehaynes/projects/Tenet/data/runs/kadE9UGsFP/verdicts-effort-low.json"
+}

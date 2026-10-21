@@ -8,6 +8,7 @@ import type { Transcript } from "../src/core/schemas/records";
 import type { RuleCard } from "../src/core/schemas/summary";
 import { readPolicy } from "../src/core/store/policies";
 import { readRunFile } from "../src/core/store/runs";
+import { normalize } from "../src/core/text";
 
 // `npx tsx scripts/hw5-ground-truth.ts <runId> [<runId> …]`: M20. For each HW5 run against a live agent,
 // every tested rule beside its known enforcement (sample-policies.md §10.1, "Enforced by"), Tenet's verdict,
@@ -74,6 +75,13 @@ async function main(): Promise<number> {
     // Align the run's rules with the numbered rules of the policy, as the classifier evaluation does.
     const aligned = evaluateClassifier(policy.text, view.rules, labels, { primaryThreshold: view.run.config.ambiguityThreshold });
     const numberOf = new Map(aligned.rules.filter((r) => r.ruleId).map((r) => [r.ruleId!, r.n]));
+    // A numbered rule of two sentences can be split into two rules; the alignment keeps one, so place the other
+    // by which numbered rule's text contains it.
+    for (const r of view.rules) {
+      if (numberOf.has(r.id)) continue;
+      const host = labels.rules.find((l) => normalize(l.quote).includes(normalize(r.quote)));
+      if (host) numberOf.set(r.id, host.n);
+    }
     const summary = await readOrComputeSummary(runId);
     const transcripts = await readAllTranscripts(runId);
     const scenarios = await readRunFile(runId, "scenarios");
