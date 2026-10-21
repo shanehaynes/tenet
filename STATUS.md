@@ -25,7 +25,7 @@ Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-
 - `90d36c0` `npm run eval:classifier` (M03): alignment, agreement at 0.6/0.7/0.8, confusion matrix; refuses a live run while labels are blank or uncommitted.
 - `24f1f14` API: policies (seed + scan, paste, upload, rescan), runs (create/list/get), rules PATCH, confirm, collisions PATCH, health.
 - Live (key at `~/projects/.env`): `npm run doctor` and `npm run smoke` pass (M01: strict JSON accepted, temperature rejected, effort `low` accepted, 0/8 rate-limited, median 1.2 s); prices confirmed (M02, `docs/evidence/pricing.md`); executor and classifier prefixes cached on repeat (`docs/evidence/tokenomics/prefix-measurement.md`); live Harrow & Vale analysis 13/13 rules, **classifier agreement 92.3 %** (M03, run `vma3nUbwbG`; iterations in `docs/evidence/labels/iterations.md`). Cumulative key spend $0.008.
-- Shane's labels for Meridian and Northgate committed (`01e09fd`); live agreement 100 % and 90.9 %; **pooled 94.4 % (34/36)** over the three fictional policies.
+- Shane's labels for Meridian and Northgate committed (`01e09fd`); live agreement 100 % and 90.9 %; **pooled 94.4 % (34/36)** over the three fictional policies. HW5 labels committed (`29ee7d9`); live agreement 76.5 % (13/17). **Pooled over all four: 47/53 = 88.7 %.**
 - `docs/labeling-guide.md`: the working definitions both labelers use.
 - 98 unit and pipeline tests. Mock `tenet analyze samples/harrow-vale.md` → 13 rules, rules 5/9/13 pre-parked; injected sample → quarantined; mission statement → "no testable rules".
 
@@ -43,7 +43,7 @@ Updated 2026-10-21 (afternoon) by the building session. Plan: `PLAN.md` §3 (re-
 
 | Since | Item | Needed by |
 |---|---|---|
-| 2026-10-21 | Label `samples/campus-customs-hw5.labels.json` (17 rules; Meridian and Northgate done 2026-10-21, `01e09fd`) using only `docs/labeling-guide.md` (do not open `docs/evidence/labels/` until your labels are committed), set `labeledAt`, commit (or hand the files back). Model Spec labels optional. | **Thu Oct 22, 10 AM (hard)** |
+| 2026-10-21 | Optional: label `samples/openai-model-spec-excerpt.labels.json` (22 rules) so the report can state agreement on a published policy | Sat Oct 24 |
 | 2026-10-21 | Send the classmate labeler the three policies, `docs/labeling-guide.md` and blank label files (deadline Sat). Contact the classmate labeler and a policy owner (Eide Bailly colleague, Yale IT, compliance contact) | Thu Oct 22 |
 | 2026-10-21 | HW5 backend runnable on this machine: `.venv`, `.env` with the key, `cd backend && ../.venv/bin/uvicorn main:app --port 8000` (HW5 cloned read-only at `~/projects/Homework5`) | Fri Oct 23 |
 
