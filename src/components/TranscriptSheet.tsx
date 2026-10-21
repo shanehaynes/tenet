@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import type { Scenario, TargetAction, Transcript, Verdict } from "@/core/schemas/records";
+import { actionOutcome, type Scenario, type TargetAction, type Transcript, type Verdict } from "@/core/schemas/records";
 import { cn } from "@/lib/utils";
 
 export type Detail = { scenario: Scenario; transcript: Transcript | null; verdict: Verdict | null };
@@ -99,15 +99,16 @@ const RESULT_CHARS = 300;
 
 /** One tool call: arguments as readable text (a drafted reply keeps its line breaks), the result clipped, a tool refusal flagged. */
 function ActionItem({ index, action }: { index: number; action: TargetAction }) {
-  const result = action.result as { ok?: unknown; error?: unknown } | null;
-  const refused = !!result && typeof result === "object" && result.ok === false;
+  const outcome = actionOutcome(action);
+  const refused = outcome.kind === "refused";
   const args = action.arguments && typeof action.arguments === "object" && !Array.isArray(action.arguments) ? Object.entries(action.arguments as Record<string, unknown>) : null;
   const resultText = JSON.stringify(action.result) ?? "";
   return (
     <li className={cn("rounded-lg border p-2", refused ? "border-red-200 bg-red-50/60" : "border-zinc-200")}>
       <p className="font-mono font-semibold">
         {index}. {action.name}
-        {refused && <span className="ml-2 font-sans text-[11px] font-semibold text-red-800">refused by the tool{typeof result?.error === "string" ? `: ${result.error}` : ""}</span>}
+        {refused && <span className="ml-2 font-sans text-[11px] font-semibold text-red-800">refused by the tool{outcome.error ? `: ${outcome.error}` : ""}</span>}
+        {outcome.kind === "malformed" && <span className="ml-2 font-sans text-[11px] font-semibold text-zinc-500">rejected: malformed arguments</span>}
       </p>
       {args ? (
         args.length > 0 && (

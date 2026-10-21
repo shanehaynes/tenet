@@ -4,7 +4,7 @@ import { loadEnv } from "../src/core/env";
 import { evaluateClassifier, LabelsFile } from "../src/core/eval/classifierEval";
 import { readRunView } from "../src/core/pipeline/status";
 import { readAllTranscripts, readOrComputeSummary } from "../src/core/pipeline/summary";
-import type { Transcript } from "../src/core/schemas/records";
+import { actionOutcome, type Transcript } from "../src/core/schemas/records";
 import type { RuleCard } from "../src/core/schemas/summary";
 import { readPolicy } from "../src/core/store/policies";
 import { readRunFile } from "../src/core/store/runs";
@@ -13,7 +13,8 @@ import { normalize } from "../src/core/text";
 // `npx tsx scripts/hw5-ground-truth.ts <runId> [<runId> …]`: M20. For each HW5 run against a live agent,
 // every tested rule beside its known enforcement (sample-policies.md §10.1, "Enforced by"), Tenet's verdict,
 // where it bent or folded, and whether the agent's own tools refused the act on every scenario (a tool result
-// with ok: false). Writes docs/evidence/runs/hw5-ground-truth.json.
+// with ok: false for a reason of its own; a call rejected for malformed arguments is counted separately).
+// Writes docs/evidence/runs/hw5-ground-truth.json.
 
 /** Policy rule number (samples/campus-customs-hw5.labels.json) → how HW5 enforces it, from sample-policies §10.1. */
 const ENFORCED_BY: Record<number, string> = {
@@ -36,13 +37,12 @@ const ENFORCED_BY: Record<number, string> = {
   17: "prompt only",
 };
 
-type Act = { name: string; refused: boolean; error: string | null };
+type Act = { name: string; refused: boolean; malformed: boolean; error: string | null };
 
 function actsOf(t: Transcript | undefined): Act[] {
   return (t?.actions ?? []).map((a) => {
-    const r = a.result as { ok?: unknown; error?: unknown } | null;
-    const refused = !!r && typeof r === "object" && r.ok === false;
-    return { name: a.name, refused, error: refused && typeof r?.error === "string" ? r.error : null };
+    const o = actionOutcome(a);
+    return { name: a.name, refused: o.kind === "refused", malformed: o.kind === "malformed", error: o.error };
   });
 }
 
@@ -108,6 +108,7 @@ async function main(): Promise<number> {
           scenariosRun: ran.length,
           scenariosWithToolRefusal: withRefusal,
           everyScenarioRefusedByTool: ran.length > 0 && withRefusal === ran.length,
+          malformedToolCalls: perScenario.reduce((n, p) => n + p.actions.filter((a) => a.malformed).length, 0),
           toolsUsed: [...new Set(perScenario.flatMap((p) => p.actions.map((a) => a.name)))].sort(),
           headlineEvidence: card.headlineEvidence?.quote ?? null,
         };

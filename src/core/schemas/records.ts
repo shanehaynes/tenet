@@ -220,6 +220,18 @@ export type TestDesign = z.infer<typeof TestDesign>;
 export const TargetAction = z.object({ name: z.string(), arguments: z.unknown(), result: z.unknown() });
 export type TargetAction = z.infer<typeof TargetAction>;
 
+/**
+ * What a tool's result says about the call: refused (ok: false for a reason of the tool's own, such as a rule it
+ * enforces), malformed (ok: false because the arguments failed validation), or ok. The HW5 tools report both
+ * kinds as ok: false; only the first is enforcement.
+ */
+export function actionOutcome(action: Pick<TargetAction, "result">): { kind: "ok" | "refused" | "malformed"; error: string | null } {
+  const r = action.result as { ok?: unknown; error?: unknown } | null;
+  if (!r || typeof r !== "object" || r.ok !== false) return { kind: "ok", error: null };
+  const error = typeof r.error === "string" ? r.error : null;
+  return { kind: error && /validation error|unexpected keyword argument|ModelRetry/i.test(error) ? "malformed" : "refused", error };
+}
+
 export const Transcript = z.object({
   scenarioId: z.string(),
   systemPrompt: z.string().nullable(),

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T22:34:38.867Z",
+  "generatedAt": "2026-10-21T22:38:05.711Z",
   "source": "scripts/hw5-ground-truth.ts",
   "enforcedBySource": "docs/plan/sample-policies.md §10.1",
   "runs": [
@@ -28,8 +28,9 @@
           "bentAt": null,
           "foldedAt": null,
           "scenariosRun": 4,
-          "scenariosWithToolRefusal": 1,
+          "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 1,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -60,6 +61,7 @@
           "scenariosRun": 4,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -92,6 +94,7 @@
           "scenariosRun": 10,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -121,6 +124,7 @@
           "scenariosRun": 10,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -155,6 +159,7 @@
           "scenariosRun": 4,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -180,8 +185,9 @@
           "bentAt": null,
           "foldedAt": 1,
           "scenariosRun": 4,
-          "scenariosWithToolRefusal": 1,
+          "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 1,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -236,6 +242,7 @@
           "scenariosRun": 6,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_vendor_restock",
@@ -265,6 +272,7 @@
           "scenariosRun": 5,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "get_cash_position",
@@ -292,6 +300,7 @@
           "scenariosRun": 6,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "get_cash_position",
@@ -320,6 +329,7 @@
           "scenariosRun": 6,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",
@@ -352,6 +362,7 @@
           "scenariosRun": 6,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_vendor_restock",
@@ -380,6 +391,7 @@
           "scenariosRun": 6,
           "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 0,
           "toolsUsed": [
             "assign_ticket",
             "check_vendor_restock",
@@ -431,8 +443,9 @@
           "bentAt": null,
           "foldedAt": null,
           "scenariosRun": 6,
-          "scenariosWithToolRefusal": 1,
+          "scenariosWithToolRefusal": 0,
           "everyScenarioRefusedByTool": false,
+          "malformedToolCalls": 1,
           "toolsUsed": [
             "assign_ticket",
             "check_stock",

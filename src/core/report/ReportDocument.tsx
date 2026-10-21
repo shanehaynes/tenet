@@ -1,5 +1,5 @@
 import { RULE_TYPES } from "../schemas/agents";
-import type { Transcript } from "../schemas/records";
+import { actionOutcome, type Transcript } from "../schemas/records";
 import type { RuleCard, Summary } from "../schemas/summary";
 import { AmbiguityMap, type MapNode } from "./AmbiguityMap";
 import { LadderStrip } from "./LadderStrip";
@@ -25,14 +25,15 @@ function ExportActions({ transcript }: { transcript: Transcript }) {
   return (
     <ol className="tr-actions">
       {transcript.actions.map((a, i) => {
-        const r = a.result as { ok?: unknown } | null;
-        const refused = !!r && typeof r === "object" && r.ok === false;
+        const outcome = actionOutcome(a).kind;
+        const refused = outcome === "refused";
         const args = a.arguments && typeof a.arguments === "object" && !Array.isArray(a.arguments) ? Object.entries(a.arguments as Record<string, unknown>) : [];
         const result = JSON.stringify(a.result) ?? "";
         return (
           <li key={i} className={refused ? "tr-action tr-refused" : "tr-action"}>
             <code>{a.name}</code>
             {refused && <span className="tr-flag"> refused by the tool</span>}
+            {outcome === "malformed" && <span className="tr-flag"> rejected: malformed arguments</span>}
             {args.map(([k, v]) => (
               <span key={k} className="tr-arg">
                 <code>{k}</code> {typeof v === "string" ? v : JSON.stringify(v)}
