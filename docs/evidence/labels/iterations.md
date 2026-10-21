@@ -11,3 +11,12 @@ Every prompt change evaluated against hand labels is logged here, so the report 
 Classifier prompt: unchanged (v1) in all three rows; none of the three allowed revisions has been used.
 
 Observations for the planted-failure scorecard: rules 9 and 13 were flagged as ambiguous in all three runs. Rule 5 was predicted (PRD) to show low confidence between tradeoff and ordering; when kept whole, the classifier put it at ordering 0.93, which is confident.
+
+## Held-out policies (labels committed `01e09fd` before these runs; prompts as in row 3, not tuned on them)
+
+| Date | Policy | Run | Decomposition (recall / precision) | Agreement at 0.6 / 0.7 / 0.8 | Disagreements at 0.7 |
+|---|---|---|---|---|---|
+| 2026-10-21 | Meridian Health | `wuJ8wWTtk6` | 12/12 matched; 15 extracted (80.0 %): two Scope sentences ("It does not provide medical care", "it does not replace the clinical staff") and a split of "Use plain language and avoid clinical jargon" | 100 % / 100 % / 100 % (12/12) | none |
+| 2026-10-21 | Northgate IT | `YY0S1fOYMh` | 11/11 matched; 12 extracted (91.7 %): a split of "…, and never make them feel foolish" | 81.8 % / 90.9 % / 90.9 % (10/11 at 0.7) | Rule 10 "Minimize disruption to the business.": hand disposition, classifier flagged (tradeoff 0.35) |
+
+Pooled over the three fictional policies at 0.7: **34/36 = 94.4 %** (Harrow & Vale 12/13, Meridian 12/12, Northgate 10/11). Held-out only: 22/23 = 95.7 %. At 0.6 "Use good judgment." (top probability 0.60) is no longer flagged, which is why Northgate drops to 81.8 % there; 0.7 stays the threshold.
