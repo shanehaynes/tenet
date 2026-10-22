@@ -194,7 +194,7 @@ async function main() {
   // M21: cumulative spend on the key
   const global = await readGlobalUsage();
   const billed = global.filter((e) => e.provider === "portkey" || e.provider === "openai" || e.reportedByTarget);
-  set("M21.usd", usd(billed.reduce((s, e) => s + e.usd, 0), 2), "data/usage-global.jsonl");
+  set("M21.usd", usd(billed.reduce((s, e) => s + e.usd, 0), 2), "data/usage-global.jsonl (snapshot: tokenomics/usage-global-*.jsonl)");
   set("M21.calls", k(billed.length), "data/usage-global.jsonl");
 
   const out = { generatedAt: new Date().toISOString(), values, missing };

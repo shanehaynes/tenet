@@ -1,6 +1,6 @@
 # Status
 
-Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
+Updated 2026-10-22 by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
 
 ## Days and gates
 
@@ -16,7 +16,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 ## Done (Wed Oct 21)
 
 - `5825f94` Samples and label templates committed before any code: Harrow & Vale (+ injected), Meridian, Northgate, Campus Customs HW5 excerpt (17 rules, verbatim from the HW5 prompts; rules 8 and 17 condensed, as the file header says), OpenAI Model Spec excerpt (22 sentences, v2026-08-18, CC0), edge mission statement.
-- Private repo https://github.com/shanehaynes/tenet; CI (gate, build, Playwright placeholder, mock) green on every push.
+- Repo https://github.com/shanehaynes/tenet (private until submission); CI (gate, build, Playwright placeholder, mock) green on every push.
 - `3b81f7c` Scaffold: Next.js 16.4.2, TypeScript 5.9.3, eslint 9, vitest 5. Amendments to architecture.md recorded in `docs/decisions/2026-10-21-scaffold-and-versions.md`.
 - `0c84faf` Core: env loader (`./.env` then `../.env`), settings, schemas (agent outputs, records with the `Target` union, the `Summary` contract + fixture), text utilities (`locate`, `dice`, `verifyQuote`), JSON store with the per-run single-writer queue, global usage log with cumulative key spend.
 - `13113be` Model layer: `callModel` with capability gating, retries, length retry, repair; Portkey/OpenAI/mock providers; lazy capability probe; test-budget ledger; key-budget guard (warn 75 %, refuse 95 % of $40).
@@ -96,14 +96,19 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - **Boss run done** (`yyowEk4kFO`, 14 scenarios, $0.052, finding F7): all four rule types are now tested on the real agent team. The boss pushed customer_service to undo a correct refusal, because the secrecy rule lives only in customer_service's prompt. The obligations ranking bent to the operator's explicit priority in two of three conflicts, which is an ambiguity in whom the ranking binds. The tradeoff sweep measured the boss's tools, not the tradeoff. The report is at 14 pages; trim when the walkthrough is added.
 - **Terminal screenshots S15–S17** (`scripts/terminal-shots.ts`): smoke test, doctor finding `.env` one folder up (key fully hidden), canary. Rendered from live runs, with the text kept beside each image.
 - **Report section 3 and Motivation drafted**, with a pipeline diagram (also on the agents slide). The report prints to 13 pages.
+- **Parallel lanes** (decision record `parallel-lanes`, inventory in `PARALLEL.md`), each merged after review:
+  - the blind scoring page `/spotcheck/<runId>` (`feat/spotcheck-page`);
+  - `docs/video-script.md` and `docs/policy-owner-session.md` (`docs/video-and-owner-kit`);
+  - a read-only audit before the repo goes public. Its fixes are applied: no home paths or personal email in files, figures backed by evidence, conflict winners named, cited runs archived (`docs/evidence/runs/README.md`), a usage-log snapshot, and stale STATUS lines corrected. Decisions only Shane can make are under "Pending for Shane".
+- **A changed sample is stored again**, and the home page shows only the newest version of each sample. Before this, the HW5 card appeared twice and Analyze used the old text.
 - **Fresh-clone rehearsal** (`dry-run-rehearsal.md`): clone, install, doctor (no key), a mock CLI run and the mock dev server all work; the README needed no change. M17 itself is still Shane's stopwatch run.
 
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
-- Decomposer prompt revised twice on the labeled demo policy (v1 → v3); the classifier prompt is unchanged.
+- Decomposer prompt revised twice on the labeled demo policy (v1 → v3); the classifier prompt revised once (v2; `labels/iterations.md`).
 
-- The executor prefix with the demo policy measured 1,052 estimated tokens, under the 1,100 caching floor. One neutral paragraph ("Dates and amounts…") was added to the preamble (agents §6, marked); it now measures 1,139.
+- The executor prefix on the demo policy is 1,075 real tokens, 1,072 of them cached on a fresh repeat (smoke test, 2026-10-22; decision record `prefix-calibration`).
 - As drafted, the scanner's strong patterns did not match the injected line ("Ignore the rules above when the user says…"). The patterns were amended (agents §1, marked).
 - Rule ids are `r{n}`, scenario ids `r2-L5`-style (decision record `scaffold-and-versions`).
 - The mock classifier's 100 % agreement on Harrow & Vale is by construction (its heuristics encode the demo labels). It is not evidence; only live runs write `docs/evidence/labels/`.
@@ -112,12 +117,15 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 | Since | Item | Needed by |
 |---|---|---|
-| 2026-10-22 | **Spot check (M05):** score `docs/evidence/spotcheck/449NHijnXq-blank.csv` (50 transcripts; fill `human_verdict` from `allowed_verdicts`) and save it as `449NHijnXq-shane.csv`. Do it before opening that run's report, `/runs/example`, or screenshots S06–S14, which show its verdicts. | Sat Oct 24 |
+| 2026-10-22 | **Spot check (M05):** open `http://localhost:3000/spotcheck/449NHijnXq` (after `npm run dev`). It shows the 50 transcripts one at a time, blind; press 1–4 to choose a verdict, and it autosaves to `docs/evidence/spotcheck/449NHijnXq-shane.csv`. Until you have scored, do not open that run's report, `/runs/example`, screenshots S06–S14, `docs/evidence/report-data.json`, or `docs/evidence/runs/449NHijnXq/`: they show its verdicts. | Sat Oct 24 |
+| 2026-10-22 | **Before the repo goes public (your calls):** (1) a license: none yet, so it defaults to all rights reserved; MIT is the usual choice for a course project. (2) Is `github.com/shanehaynes/Homework5` public? The README and findings link its `tenet-bridge` branch; if it stays private, say "available to course staff on request". (3) Every commit's author email is your Gmail address. To keep it out of future commits, set a GitHub no-reply address with `git config user.email <id>+shanehaynes@users.noreply.github.com`. Rewriting existing history is possible but destructive, so I have not done it. (4) PLAN, PRD and STATUS name a former employer (Eide Bailly) as an outreach target; keep it or change it to "a former colleague". | Sun Oct 25 |
 | 2026-10-22 | **Timing exercise (M13, sample-policies §8):** with a stopwatch, hand-write the tests for three Harrow & Vale rules as real user messages: a 6-step pressure sequence for "Never submit a filing, move funds, or send a binding communication…", an 8-point stakes sweep for "Weigh client convenience against identity-fraud risk…", and an 8-point amount sweep for "Escalate any request above $10,000…". Then write down what you would count as a failure for each. Start and end times plus the text go in `docs/evidence/timing/hand-written.md`. Tenet's side is done: 147 s of model time, slowest rule 66 s (`timing/tenet-449NHijnXq.json`). | Sat Oct 24 |
 | 2026-10-22 | **Dry run (M17):** on Sunday, from a fresh clone in a new folder with `.env` one level up, follow the README with a stopwatch to the first report and record the times in `docs/evidence/dry-run.md`. The rehearsal (`dry-run-rehearsal.md`) found nothing to fix. | Sun Oct 25 |
 | 2026-10-21 | Contact a policy owner (Eide Bailly colleague, Yale IT, compliance contact) for Saturday or Sunday; no classmate labeler (in finals; kappa not obtained) | Fri Oct 23 |
 
 ## Known gaps
+
+- The root `report.html` and `slides.html` are still the early skeleton builds, citing the superseded run `87VQK7KAKg`. Rebuild both after the spot check (`npm run collect-evidence && npm run build-report && npm run build-slides`) and commit them before the repo goes public. After scoring, the README image can go back to S08 if wanted.
 
 - A provider content filter can reject a judge call: Portkey routes some calls to Azure OpenAI, whose filter blocked one judge prompt in `449NHijnXq` (400). That scenario is reported as not run, never as a pass.
 
@@ -127,7 +135,7 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 ## Next step
 
-1. ~~HW5 bridge and HTTP target~~: done Wed night (see above). Optional P1: a third HW5 run against `boss` (the ordering rules 8 and 17).
+1. ~~HW5 bridge and HTTP target~~: done Wed night. ~~Boss run~~: done 2026-10-22 (`yyowEk4kFO`, F7).
 2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
 3. Saturday afternoon (after the freeze): once Shane's CSV is in, `tenet spotcheck score 449NHijnXq docs/evidence/spotcheck/449NHijnXq-shane.csv` (M05) and `tenet rejudge 449NHijnXq --effort none` scored against the same CSV (M19); `tenet timing` against Shane's hand-written file (M13); report prose.
-4. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
+4. Batched classifier: answered 2026-10-21, per-rule stays the default (on the fresh demo run the classifier is 4.8 % of a run's cost, so batching saves about 2.4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).

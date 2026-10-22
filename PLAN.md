@@ -2,7 +2,7 @@
 
 Tenet turns a prose AI policy into typed rules, generates the test each rule type demands, runs the tests against a model, and reports where behavior departs from policy and where the policy contradicts itself. This plan takes a session from an empty folder to the three graded deliverables (public repo, `report.html`, `slides.html`) by **Monday, October 26, 2026, 6:00 PM** (Canvas).
 
-Plan written 2026-10-20 from the PRD ([docs/PRD.md](docs/PRD.md), a local copy of the Claude Doc at https://claude.ai/artifact/52XKqZzCwLruiJNUh8TWFt) and the course requirements page (https://zlisto.github.io/mgt_409_fa26/project_requirements.html). Revised 2026-10-21 after the professor's feedback on the pitch and a re-baseline to the actual start date. Builder: Shane Haynes, solo (course rule), with Claude Code sessions doing the building.
+Plan written 2026-10-20 from the PRD ([docs/PRD.md](docs/PRD.md), a local copy of a private working Doc; this file is the snapshot) and the course requirements page (https://zlisto.github.io/mgt_409_fa26/project_requirements.html). Revised 2026-10-21 after the professor's feedback on the pitch and a re-baseline to the actual start date. Builder: Shane Haynes, solo (course rule), with Claude Code sessions doing the building.
 
 ---
 

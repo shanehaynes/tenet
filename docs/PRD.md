@@ -1,6 +1,6 @@
 # Tenet PRD (local copy)
 
-> Source of truth: the Claude Doc at https://claude.ai/artifact/52XKqZzCwLruiJNUh8TWFt (tab "Tenet PRD", rev 26, synced 2026-10-21 after the four plan overrides were written back into the Doc).
+> Snapshot of the private working Doc (rev 26, synced 2026-10-21 after the four plan overrides were written back into it).
 > This file is a faithful markdown conversion so a coding session can work without the docs connector.
 > Two diagrams in the source are not reproducible here; each is marked **Figure** below and described in the text around it.
 > If this copy and the Doc disagree, the Doc wins; re-export it rather than editing this file by hand.

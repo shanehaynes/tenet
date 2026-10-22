@@ -161,3 +161,5 @@ Copy the demo run's folder to `docs/evidence/runs/<demoRunId>/` (summary, rules,
 - [ ] Optional video uploaded or linked.
 - [ ] Canvas submission: repo link, `report.html`, `slides.html`, before 6:00 PM Monday October 26; confirm the upload opened correctly from Canvas.
 - [ ] After submitting: no further pushes to `main` until grades are posted, except a README fix if staff report a run problem.
+
+*Amended 2026-10-22:* S20 shows the HW5 agent's discount ladder, transcript and drafted reply. No tool refused anything in 80 HW5 scenarios (finding F5), so there is no tool refusal to show. S19 and S04 come from the fresh demo run `449NHijnXq`, whose rule numbers differ from the 13-rule decomposition described above (decompositions vary between fresh runs). S15–S17 are rendered terminal output (`scripts/terminal-shots.ts`), S22 is the Model Spec excerpt's ambiguity map, and Node is 22.12 or newer (README).

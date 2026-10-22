@@ -64,13 +64,19 @@ export async function rescanPolicy(id: string, text: string): Promise<Policy> {
 
 let seeding: Promise<void> | null = null;
 
-/** Stores any sample not yet stored (scanning each once). Concurrent callers share one seeding pass. */
+/**
+ * Stores any sample not yet stored, or whose file has changed since it was stored (scanning each once), so
+ * Analyze always uses the current sample text. Earlier versions stay stored, because their runs refer to them.
+ * Concurrent callers share one seeding pass.
+ */
 export async function ensureSamples(): Promise<Policy[]> {
   seeding ??= (async () => {
     try {
       for (const entry of SAMPLE_CATALOG) {
-        if (await findSamplePolicy(entry.key)) continue;
-        await ingestPolicy({ name: entry.name, text: await readSampleText(entry), source: "sample", sample: entry });
+        const text = await readSampleText(entry);
+        const stored = await findSamplePolicy(entry.key);
+        if (stored && stored.text.trim() === text.trim()) continue;
+        await ingestPolicy({ name: entry.name, text, source: "sample", sample: entry });
       }
     } finally {
       seeding = null;
@@ -78,6 +84,18 @@ export async function ensureSamples(): Promise<Policy[]> {
   })();
   await seeding;
   return listPolicies();
+}
+
+/** One policy per sample (the newest version) plus every non-sample policy, in listing order. */
+export function currentPolicies(policies: Policy[]): Policy[] {
+  const seen = new Set<string>();
+  return policies.filter((p) => {
+    if (!p.sample) return true;
+    const newest = [...policies].filter((q) => q.sample?.key === p.sample!.key).sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+    if (seen.has(p.sample.key) || newest.id !== p.id) return false;
+    seen.add(p.sample.key);
+    return true;
+  });
 }
 
 /** The catalog entry for a file path under samples/, if it is one. */

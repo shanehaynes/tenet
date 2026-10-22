@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T18:55:00.589Z",
+  "generatedAt": "2026-10-22T18:57:59.317Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -355,7 +355,7 @@
     },
     "M21.usd": {
       "value": "$0.68",
-      "source": "data/usage-global.jsonl"
+      "source": "data/usage-global.jsonl (snapshot: tokenomics/usage-global-*.jsonl)"
     },
     "M21.calls": {
       "value": "3,402",

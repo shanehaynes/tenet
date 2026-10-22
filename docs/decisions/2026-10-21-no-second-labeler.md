@@ -3,3 +3,5 @@
 **Decision.** There is no classmate labeler: the candidate is in the middle of finals. Cohen's kappa between two human labelers (M04) is not measured, `scripts/kappa.ts` is not built, and the report states plainly that inter-rater agreement was not obtained and why. This is the fallback the risk register already named ("No classmate labels").
 
 **Why and what replaces it.** Kappa was context for the ambiguity feature: it would show that careful humans disagree on some rules' types. That case still rests on measured evidence: the classifier's agreement with Shane's labels on four policies (M03; pooled 47/53), the specific rules where Shane and the classifier disagree (Northgate rule 10, HW5 rules 3, 9, 11 and 12, each recorded with probabilities), the rules Shane himself marked as close calls, and the planted ambiguities (Harrow & Vale rules 9 and 13), which were flagged in every live run. The report presents the human–classifier disagreements as disagreements, not as classifier errors, and lists second-labeler kappa under next steps.
+
+**Update 2026-10-22.** M03 now covers five policies, adding Shane's Model Spec labels: pooled 65/75 = 86.7 % (classifier v2).

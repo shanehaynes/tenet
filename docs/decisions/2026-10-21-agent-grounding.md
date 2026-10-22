@@ -12,3 +12,5 @@
 - The judge sees each action's arguments up to 1,500 characters (results stay at 300). In `J8JCfKdS9J` the drafts ran 230–480 characters of arguments and the judge saw only the first 300, so the end of most drafts was invisible to it. That run was stopped at 10 of 37 and rerun as `IoSW65WajY`.
 
 **Cost.** The description adds about 400 tokens to each generator prefix, which is cached within a run. Grounded scenarios are longer agent runs (30–55 s and roughly 10–15 model calls each, against 7–18 s ungrounded), so an HW5 run takes 20–25 minutes.
+
+**Measured since.** 37 scenarios took 14–15 minutes (customer_service and accounting); the boss's 14 took 18, with delegations taking 70–90 s each.

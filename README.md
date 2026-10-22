@@ -2,7 +2,7 @@
 
 Tenet reads an AI agent's written policy, sorts each rule by the kind of rule it is, and runs the test that kind demands: a pressure ladder for a bright-line constraint, a stakes sweep for a tradeoff, paraphrases for a disposition, forced conflicts for a priority ordering. It reports where the agent's behavior departs from the policy, and where the policy itself is ambiguous or contradicts itself.
 
-![Report summary for the demo policy](docs/evidence/screenshots/S08-summary-strip.png)
+![Ambiguity map of the OpenAI Model Spec excerpt: each rule placed by its type probabilities](docs/evidence/screenshots/S22-model-spec-map.png)
 
 ## Run it locally (about 5 minutes)
 
@@ -25,7 +25,7 @@ Tenet reads an AI agent's written policy, sorts each rule by the kind of rule it
 - *"No API key found"*: Tenet looks for `.env` in the repo folder, then one folder above it. `npm run doctor` shows what it found.
 - *Port 3000 busy*: `next dev` picks another port and prints it; use that URL. `/api/health` reports the provider and model.
 - *Rate limits*: lower the concurrency on the run panel (or set `TENET_CONCURRENCY=2`).
-- *No key at all*: `TENET_PROVIDER=mock npm run dev` shows the whole app with deterministic synthetic results (marked "Mock provider" in the footer).
+- *No key at all*: `TENET_PROVIDER=mock npm run dev` shows the whole app with deterministic synthetic results (marked "Mock provider" in the footer). Without a key, `/runs/example` still shows an archived real run, read from files in the repo.
 - *Long live runs*: `npm run build && npm start` avoids dev-server restarts mid-run.
 
 ## What you are looking at
@@ -44,7 +44,7 @@ flowchart LR
   J --> A[Aggregation and report]
 ```
 
-Plain code calls each narrow agent in turn; no agent calls another. Every model call goes through one wrapper that logs tokens and cost and enforces the budgets.
+Plain code calls each narrow agent in turn; no agent calls another. Every model call goes through one wrapper that logs tokens and cost and enforces the budgets (the one exception is `scripts/probe-gateway-cache.ts`, a one-off probe that needs the gateway's response headers).
 
 | Rule type | What it is | How Tenet tests it |
 |---|---|---|
@@ -59,11 +59,12 @@ Two kinds of finding are about the policy rather than the model: **ambiguous rul
 
 | Sample | What it is |
 |---|---|
-| Harrow & Vale LLP | A fictional accounting firm's client-service assistant; the demo policy (13 rules) |
-| Meridian Health Partners, Northgate Systems IT | Two more fictional policies (12 and 11 rules) |
-| Campus Customs (HW5) | The rules of a real five-agent back-office team (17 rules) |
+| Harrow & Vale LLP | A fictional accounting firm's client-service assistant; the demo policy (13 hand-labeled rules; a fresh decomposition finds 13–16) |
+| Meridian Health Partners, Northgate Systems IT | Two more fictional policies (12 and 11 hand-labeled rules) |
+| Campus Customs (HW5) | The rules of a real five-agent back-office team (17 hand-labeled rules) |
 | OpenAI Model Spec (excerpt) | 22 sentences from a published model policy (CC0) |
 | Harrow & Vale LLP (injected) | The demo policy with one injected line; the scanner quarantines it |
+| Mission statement (edge case) | No testable rules; shows the empty result (not listed on the home page; `npm run tenet -- analyze samples/edge-mission-statement.md`) |
 
 Paste or upload your own policy (`.txt` or `.md`, up to 200 KB) on the home page.
 
@@ -101,6 +102,9 @@ Only a key is required; everything else has a default. Set variables in `.env` o
 | `TENET_KEY_BUDGET_USD` | `40` | Cumulative budget on the key |
 | `TENET_DATA_DIR` | `./data` | Where runs are stored |
 | `TENET_AGENT_URL`, `TENET_AGENT_NAME` | | An HTTP agent to test instead of the model |
+| `TENET_JUDGE_MODEL`, `TENET_JUDGE_PROVIDER` | the target's | A different model or provider for the judge |
+| `TENET_GATEWAY_CACHE` | (refresh) | `allow` lets Portkey replay cached answers; for demos only, since a replay is not a new measurement |
+| `TENET_ALLOW_OVER_KEY_BUDGET` | | `1` lets live calls continue past 95 % of the key budget |
 
 ## Development
 
@@ -112,6 +116,10 @@ npm run tenet -- help    # the CLI
 ```
 
 The CLI drives the same core as the app: `analyze`, `rules`, `confirm`, `execute`, `run` (end to end), `status`, `export` (standalone report HTML and usage CSV), `canary`, `spotcheck`, `timing`, `rejudge`, `spend`. Every command accepts `--provider mock`.
+
+## Sample sources
+
+`samples/openai-model-spec-excerpt.md` quotes the OpenAI Model Spec, which OpenAI publishes under CC0 1.0 (source and version in the file's header). `samples/campus-customs-hw5.md` quotes the author's own HW5 agent prompts. The other samples are fictional.
 
 ## Project documents
 

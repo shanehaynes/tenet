@@ -11,5 +11,12 @@
       "S20c-agent-draft.png"
     ],
     "how": "AGENT_RUN_ID=IoSW65WajY npx playwright test -c playwright.screenshots.config.ts --grep S20"
+  },
+  "S22": {
+    "runId": "7J1pfQjoOJ",
+    "how": "MAP_RUN_ID=7J1pfQjoOJ npx playwright test -c playwright.screenshots.config.ts --grep S22"
+  },
+  "S15-S17": {
+    "how": "npx tsx scripts/terminal-shots.ts (live smoke, doctor and canary on 2026-10-22; text beside each image)"
   }
 }

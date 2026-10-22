@@ -1,7 +1,7 @@
 import "server-only";
 import "./_lib/server";
 import { PolicyHome, type PolicyItem } from "@/components/PolicyHome";
-import { ensureSamples } from "@/core/pipeline/policies";
+import { currentPolicies, ensureSamples } from "@/core/pipeline/policies";
 import { listPolicies, SAMPLE_CATALOG } from "@/core/store/policies";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,8 @@ export default async function Home() {
     policies = await listPolicies();
   }
   const catalog = new Map(SAMPLE_CATALOG.map((s) => [s.key, s]));
-  const items: PolicyItem[] = policies.map((p) => ({
+  // A sample whose file changed is stored again; older versions keep their runs but are not offered here.
+  const items: PolicyItem[] = currentPolicies(policies).map((p) => ({
     id: p.id,
     name: p.name,
     source: p.source,

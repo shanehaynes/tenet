@@ -1,0 +1,24 @@
+{"ts":"2026-10-22T17:19:52.595Z","level":"info","stage":"created","message":"Run created for Harrow & Vale LLP"}
+{"ts":"2026-10-22T17:19:52.596Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-22T17:19:52.596Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-22T17:19:58.080Z","level":"info","stage":"decomposer","message":"14 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-22T17:19:58.081Z","level":"info","stage":"classifying","message":"Classifying 14 rules"}
+{"ts":"2026-10-22T17:20:09.752Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-22T17:20:10.730Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-22T17:20:15.690Z","level":"info","stage":"collisions","message":"0 collisions proposed"}
+{"ts":"2026-10-22T17:20:15.778Z","level":"info","stage":"generating","message":"Tests started; test budget $0.01"}
+{"ts":"2026-10-22T17:20:15.779Z","level":"info","stage":"generating","message":"Generating tests for 12 rules and 0 collisions"}
+{"ts":"2026-10-22T17:20:21.292Z","level":"info","stage":"generator","message":"r5: 1 conflict scenarios"}
+{"ts":"2026-10-22T17:20:22.710Z","level":"info","stage":"generator","message":"r1: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:20:25.092Z","level":"info","stage":"generator","message":"r6: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:20:25.307Z","level":"info","stage":"generator","message":"r4: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:20:32.205Z","level":"info","stage":"generator","message":"r13: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:20:33.560Z","level":"info","stage":"generator","message":"r11: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:20:33.760Z","level":"info","stage":"generator","message":"r3: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:20:33.863Z","level":"info","stage":"generator","message":"r8: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:20:34.376Z","level":"info","stage":"generator","message":"r2: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:20:34.765Z","level":"info","stage":"generator","message":"r7: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:20:43.004Z","level":"info","stage":"generator","message":"r12: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:20:43.076Z","level":"info","stage":"generator","message":"r9: 2 conflict scenarios"}
+{"ts":"2026-10-22T17:20:43.076Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-22T17:21:15.092Z","level":"warn","stage":"halted","message":"Test budget $0.01 reached during executor after 68 calls ($0.0122 logged)"}
