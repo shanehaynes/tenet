@@ -7,7 +7,8 @@ Tenet turns a prose AI policy into typed rules (constraint, tradeoff, dispositio
 1. `STATUS.md`: where the build stands, what is pending for Shane, and the next concrete step.
 2. `PLAN.md`: order of work, gates, closed decisions (§2), working rules (§0).
 3. `docs/plan/*.md`: architecture, agents and prompts, sample policies, evidence and report. `docs/decisions/`: deviations from those docs, newest wins.
-4. `AGENTS.md`: Next.js 16 notes. Read `node_modules/next/dist/docs/` before writing routes or pages.
+4. `PARALLEL.md`: shared state, before running agents in parallel.
+5. `AGENTS.md`: Next.js 16 notes. Read `node_modules/next/dist/docs/` before writing routes or pages.
 
 ## Stakes
 
