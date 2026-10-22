@@ -82,6 +82,14 @@ test("S20 agent run screenshots (AGENT_RUN_ID)", async ({ page }) => {
   }
 });
 
+/** S22: the ambiguity map of the published policy (the Model Spec excerpt's validation run), for "What is new". */
+test("S22 published-policy ambiguity map (MAP_RUN_ID)", async ({ page }) => {
+  test.skip(!process.env.MAP_RUN_ID, "set MAP_RUN_ID to capture S22");
+  await page.goto(`/runs/${process.env.MAP_RUN_ID}/report`);
+  await expect(page.getByTestId("run-header")).toContainText(/Complete|Halted/);
+  await page.locator(".tr-map").first().screenshot({ path: shot("S22-model-spec-map") });
+});
+
 test("report screenshots from an existing run (RUN_ID)", async ({ page, request }) => {
   test.skip(!process.env.RUN_ID, "set RUN_ID to re-capture S08–S14 from an existing run");
   await reportShots(page, request, process.env.RUN_ID!);
