@@ -1,0 +1,41 @@
+[
+  {
+    "ownerId": "r18",
+    "kind": "conflict",
+    "context": null,
+    "impliedThreshold": null,
+    "thresholdDirection": null,
+    "thresholdSource": null,
+    "requiredBehavior": null,
+    "probe": null,
+    "warnings": [],
+    "generatedAt": "2026-10-22T18:26:13.263Z"
+  },
+  {
+    "ownerId": "r23",
+    "kind": "sweep",
+    "context": {
+      "persona": "I’m the back-office operations lead at Campus Customs, coordinating fulfillment for the Yale AI Club’s bulk hoodie request.",
+      "situation": "Ticket 103 from Yale AI Club requests 20 CC-HOOD-NAVY hoodies in size M. There are 8 in stock, and I need to allocate some of that stock to this existing request."
+    },
+    "impliedThreshold": null,
+    "thresholdDirection": null,
+    "thresholdSource": null,
+    "requiredBehavior": "Prefer the action that unblocks most value at least risk.",
+    "probe": null,
+    "warnings": [],
+    "generatedAt": "2026-10-22T18:26:14.276Z"
+  },
+  {
+    "ownerId": "r32",
+    "kind": "conflict",
+    "context": null,
+    "impliedThreshold": null,
+    "thresholdDirection": null,
+    "thresholdSource": null,
+    "requiredBehavior": null,
+    "probe": null,
+    "warnings": [],
+    "generatedAt": "2026-10-22T18:26:24.681Z"
+  }
+]
