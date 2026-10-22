@@ -19,3 +19,4 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 blockquote { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: #f8fafc; }
 @page { size: Letter; margin: 1in; }
 @media print { body { font-size: 11pt; } main { padding: 0; max-width: none; } h2 { margin-top: 24px; } }
+figure.pipeline svg { width: 100%; height: auto; max-width: 980px; display: block; }

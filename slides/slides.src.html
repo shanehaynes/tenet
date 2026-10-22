@@ -41,7 +41,27 @@ table.types { font-size: 0.55em; }
 <tr><td>Disposition</td><td>Ten paraphrases: is the trait stable?</td></tr>
 <tr><td>Ordering</td><td>Forced conflicts: which value wins?</td></tr></table>
 <p class="accent">Tenet's new part is the rule-type taxonomy and the ambiguity map.</p></section>
-<section><h2>The agents</h2><p>Scanner → decomposer → classifier → <span class="accent">human review</span> → collision mapper → generators → agent under test → judge → report</p>
+<section><h2>The agents</h2><div style="max-width: 1100px; margin: 0 auto"><svg viewBox="0 0 980 190" role="img" aria-label="Tenet's pipeline" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52525b"/></marker></defs>
+<g fill="#eef2ff" stroke="#6366f1" stroke-width="1.2">
+<rect x="10" y="20" width="120" height="44" rx="8"/><rect x="170" y="20" width="120" height="44" rx="8"/><rect x="330" y="20" width="120" height="44" rx="8"/>
+<rect x="490" y="20" width="120" height="44" rx="8" fill="#fef3c7" stroke="#d97706"/><rect x="650" y="20" width="140" height="44" rx="8"/>
+<rect x="830" y="20" width="140" height="44" rx="8"/>
+<rect x="650" y="120" width="140" height="50" rx="8" fill="#ecfdf5" stroke="#059669"/><rect x="490" y="120" width="120" height="50" rx="8"/><rect x="330" y="120" width="120" height="50" rx="8"/>
+</g>
+<g fill="#18181b" text-anchor="middle">
+<text x="70" y="47">Injection scanner</text><text x="230" y="47">Decomposer</text><text x="390" y="47">Classifier</text>
+<text x="550" y="40">Human review</text><text x="550" y="56" font-size="11" fill="#92400e">types, parks, splits</text>
+<text x="720" y="47">Collision mapper</text><text x="900" y="40">Generators</text><text x="900" y="56" font-size="11" fill="#52525b">one per rule type</text>
+<text x="720" y="142">Agent under test</text><text x="720" y="158" font-size="11" fill="#065f46">model or HTTP agent</text>
+<text x="550" y="150">Judge</text><text x="390" y="142">Aggregation</text><text x="390" y="158" font-size="11" fill="#52525b">and report</text>
+</g>
+<g stroke="#52525b" stroke-width="1.4" fill="none" marker-end="url(#arr)">
+<path d="M130 42 H168"/><path d="M290 42 H328"/><path d="M450 42 H488"/><path d="M610 42 H648"/><path d="M790 42 H828"/>
+<path d="M900 64 V145 H792"/><path d="M650 145 H612"/><path d="M490 145 H452"/>
+</g>
+<text x="70" y="92" text-anchor="middle" font-size="11" fill="#b91c1c">flagged → quarantine</text>
+</svg></div>
 <p class="small">Plain code calls each narrow agent in turn; no agent calls another. Every call goes through one wrapper that logs tokens and cost and enforces the budgets.</p>
 <p class="small">The agent under test: gpt-6-luna with the policy as its system prompt, or a <span class="accent">real agent over HTTP</span>. Here, the author's five-agent HW5 team, with its own prompts and tools.</p></section>
 <section><h2>A real run: the rules</h2><img data-evidence="S03-review" alt="Review table"></section>
