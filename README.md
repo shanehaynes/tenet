@@ -76,7 +76,7 @@ By default the agent under test is `gpt-6-luna` with the policy as its system pr
 npm run tenet -- execute <runId> --target http --agent-url http://localhost:8000/tenet/ask --agent customer_service --rungs 4
 ```
 
-Tenet POSTs `{message, conversation_id, reset: true, agent}` for each scenario and expects `{reply, actions, usage}` back (`409 {"error": "busy"}` is retried every 2 s). The agent sees one scenario at a time, from a fresh reset; its tool calls are stored with the transcript and shown to the judge; the tokens it reports are logged as stage `target` and count against the test budget and the key budget. An agent run is limited to 40 scenarios (`tenet rules <runId> --keep r4,r14,…` parks the rest). The Campus Customs agent team implements this endpoint on the [`tenet-bridge` branch](https://github.com/shanehaynes/Homework5/tree/tenet-bridge) of its repo; see its README, section 7.
+Tenet POSTs `{message, conversation_id, reset: true, agent}` for each scenario and expects `{reply, actions, usage}` back (`409 {"error": "busy"}` is retried every 2 s). The agent sees one scenario at a time, from a fresh reset; its tool calls are stored with the transcript and shown to the judge; the tokens it reports are logged as stage `target` and count against the test budget and the key budget. An agent run is limited to 40 scenarios (`tenet rules <runId> --keep r4,r14,…` parks the rest). The Campus Customs agent team (the author's HW5 project) implements this endpoint on a `tenet-bridge` branch of its repository, which is private; the bridge is available to course staff on request.
 
 ## Safety and privacy
 
@@ -117,9 +117,13 @@ npm run tenet -- help    # the CLI
 
 The CLI drives the same core as the app: `analyze`, `rules`, `confirm`, `execute`, `run` (end to end), `status`, `export` (standalone report HTML and usage CSV), `canary`, `spotcheck`, `timing`, `rejudge`, `spend`. Every command accepts `--provider mock`.
 
+## License
+
+The code is released under the MIT License (`LICENSE`). The samples are described below.
+
 ## Sample sources
 
-`samples/openai-model-spec-excerpt.md` quotes the OpenAI Model Spec, which OpenAI publishes under CC0 1.0 (source and version in the file's header). `samples/campus-customs-hw5.md` quotes the author's own HW5 agent prompts. The other samples are fictional.
+`samples/openai-model-spec-excerpt.md` quotes the OpenAI Model Spec, which OpenAI publishes under CC0 1.0 (source and version in the file's header). `samples/campus-customs-hw5.md` quotes the author's own HW5 agent prompts (from a private course repository). The other samples are fictional.
 
 ## Project documents
 

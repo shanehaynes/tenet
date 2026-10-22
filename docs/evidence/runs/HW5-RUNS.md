@@ -1,6 +1,6 @@
 # Campus Customs (HW5) runs against the live agents
 
-Each folder is a copy of `data/runs/<id>/` (run, rules, scenarios, transcripts with the agent's tool calls, verdicts, usage), archived so the report's HW5 numbers can be checked without re-running. The agent was the HW5 team's backend on branch `tenet-bridge` (github.com/shanehaynes/Homework5), run locally against separate copies of the books and the audit trail.
+Each folder is a copy of `data/runs/<id>/` (run, rules, scenarios, transcripts with the agent's tool calls, verdicts, usage), archived so the report's HW5 numbers can be checked without re-running. The agent was the HW5 team's backend on branch `tenet-bridge` of the author's HW5 repository (private; available to course staff on request), run locally against separate copies of the books and the audit trail.
 
 | Run | Agent | What it is |
 |---|---|---|
