@@ -98,8 +98,22 @@ async function main() {
   } else need("M06", "M06", "archive the demo run (docs/evidence/runs/example.json)");
 
   // M07: defects per policy (validation runs)
-  if (has("runs/defects-per-policy.json")) set("M07.file", "runs/defects-per-policy.json", "runs/defects-per-policy.json");
-  else need("M07", "M07", "validation runs on every sample (Saturday)");
+  if (has("runs/defects-per-policy.json")) {
+    type P = { policy: string; runId: string; kind: string; rules: number; rulesTested: number; defects: { total: number; failures: number; partials: number; ambiguities: number; collisions: number }; usd: number };
+    const d = read("runs/defects-per-policy.json") as { policies: P[] };
+    const src = "runs/defects-per-policy.json";
+    for (const p of d.policies) {
+      set(
+        `M07.${p.runId}`,
+        p.kind === "no_testable_rules"
+          ? `${p.policy}: no testable rules (run ${p.runId})`
+          : `${p.policy}: ${p.defects.total} defects in ${p.rules} rules (${p.defects.failures} failing, ${p.defects.partials} partial, ${p.defects.ambiguities} ambiguous, ${p.defects.collisions} collisions; ${p.rulesTested} rules tested, ${usd(p.usd)}, run ${p.runId})`,
+        src,
+      );
+    }
+    const tested = d.policies.filter((p) => p.kind !== "no_testable_rules");
+    set("M07.summary", `${tested.reduce((n, p) => n + p.defects.total, 0)} defects across ${tested.length} policies; every policy had at least ${Math.min(...tested.map((p) => p.defects.total))}`, src);
+  } else need("M07", "M07", "validation runs on every sample (npx tsx scripts/defects-per-policy.ts <runId> …)");
   // M10, M11, M19: cost experiments
   const tok = has("tokenomics") ? readdirSync(path.join(EV, "tokenomics")) : [];
   const batch = tok.filter((f) => f.startsWith("classifier-batch-"));

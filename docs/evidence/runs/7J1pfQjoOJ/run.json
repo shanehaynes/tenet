@@ -1,0 +1,42 @@
+{
+  "id": "7J1pfQjoOJ",
+  "policyId": "YEku4QarcG",
+  "policyName": "OpenAI Model Spec (excerpt)",
+  "createdAt": "2026-10-22T17:59:39.252Z",
+  "updatedAt": "2026-10-22T18:04:41.636Z",
+  "status": "complete",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 6,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 6,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-22T18:04:41.430Z",
+  "startedExecutionAt": "2026-10-22T18:00:31.387Z",
+  "finishedAt": "2026-10-22T18:04:41.634Z",
+  "wallClockMs": 250240,
+  "totals": {
+    "calls": 428,
+    "inputTokens": 827183,
+    "cachedTokens": 720492,
+    "reasoningTokens": 28078,
+    "outputTokens": 90124,
+    "usd": 0.06293602000000002,
+    "analysisUsd": 0.005474120000000001,
+    "testUsd": 0.057461900000000066
+  },
+  "nextRuleNumber": 29,
+  "untestablePassages": [],
+  "warnings": []
+}

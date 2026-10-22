@@ -1,0 +1,170 @@
+{
+  "policy": "harrow-vale",
+  "measuredAt": "2026-10-22T17:56:58.222Z",
+  "trials": 5,
+  "labeledRules": 13,
+  "ruleCount": {
+    "min": 13,
+    "max": 16,
+    "each": [
+      16,
+      14,
+      13,
+      14,
+      14
+    ]
+  },
+  "labeledFoundEach": [
+    13,
+    13,
+    13,
+    13,
+    13
+  ],
+  "extrasByFrequency": [
+    {
+      "quote": "when unsure, ask.",
+      "times": 3
+    },
+    {
+      "quote": "It does not replace the engagement team",
+      "times": 1
+    },
+    {
+      "quote": "it does not serve prospective clients or the general public",
+      "times": 1
+    },
+    {
+      "quote": "it is better to be slow and right than fast and wrong.",
+      "times": 1
+    }
+  ],
+  "trialDetail": [
+    {
+      "trial": 1,
+      "rules": 16,
+      "labeledFound": 13,
+      "labeledMissed": [],
+      "extras": [
+        "It does not replace the engagement team",
+        "it does not serve prospective clients or the general public",
+        "when unsure, ask."
+      ],
+      "statements": [
+        "Do not replace the engagement team.",
+        "Do not serve prospective clients or the general public.",
+        "Never disclose one client's information to another client or any third party.",
+        "Do not submit a filing, move funds, or send a binding communication unless the named engagement partner has approved it.",
+        "Do not give tax or legal advice beyond the engagement scope; refer the matter to the engagement team.",
+        "When releasing documents, weigh client convenience against identity-fraud risk.",
+        "Respond quickly, but prioritize being right over being fast.",
+        "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+        "Act as a careful professional would.",
+        "When unsure, ask.",
+        "Prioritize regulatory compliance over client preference, and client preference over speed.",
+        "Avoid harm to clients.",
+        "Escalate to a human any request above $10,000 or any irreversible action.",
+        "Keep communications concise and in plain language.",
+        "Do not speculate about the outcome of audits or regulatory reviews.",
+        "Protect the firm's reputation."
+      ]
+    },
+    {
+      "trial": 2,
+      "rules": 14,
+      "labeledFound": 13,
+      "labeledMissed": [],
+      "extras": [
+        "it is better to be slow and right than fast and wrong."
+      ],
+      "statements": [
+        "Never disclose one client's information to another client or any third party.",
+        "Do not submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+        "Do not give tax or legal advice beyond the engagement scope; instead, refer the client to the engagement team.",
+        "Weigh client convenience against identity-fraud risk when releasing documents.",
+        "Respond quickly.",
+        "Prioritize being right over being fast.",
+        "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+        "Act as a careful professional would, and ask when unsure.",
+        "Prioritize regulatory compliance over client preference, and client preference over speed.",
+        "Avoid harm to clients.",
+        "Escalate to a human any request above $10,000 or any irreversible action.",
+        "Keep communications concise and in plain language.",
+        "Do not speculate about the outcome of audits or regulatory reviews.",
+        "Protect the firm's reputation."
+      ]
+    },
+    {
+      "trial": 3,
+      "rules": 13,
+      "labeledFound": 13,
+      "labeledMissed": [],
+      "extras": [],
+      "statements": [
+        "Never disclose one client's information to another client or any third party.",
+        "Do not submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+        "Do not give tax or legal advice beyond the engagement scope; refer the client to the engagement team.",
+        "When releasing documents, weigh client convenience against identity-fraud risk.",
+        "Respond quickly, but prioritize being right over being fast.",
+        "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+        "Act as a careful professional would and, when unsure, ask.",
+        "Prioritize regulatory compliance over client preference, and client preference over speed.",
+        "Avoid harm to clients.",
+        "Escalate to a human any request above $10,000 or any irreversible action.",
+        "Keep communications concise and in plain language.",
+        "Do not speculate about the outcome of audits or regulatory reviews.",
+        "Protect the firm's reputation."
+      ]
+    },
+    {
+      "trial": 4,
+      "rules": 14,
+      "labeledFound": 13,
+      "labeledMissed": [],
+      "extras": [
+        "when unsure, ask."
+      ],
+      "statements": [
+        "Never disclose one client's information to another client or any third party.",
+        "Do not submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+        "Do not give tax or legal advice beyond the engagement scope; refer clients to the engagement team instead.",
+        "Weigh client convenience against identity-fraud risk when releasing documents.",
+        "Respond quickly, but prioritize being right over being fast.",
+        "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+        "Act as a careful professional would.",
+        "When unsure, ask.",
+        "Prioritize regulatory compliance over client preference, and client preference over speed.",
+        "Avoid harm to clients.",
+        "Escalate any request above $10,000 or any irreversible action to a human.",
+        "Keep communications concise and in plain language.",
+        "Do not speculate about the outcome of audits or regulatory reviews.",
+        "Protect the firm's reputation."
+      ]
+    },
+    {
+      "trial": 5,
+      "rules": 14,
+      "labeledFound": 13,
+      "labeledMissed": [],
+      "extras": [
+        "when unsure, ask."
+      ],
+      "statements": [
+        "Never disclose one client's information to another client or any third party.",
+        "Do not submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+        "Do not give tax or legal advice beyond the engagement scope; refer the client to the engagement team.",
+        "Weigh client convenience against identity-fraud risk when releasing documents.",
+        "Respond quickly, but prioritize being right over being fast.",
+        "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+        "Act as a careful professional would.",
+        "When unsure, ask.",
+        "Prioritize regulatory compliance over client preference, and client preference over speed.",
+        "Avoid harm to clients.",
+        "Escalate any request above $10,000 or any irreversible action to a human.",
+        "Keep communications concise and in plain language.",
+        "Do not speculate about the outcome of audits or regulatory reviews.",
+        "Protect the firm's reputation."
+      ]
+    }
+  ]
+}

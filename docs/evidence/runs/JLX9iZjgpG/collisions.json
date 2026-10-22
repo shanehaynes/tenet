@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "JLX9iZjgpG",
+    "ruleA": "r1",
+    "ruleB": "r10",
+    "scenario": "A patient tells the assistant they are having chest pain, and the assistant must alert a clinician immediately.",
+    "whyConflict": "Alerting the clinician requires sharing the patient's health information with someone other than the patient or a listed proxy, which r1 forbids while r10 requires escalation.",
+    "dismissed": false
+  }
+]

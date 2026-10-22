@@ -1,0 +1,38 @@
+{"ts":"2026-10-22T17:59:39.254Z","level":"info","stage":"created","message":"Run created for OpenAI Model Spec (excerpt)"}
+{"ts":"2026-10-22T17:59:39.257Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-22T17:59:39.257Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-22T17:59:55.981Z","level":"info","stage":"decomposer","message":"28 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-22T17:59:55.982Z","level":"info","stage":"classifying","message":"Classifying 28 rules"}
+{"ts":"2026-10-22T18:00:25.549Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-22T18:00:25.551Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-22T18:00:31.385Z","level":"info","stage":"collisions","message":"2 collisions proposed"}
+{"ts":"2026-10-22T18:00:31.387Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-22T18:00:31.389Z","level":"info","stage":"generating","message":"Generating tests for 23 rules and 2 collisions"}
+{"ts":"2026-10-22T18:00:36.874Z","level":"info","stage":"generator","message":"r1: 1 conflict scenarios"}
+{"ts":"2026-10-22T18:00:42.829Z","level":"info","stage":"generator","message":"r4: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:00:43.727Z","level":"info","stage":"generator","message":"r3: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:51.463Z","level":"info","stage":"generator","message":"r14: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:52.489Z","level":"info","stage":"generator","message":"r15: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:52.732Z","level":"info","stage":"generator","message":"r9: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:53.139Z","level":"info","stage":"generator","message":"r11: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:57.838Z","level":"info","stage":"generator","message":"r13: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:00:59.546Z","level":"info","stage":"generator","message":"r16: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:01:00.488Z","level":"info","stage":"generator","message":"r28: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:01:02.218Z","level":"info","stage":"generator","message":"r6: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:04.255Z","level":"info","stage":"generator","message":"r22: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:01:04.399Z","level":"info","stage":"generator","message":"r19: 6 ladder scenarios"}
+{"ts":"2026-10-22T18:01:04.936Z","level":"info","stage":"generator","message":"r7: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:06.916Z","level":"info","stage":"generator","message":"r10: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:07.699Z","level":"info","stage":"generator","message":"r12: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:10.569Z","level":"info","stage":"generator","message":"r18: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:10.871Z","level":"info","stage":"generator","message":"r21: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:11.865Z","level":"info","stage":"generator","message":"r23: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:12.045Z","level":"info","stage":"generator","message":"r24: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:14.701Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-22T18:01:15.521Z","level":"info","stage":"generator","message":"r25: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:15.852Z","level":"info","stage":"generator","message":"r26: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:18.873Z","level":"info","stage":"generator","message":"r27: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T18:01:19.760Z","level":"info","stage":"generator","message":"c2: 1 conflict scenarios"}
+{"ts":"2026-10-22T18:01:19.760Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-22T18:04:24.281Z","level":"info","stage":"reporting","message":"status: reporting"}
+{"ts":"2026-10-22T18:04:41.635Z","level":"info","stage":"complete","message":"Report ready"}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tenet report: edge-mission-statement</title>
+<style>
+body { margin: 0; padding: 32px 20px 48px; background: #fafafa; }
+.tr-export-foot { max-width: 980px; margin: 32px auto 0; color: #71717a; font: 12px ui-sans-serif, system-ui, sans-serif; }
+
+.tr-report { color: #18181b; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.5; max-width: 980px; margin: 0 auto; }
+.tr-report h1 { font-size: 28px; line-height: 1.2; margin: 0 0 4px; letter-spacing: -0.01em; }
+.tr-report h2 { font-size: 19px; margin: 40px 0 12px; padding-top: 12px; border-top: 1px solid #e4e4e7; }
+.tr-report h3 { font-size: 15px; margin: 0 0 6px; }
+.tr-meta, .tr-small, .tr-caption, .tr-lede-small { color: #71717a; font-size: 13px; }
+.tr-lede { font-size: 17px; }
+.tr-live { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 13px; }
+.tr-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 20px 0 8px; }
+.tr-tile { border: 1px solid #e4e4e7; border-radius: 10px; padding: 10px 12px; background: #ffffff; }
+.tr-tile-wide { grid-column: span 2; }
+.tr-tile-value { font-size: 18px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tr-tile-label { font-size: 12px; color: #71717a; }
+.tr-tone-bad .tr-tile-value { color: #b91c1c; }
+.tr-tone-bent .tr-tile-value { color: #b45309; }
+.tr-tone-accent .tr-tile-value { color: #3730a3; }
+.tr-figure { margin: 12px 0; }
+.tr-figure svg { display: block; max-width: 100%; height: auto; }
+.tr-caption { margin-top: 6px; }
+.tr-map svg { max-width: 640px; }
+.tr-chart svg { max-width: 760px; }
+.tr-card { border: 1px solid #e4e4e7; border-radius: 12px; padding: 16px 18px; margin: 14px 0; background: #ffffff; break-inside: avoid; scroll-margin-top: 80px; }
+.tr-card:target { box-shadow: 0 0 0 3px #c7d2fe; }
+.tr-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+.tr-index { font-weight: 650; }
+.tr-type, .tr-test { font-size: 12px; padding: 1px 8px; border-radius: 999px; background: #f4f4f5; color: #3f3f46; }
+.tr-verdict { margin-left: auto; font-size: 12px; font-weight: 650; padding: 1px 10px; border: 1.5px solid; border-radius: 999px; }
+.tr-statement { font-weight: 550; margin: 4px 0; }
+.tr-source { font-size: 13px; color: #71717a; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 0 0 8px; }
+.tr-evidence { margin-top: 10px; }
+.tr-quote { margin: 0; padding: 8px 12px; border-left: 3px solid #3730a3; background: #f8fafc; font-size: 14px; }
+.tr-unverified { border-left-style: dotted; border-left-color: #64748b; }
+.tr-flag { color: #64748b; font-size: 12px; font-weight: 600; }
+.tr-link { margin-top: 6px; background: none; border: 0; padding: 0; color: #3730a3; font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.tr-clickable { cursor: pointer; }
+.tr-note { font-size: 13px; color: #3f3f46; background: #f4f4f5; border-radius: 8px; padding: 6px 10px; }
+.tr-warning { font-size: 13px; color: #b45309; background: #fffbeb; border-radius: 8px; padding: 6px 10px; margin: 8px 0 0; }
+.tr-probs span { margin-right: 10px; font-variant-numeric: tabular-nums; }
+.tr-defect { border-left: 3px solid #3730a3; padding: 4px 0 4px 14px; margin: 18px 0; break-inside: avoid; }
+.tr-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+.tr-table th, .tr-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #e4e4e7; vertical-align: top; }
+.tr-table th { font-weight: 600; color: #3f3f46; }
+.tr-compact th, .tr-compact td { padding: 5px 8px; }
+.tr-num td:not(:first-child), .tr-num th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.tr-transcript { margin-top: 6px; font-size: 13px; }
+.tr-transcript summary { cursor: pointer; color: #3730a3; }
+.tr-msg { white-space: pre-wrap; margin: 6px 0; }
+.tr-appendix { margin: 14px 0; }
+.tr-appendix h3 { font-size: 13px; font-weight: 600; }
+.tr-msg-assistant { background: #f8fafc; padding: 6px 8px; border-radius: 6px; }
+.tr-actions { margin: 6px 0 0; padding-left: 20px; font-size: 12px; }
+.tr-action { margin: 4px 0; }
+.tr-action.tr-refused { color: #991b1b; }
+.tr-arg { display: block; white-space: pre-wrap; overflow-wrap: anywhere; margin-left: 8px; }
+.tr-result { display: block; color: #64748b; overflow-wrap: anywhere; margin-left: 8px; }
+@media print {
+  .tr-report { max-width: none; font-size: 11pt; }
+  .tr-report h2 { break-after: avoid; }
+  .tr-link, .tr-live { display: none; }
+  .tr-card, .tr-tile { border-color: #d4d4d8; }
+}
+
+</style>
+</head>
+<body>
+<article class="tr-report"><h1>edge-mission-statement</h1><p class="tr-lede">This policy contains no testable rules.</p><p>Passages that sound normative but ask the agent to do nothing:</p><ul><li>“We believe technology should serve people, not the other way around.”</li><li>“We believe in openness, curiosity and care.”</li><li>“We hope for a future in which every member feels heard, every voice counts, and the technology we share reflects the values of the community that built it.”</li></ul></article>
+<p class="tr-export-foot">Exported from Tenet, run 8N57mBlbay, summary generated 2026-10-22 18:04 UTC. Every number above is computed from the run's logged model calls; cost is logged tokens × published list price.</p>
+</body>
+</html>

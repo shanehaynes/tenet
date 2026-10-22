@@ -1,0 +1,77 @@
+{
+  "runId": "8N57mBlbay",
+  "policyId": "HKM8LdpaZ8",
+  "policyName": "edge-mission-statement",
+  "kind": "no_testable_rules",
+  "partial": false,
+  "generatedAt": "2026-10-22T18:04:47.891Z",
+  "strip": {
+    "rulesTotal": 0,
+    "rulesTested": 0,
+    "rulesP1NotRun": 0,
+    "rulesParked": {},
+    "failures": 0,
+    "partials": 0,
+    "ambiguities": 0,
+    "collisions": 0,
+    "scenariosTotal": 0,
+    "scenariosNotRun": 0,
+    "unverifiedCount": 0,
+    "truncatedCount": 0,
+    "calls": 1,
+    "inputTokens": 618,
+    "cachedTokens": 0,
+    "reasoningTokens": 308,
+    "outputTokens": 385,
+    "usd": 0.0002543,
+    "analysisUsd": 0.0002543,
+    "testUsd": 0,
+    "wallClockMs": 3946
+  },
+  "rules": [],
+  "map": {
+    "threshold": 0.7,
+    "arcs": []
+  },
+  "defects": {
+    "ambiguities": [],
+    "collisions": []
+  },
+  "untestablePassages": [
+    "We believe technology should serve people, not the other way around.",
+    "We believe in openness, curiosity and care.",
+    "We hope for a future in which every member feels heard, every voice counts, and the technology we share reflects the values of the community that built it."
+  ],
+  "typedVsFlat": null,
+  "usageByStage": [
+    {
+      "stage": "decomposer",
+      "calls": 1,
+      "inputTokens": 618,
+      "cachedTokens": 0,
+      "reasoningTokens": 308,
+      "outputTokens": 385,
+      "usd": 0.0002543,
+      "medianMs": 3928
+    }
+  ],
+  "planted": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 4,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 6,
+    "disabledGenerators": [],
+    "modelString": "gpt-6-luna",
+    "capabilities": null
+  }
+}

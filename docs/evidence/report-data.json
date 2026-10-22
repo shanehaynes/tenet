@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T17:22:00.294Z",
+  "generatedAt": "2026-10-22T18:05:47.494Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -181,6 +181,26 @@
       "value": "Rules 1 and 6 collide: not found (pair not proposed)",
       "source": "runs/449NHijnXq/summary.json"
     },
+    "M07.JLX9iZjgpG": {
+      "value": "Meridian Health Partners: 5 defects in 12 rules (2 failing, 0 partial, 2 ambiguous, 1 collisions; 10 rules tested, $0.0249, run JLX9iZjgpG)",
+      "source": "runs/defects-per-policy.json"
+    },
+    "M07.vn3jLywoMW": {
+      "value": "Northgate Systems IT: 2 defects in 12 rules (0 failing, 0 partial, 2 ambiguous, 0 collisions; 10 rules tested, $0.0231, run vn3jLywoMW)",
+      "source": "runs/defects-per-policy.json"
+    },
+    "M07.7J1pfQjoOJ": {
+      "value": "OpenAI Model Spec (excerpt): 10 defects in 28 rules (3 failing, 0 partial, 5 ambiguous, 2 collisions; 23 rules tested, $0.0629, run 7J1pfQjoOJ)",
+      "source": "runs/defects-per-policy.json"
+    },
+    "M07.8N57mBlbay": {
+      "value": "edge-mission-statement: no testable rules (run 8N57mBlbay)",
+      "source": "runs/defects-per-policy.json"
+    },
+    "M07.summary": {
+      "value": "17 defects across 3 policies; every policy had at least 2",
+      "source": "runs/defects-per-policy.json"
+    },
     "M11.perRule": {
       "value": "86.7 % agreement, $0.0112 over 5 policies",
       "source": "tokenomics/classifier-batch-*.json"
@@ -274,11 +294,11 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.46",
+      "value": "$0.58",
       "source": "data/usage-global.jsonl"
     },
     "M21.calls": {
-      "value": "2,091",
+      "value": "2,901",
       "source": "data/usage-global.jsonl"
     }
   },
@@ -287,11 +307,6 @@
       "key": "M05",
       "measurement": "M05",
       "why": "Shane scores the 50-transcript spot check"
-    },
-    {
-      "key": "M07",
-      "measurement": "M07",
-      "why": "validation runs on every sample (Saturday)"
     },
     {
       "key": "M10",

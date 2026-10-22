@@ -1,0 +1,4 @@
+{"ts":"2026-10-22T18:04:43.944Z","level":"info","stage":"created","message":"Run created for edge-mission-statement"}
+{"ts":"2026-10-22T18:04:43.946Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-22T18:04:43.946Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-22T18:04:47.889Z","level":"info","stage":"decomposer","message":"0 rules extracted","data":{"warnings":[]}}

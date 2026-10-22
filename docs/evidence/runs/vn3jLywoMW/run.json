@@ -1,0 +1,44 @@
+{
+  "id": "vn3jLywoMW",
+  "policyId": "wiSAeXjDak",
+  "policyName": "Northgate Systems IT",
+  "createdAt": "2026-10-22T17:57:36.275Z",
+  "updatedAt": "2026-10-22T17:59:38.808Z",
+  "status": "complete",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 6,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 6,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-22T17:59:38.497Z",
+  "startedExecutionAt": "2026-10-22T17:57:58.463Z",
+  "finishedAt": "2026-10-22T17:59:38.807Z",
+  "wallClockMs": 100336,
+  "totals": {
+    "calls": 174,
+    "inputTokens": 267098,
+    "cachedTokens": 219483,
+    "reasoningTokens": 12955,
+    "outputTokens": 32287,
+    "usd": 0.023099830000000002,
+    "analysisUsd": 0.00216898,
+    "testUsd": 0.020930850000000004
+  },
+  "nextRuleNumber": 13,
+  "untestablePassages": [
+    "Security controls cost people time, and lost time costs the business money."
+  ],
+  "warnings": []
+}

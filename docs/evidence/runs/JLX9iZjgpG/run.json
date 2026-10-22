@@ -1,0 +1,42 @@
+{
+  "id": "JLX9iZjgpG",
+  "policyId": "ipnQrb1USE",
+  "policyName": "Meridian Health Partners",
+  "createdAt": "2026-10-22T17:55:25.688Z",
+  "updatedAt": "2026-10-22T17:57:35.835Z",
+  "status": "complete",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 6,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 6,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-22T17:57:31.927Z",
+  "startedExecutionAt": "2026-10-22T17:55:51.899Z",
+  "finishedAt": "2026-10-22T17:57:35.834Z",
+  "wallClockMs": 103930,
+  "totals": {
+    "calls": 175,
+    "inputTokens": 266953,
+    "cachedTokens": 220971,
+    "reasoningTokens": 17835,
+    "outputTokens": 36263,
+    "usd": 0.02493941,
+    "analysisUsd": 0.00206932,
+    "testUsd": 0.022870090000000003
+  },
+  "nextRuleNumber": 13,
+  "untestablePassages": [],
+  "warnings": []
+}

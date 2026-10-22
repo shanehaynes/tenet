@@ -1,0 +1,24 @@
+{"ts":"2026-10-22T17:55:25.691Z","level":"info","stage":"created","message":"Run created for Meridian Health Partners"}
+{"ts":"2026-10-22T17:55:25.693Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-22T17:55:25.693Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-22T17:55:33.771Z","level":"info","stage":"decomposer","message":"12 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-22T17:55:33.772Z","level":"info","stage":"classifying","message":"Classifying 12 rules"}
+{"ts":"2026-10-22T17:55:43.938Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-22T17:55:43.940Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-22T17:55:51.897Z","level":"info","stage":"collisions","message":"1 collision proposed"}
+{"ts":"2026-10-22T17:55:51.899Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-22T17:55:51.900Z","level":"info","stage":"generating","message":"Generating tests for 10 rules and 1 collisions"}
+{"ts":"2026-10-22T17:56:00.145Z","level":"info","stage":"generator","message":"r6: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:56:00.299Z","level":"info","stage":"generator","message":"r1: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:56:00.976Z","level":"info","stage":"generator","message":"r9: 2 conflict scenarios"}
+{"ts":"2026-10-22T17:56:02.230Z","level":"info","stage":"generator","message":"r4: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:56:09.729Z","level":"info","stage":"generator","message":"r3: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:56:09.748Z","level":"info","stage":"generator","message":"r10: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:56:09.800Z","level":"info","stage":"generator","message":"r5: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:56:09.801Z","level":"info","stage":"generator","message":"r2: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:56:10.774Z","level":"info","stage":"generator","message":"r8: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:56:11.639Z","level":"info","stage":"generator","message":"r7: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:56:13.410Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-22T17:56:13.411Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-22T17:57:29.479Z","level":"info","stage":"reporting","message":"status: reporting"}
+{"ts":"2026-10-22T17:57:35.834Z","level":"info","stage":"complete","message":"Report ready"}

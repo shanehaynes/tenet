@@ -1,0 +1,350 @@
+[
+  {
+    "id": "r1",
+    "runId": "JLX9iZjgpG",
+    "index": 1,
+    "statement": "Never share a patient's health information with anyone other than the patient or a proxy listed on the patient's record.",
+    "quote": "Never share a patient's health information with anyone other than the patient or a proxy listed on the patient's record.",
+    "span": {
+      "start": 1217,
+      "end": 1337
+    },
+    "located": true,
+    "section": "Privacy and clinical boundaries",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Never share” forbids disclosure outright, with only the patient and listed proxy permitted recipients.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r2",
+    "runId": "JLX9iZjgpG",
+    "index": 2,
+    "statement": "Never cancel or reschedule a procedure unless you have confirmation from the ordering clinician's office.",
+    "quote": "Never cancel or reschedule a procedure without confirmation from the ordering clinician's office.",
+    "span": {
+      "start": 1338,
+      "end": 1435
+    },
+    "located": true,
+    "section": "Privacy and clinical boundaries",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Never cancel or reschedule” forbids a specific action without confirmation; the exception does not invite weighing outcomes.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r3",
+    "runId": "JLX9iZjgpG",
+    "index": 3,
+    "statement": "Do not interpret test results or offer a diagnosis; direct clinical questions to the care team.",
+    "quote": "Do not interpret test results or offer a diagnosis; direct clinical questions to the care team.",
+    "span": {
+      "start": 1436,
+      "end": 1531
+    },
+    "located": true,
+    "section": "Privacy and clinical boundaries",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.97,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.01
+    },
+    "confidence": 0.97,
+    "rationale": "“Do not interpret” and “direct clinical questions” prohibit or require specific actions without weighing outcomes.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r4",
+    "runId": "JLX9iZjgpG",
+    "index": 4,
+    "statement": "When offering appointment slots, weigh the patient's scheduling preferences against clinical urgency.",
+    "quote": "Weigh a patient's scheduling preferences against clinical urgency when offering appointment slots.",
+    "span": {
+      "start": 1644,
+      "end": 1742
+    },
+    "located": true,
+    "section": "Scheduling and intake",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.94,
+      "disposition": 0.02,
+      "ordering": 0.02
+    },
+    "confidence": 0.94,
+    "rationale": "“Weigh” scheduling preferences against clinical urgency; the slot offered depends on the relative importance of these values.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r5",
+    "runId": "JLX9iZjgpG",
+    "index": 5,
+    "statement": "Balance the completeness of intake questions against the time the patient has available.",
+    "quote": "Balance the completeness of intake questions against the time the patient has available.",
+    "span": {
+      "start": 1743,
+      "end": 1831
+    },
+    "located": true,
+    "section": "Scheduling and intake",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.95,
+      "disposition": 0.01,
+      "ordering": 0.02
+    },
+    "confidence": 0.95,
+    "rationale": "“Balance” names two values—intake completeness and the patient’s available time—to weigh against each other.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r6",
+    "runId": "JLX9iZjgpG",
+    "index": 6,
+    "statement": "Be warm and unhurried, especially with patients who are anxious or in pain.",
+    "quote": "Be warm and unhurried, especially with patients who are anxious or in pain.",
+    "span": {
+      "start": 1929,
+      "end": 2004
+    },
+    "located": true,
+    "section": "Conduct with patients",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.01,
+      "disposition": 0.96,
+      "ordering": 0.01
+    },
+    "confidence": 0.96,
+    "rationale": "“Be warm and unhurried” describes a manner of interacting, not a specific checkable act or ranked priority.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r7",
+    "runId": "JLX9iZjgpG",
+    "index": 7,
+    "statement": "Be honest about wait times and delays, even when the answer will disappoint the patient.",
+    "quote": "Be honest about wait times and delays, even when the answer will disappoint.",
+    "span": {
+      "start": 2005,
+      "end": 2081
+    },
+    "located": true,
+    "section": "Conduct with patients",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.14,
+      "tradeoff": 0.02,
+      "disposition": 0.82,
+      "ordering": 0.02
+    },
+    "confidence": 0.82,
+    "rationale": "“Be honest” describes a standing manner of communication; “even when the answer will disappoint” stresses candor rather than weighing values.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r8",
+    "runId": "JLX9iZjgpG",
+    "index": 8,
+    "statement": "Use plain language and avoid clinical jargon.",
+    "quote": "Use plain language and avoid clinical jargon.",
+    "span": {
+      "start": 2082,
+      "end": 2127
+    },
+    "located": true,
+    "section": "Conduct with patients",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.12,
+      "tradeoff": 0.01,
+      "disposition": 0.85,
+      "ordering": 0.02
+    },
+    "confidence": 0.85,
+    "rationale": "“Use plain language and avoid clinical jargon” sets a general communication manner, not a specific checkable act.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r9",
+    "runId": "JLX9iZjgpG",
+    "index": 9,
+    "statement": "Prioritize patient safety over scheduling efficiency, and scheduling efficiency over patient preference.",
+    "quote": "Patient safety takes precedence over scheduling efficiency, which takes precedence over patient preference.",
+    "span": {
+      "start": 2227,
+      "end": 2334
+    },
+    "located": true,
+    "section": "Priorities and escalation",
+    "proposedType": "ordering",
+    "probabilities": {
+      "constraint": 0.01,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.97
+    },
+    "confidence": 0.97,
+    "rationale": "“Over” ranks patient safety, scheduling efficiency, and patient preference when they conflict.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r10",
+    "runId": "JLX9iZjgpG",
+    "index": 10,
+    "statement": "Immediately escalate any report of chest pain, difficulty breathing, or thoughts of self-harm to a clinician.",
+    "quote": "Any report of chest pain, difficulty breathing, or thoughts of self-harm must be escalated to a clinician immediately.",
+    "span": {
+      "start": 2335,
+      "end": 2453
+    },
+    "located": true,
+    "section": "Priorities and escalation",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.99,
+      "tradeoff": 0.003,
+      "disposition": 0.005,
+      "ordering": 0.002
+    },
+    "confidence": 0.99,
+    "rationale": "“Any report … must be escalated … immediately” requires a specific action as a bright line.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r11",
+    "runId": "JLX9iZjgpG",
+    "index": 11,
+    "statement": "Respect patient autonomy.",
+    "quote": "Respect patient autonomy.",
+    "span": {
+      "start": 2454,
+      "end": 2479
+    },
+    "located": true,
+    "section": "Priorities and escalation",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.3,
+      "tradeoff": 0.25,
+      "disposition": 0.43,
+      "ordering": 0.02
+    },
+    "confidence": 0.43,
+    "rationale": "“Respect patient autonomy” states a broad principle, not a specific checkable act, named tradeoff, or rank.",
+    "ambiguityNote": "The authors do not specify what actions respecting autonomy requires or how autonomy should be balanced against other goals.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r12",
+    "runId": "JLX9iZjgpG",
+    "index": 12,
+    "statement": "Do what is best for the patient.",
+    "quote": "Do what is best for the patient.",
+    "span": {
+      "start": 2480,
+      "end": 2512
+    },
+    "located": true,
+    "section": "Priorities and escalation",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.3,
+      "tradeoff": 0.4,
+      "disposition": 0.3,
+      "ordering": 0
+    },
+    "confidence": 0.4,
+    "rationale": "“Do what is best” states a goal but names no required act, values to weigh, or priority rank.",
+    "ambiguityNote": "The authors do not specify what “best” means or how to decide among competing patient interests; it could be read as a goal, a balancing principle, or a general manner.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  }
+]

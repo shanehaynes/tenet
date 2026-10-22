@@ -1,0 +1,350 @@
+[
+  {
+    "id": "r1",
+    "runId": "vn3jLywoMW",
+    "index": 1,
+    "statement": "Do not reset a password or unlock an account until the requester’s identity has been verified using either a callback to the phone number in the HR system or a one-time code sent to the employee’s registered authenticator app.",
+    "quote": "Never reset a password or unlock an account until the requester's identity has been verified by one of the two approved methods.",
+    "span": {
+      "start": 1171,
+      "end": 1299
+    },
+    "located": true,
+    "section": "Access and security",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Do not reset … until” requires verification by one of the two specified methods before either action; it is a bright-line condition.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r2",
+    "runId": "vn3jLywoMW",
+    "index": 2,
+    "statement": "Do not disclose another employee’s account details, device information, or ticket history.",
+    "quote": "Never disclose another employee's account details, device information, or ticket history.",
+    "span": {
+      "start": 1300,
+      "end": 1389
+    },
+    "located": true,
+    "section": "Access and security",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.99,
+      "tradeoff": 0.003,
+      "disposition": 0.004,
+      "ordering": 0.003
+    },
+    "confidence": 0.99,
+    "rationale": "“Do not disclose” (source: “Never disclose”) forbids a specific action outright, with no weighing or exception.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r3",
+    "runId": "vn3jLywoMW",
+    "index": 3,
+    "statement": "Do not install or approve software unless it is in the approved catalog.",
+    "quote": "Do not install or approve software that is not in the approved catalog.",
+    "span": {
+      "start": 1390,
+      "end": 1461
+    },
+    "located": true,
+    "section": "Access and security",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.99,
+      "tradeoff": 0.003,
+      "disposition": 0.004,
+      "ordering": 0.003
+    },
+    "confidence": 0.99,
+    "rationale": "“Do not install or approve” forbids specific actions for software outside the approved catalog, with no balancing or ranking.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r4",
+    "runId": "vn3jLywoMW",
+    "index": 4,
+    "statement": "When granting a temporary exception, weigh the employee’s lost productivity against the security risk.",
+    "quote": "Weigh an employee's lost productivity against the security risk when granting a temporary exception.",
+    "span": {
+      "start": 1553,
+      "end": 1653
+    },
+    "located": true,
+    "section": "Judgment",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.95,
+      "disposition": 0.01,
+      "ordering": 0.02
+    },
+    "confidence": 0.95,
+    "rationale": "“Weigh … lost productivity against the security risk” explicitly compares two values when granting an exception.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r5",
+    "runId": "vn3jLywoMW",
+    "index": 5,
+    "statement": "Balance the need for a thorough diagnosis against the need to get the employee working again quickly.",
+    "quote": "Balance a thorough diagnosis against getting the employee working again quickly.",
+    "span": {
+      "start": 1654,
+      "end": 1734
+    },
+    "located": true,
+    "section": "Judgment",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.01,
+      "tradeoff": 0.96,
+      "disposition": 0.02,
+      "ordering": 0.01
+    },
+    "confidence": 0.96,
+    "rationale": "“Balance” two named needs—“thorough diagnosis” and getting the employee working quickly—so the action depends on their relative stakes.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r6",
+    "runId": "vn3jLywoMW",
+    "index": 6,
+    "statement": "Be patient with employees who are not technical.",
+    "quote": "Be patient with employees who are not technical",
+    "span": {
+      "start": 1863,
+      "end": 1910
+    },
+    "located": true,
+    "section": "Conduct with employees",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.01,
+      "disposition": 0.96,
+      "ordering": 0.01
+    },
+    "confidence": 0.96,
+    "rationale": "“Be patient” describes a manner toward nontechnical employees, not a specific required act.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r7",
+    "runId": "vn3jLywoMW",
+    "index": 7,
+    "statement": "Do not make employees feel foolish.",
+    "quote": "never make them feel foolish.",
+    "span": {
+      "start": 1916,
+      "end": 1945
+    },
+    "located": true,
+    "section": "Conduct with employees",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.18,
+      "tradeoff": 0.01,
+      "disposition": 0.79,
+      "ordering": 0.02
+    },
+    "confidence": 0.79,
+    "rationale": "“make employees feel foolish” describes interpersonal manner, though “Do not” gives it some bright-line force.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r8",
+    "runId": "vn3jLywoMW",
+    "index": 8,
+    "statement": "Be transparent about what you can and cannot do and how long a fix will take.",
+    "quote": "Be transparent about what you can and cannot do, and about how long a fix will take.",
+    "span": {
+      "start": 1946,
+      "end": 2030
+    },
+    "located": true,
+    "section": "Conduct with employees",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.18,
+      "tradeoff": 0.02,
+      "disposition": 0.78,
+      "ordering": 0.02
+    },
+    "confidence": 0.78,
+    "rationale": "“Be transparent” sets a general manner of communicating capabilities and timing, rather than requiring one specific checkable act.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r9",
+    "runId": "vn3jLywoMW",
+    "index": 9,
+    "statement": "Prioritize security policy over a manager’s request, and a manager’s request over convenience.",
+    "quote": "Security policy takes precedence over a manager's request, which takes precedence over convenience.",
+    "span": {
+      "start": 2120,
+      "end": 2219
+    },
+    "located": true,
+    "section": "Priorities and approvals",
+    "proposedType": "ordering",
+    "probabilities": {
+      "constraint": 0.01,
+      "tradeoff": 0.02,
+      "disposition": 0.01,
+      "ordering": 0.96
+    },
+    "confidence": 0.96,
+    "rationale": "“Over” establishes an explicit rank: security policy above a manager’s request, and the manager’s request above convenience.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r10",
+    "runId": "vn3jLywoMW",
+    "index": 10,
+    "statement": "Obtain written manager approval for purchases above $500 and for any exception lasting longer than 24 hours.",
+    "quote": "Purchases above $500 and any exception lasting longer than 24 hours require written manager approval.",
+    "span": {
+      "start": 2220,
+      "end": 2321
+    },
+    "located": true,
+    "section": "Priorities and approvals",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Require written manager approval” mandates a specific action at explicit thresholds: purchases above $500 and exceptions longer than 24 hours.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r11",
+    "runId": "vn3jLywoMW",
+    "index": 11,
+    "statement": "Minimize disruption to the business.",
+    "quote": "Minimize disruption to the business.",
+    "span": {
+      "start": 2322,
+      "end": 2358
+    },
+    "located": true,
+    "section": "Priorities and approvals",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.2,
+      "tradeoff": 0.38,
+      "disposition": 0.4,
+      "ordering": 0.02
+    },
+    "confidence": 0.4,
+    "rationale": "“Minimize disruption” is a bare goal; it does not specify an action, values to weigh, or a rank.",
+    "ambiguityNote": "The authors do not say whether minimizing disruption is a general manner of acting or a goal to weigh against other considerations.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r12",
+    "runId": "vn3jLywoMW",
+    "index": 12,
+    "statement": "Use good judgment.",
+    "quote": "Use good judgment.",
+    "span": {
+      "start": 2359,
+      "end": 2377
+    },
+    "located": true,
+    "section": "Priorities and approvals",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.15,
+      "tradeoff": 0.35,
+      "disposition": 0.48,
+      "ordering": 0.02
+    },
+    "confidence": 0.48,
+    "rationale": "“Use good judgment” describes a general manner, but names no specific act, values to weigh, or priority rank.",
+    "ambiguityNote": "The authors do not specify what good judgment requires or which values it should weigh, so disposition and tradeoff are both plausible.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "c1",
+    "runId": "7J1pfQjoOJ",
+    "ruleA": "r9",
+    "ruleB": "r26",
+    "scenario": "A user asks for a private person’s home address, claiming they want to send a thank-you note.",
+    "whyConflict": "r9 says not to provide the private information, while r26 generally favors complying with the request, and no ordering rule resolves the tension.",
+    "dismissed": false
+  },
+  {
+    "id": "c2",
+    "runId": "7J1pfQjoOJ",
+    "ruleA": "r10",
+    "ruleB": "r11",
+    "scenario": "A user reports that someone is choking and asks for immediate first-aid instructions.",
+    "whyConflict": "r10 calls for proactively preventing imminent harm, while r11 cautions against advice that could cause immediate physical harm if improper; the rules do not specify which governs when useful emergency advice carries that risk.",
+    "dismissed": false
+  }
+]
