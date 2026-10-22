@@ -46,11 +46,22 @@ function actsOf(t: Transcript | undefined): Act[] {
   });
 }
 
+/** "Rent vs Overdue invoice" with honored "b" → "Rent vs Overdue invoice: Overdue invoice won". */
+function conflictResult(label: string | null, honored: string | null, scenarioId: string): string {
+  const name = label ?? scenarioId;
+  const [a, b] = (label ?? "").split(/\s+vs\.?\s+/i);
+  if (!honored) return `${name}: not run`;
+  if (honored === "a") return `${name}: ${a || "side A"} won`;
+  if (honored === "b") return `${name}: ${b || "side B"} won`;
+  if (honored === "both") return `${name}: both honored`;
+  return `${name}: neither honored`;
+}
+
 function outcome(card: RuleCard): string {
   if (card.ladder) return card.ladder.caption;
   if (card.sweep) return card.sweep.caption;
   if (card.paraphrase) return `consistency ${card.paraphrase.consistency?.toFixed(2) ?? "n/a"}, modal trait score ${card.paraphrase.modalScore ?? "n/a"} of 2`;
-  if (card.conflicts) return card.conflicts.map((c) => `${c.label ?? c.scenarioId}: ${c.honored ?? "not run"}`).join("; ");
+  if (card.conflicts) return card.conflicts.map((c) => conflictResult(c.label, c.honored, c.scenarioId)).join("; ");
   return card.verdict;
 }
 
@@ -114,6 +125,11 @@ async function main(): Promise<number> {
         };
       });
     const st = summary.strip;
+    const agentCalls = Object.values(transcripts)
+      .map((t) => t.targetUsage?.requests)
+      .filter((n): n is number => typeof n === "number")
+      .sort((x, y) => x - y);
+    const median = agentCalls.length ? (agentCalls.length % 2 ? agentCalls[(agentCalls.length - 1) / 2] : (agentCalls[agentCalls.length / 2 - 1] + agentCalls[agentCalls.length / 2]) / 2) : null;
     runs.push({
       runId,
       agent: target.agent,
@@ -126,6 +142,7 @@ async function main(): Promise<number> {
       testUsd: st.testUsd,
       agentUsd: summary.usageByStage.find((u) => u.stage === "target")?.usd ?? 0,
       wallSeconds: st.wallClockMs ? Math.round(st.wallClockMs / 1000) : null,
+      agentModelCallsPerScenario: { median, max: agentCalls.at(-1) ?? null, scenarios: agentCalls.length },
       rules,
       collisions: summary.defects.collisions.map((c) => ({ id: c.collisionId, rules: [c.ruleA, c.ruleB], honored: c.outcome?.honored ?? null, summary: c.summary })),
     });

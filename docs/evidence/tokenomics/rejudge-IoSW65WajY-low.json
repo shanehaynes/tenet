@@ -25,5 +25,5 @@
       "reasoningTokens": 1650
     }
   },
-  "verdictsFile": "/home/shanehaynes/projects/Tenet/data/runs/IoSW65WajY/verdicts-effort-low.json"
+  "verdictsFile": "data/runs/IoSW65WajY/verdicts-effort-low.json"
 }

@@ -187,7 +187,7 @@ export const rejudgeCommand: Command = {
       scenarios: verdicts.length,
       agreementWithDefaultJudge: { same, total: verdicts.length, rate: verdicts.length ? same / verdicts.length : 0 },
       cost: { cheaper: totals, defaultJudge: { effort: "low", ...baseline } },
-      verdictsFile: vfile,
+      verdictsFile: path.relative(process.cwd(), vfile),
     });
     out(`Re-judged ${verdicts.length} transcripts at effort "${effort}": ${money(totals.usd)} (default judge ${money(baseline.usd)}); same verdict as the default judge on ${same}/${verdicts.length}.`);
     out(`Verdicts: ${vfile}. Evidence: ${efile}. Score against Shane's CSV with: tenet spotcheck score ${runId} <csv> --verdicts ${vfile}`);

@@ -32,7 +32,7 @@ Versions below were current on npm on 2026-10-20. Run `npm view <pkg> version` b
 `create-next-app` refuses a non-empty directory, and this repo already holds `PLAN.md` and `docs/`. Scaffold in a sibling folder and copy in:
 
 ```bash
-cd /home/shanehaynes/projects
+cd ..   # the folder that holds Tenet/
 # amended 2026-10-21: --no-cache-components keeps the dynamic/runtime route exports legal
 npx create-next-app@16.4.2 tenet-scaffold --ts --app --tailwind --eslint --src-dir --import-alias "@/*" --use-npm \
   --no-react-compiler --no-cache-components --no-agent-feedback --agents-md --disable-git --skip-install

@@ -132,6 +132,14 @@ async function main() {
       costB += d.batched.usd;
     }
     set("M11.perRule", `${pct(a / n)} agreement, ${usd(costA)} over ${batch.length} policies`, "tokenomics/classifier-batch-*.json");
+    if (example) {
+      const s = Summary.parse(read(path.join("runs", example.runId, "summary.json")));
+      const classifier = s.usageByStage.find((u) => u.stage === "classifier")?.usd ?? 0;
+      const share = s.strip.usd > 0 ? classifier / s.strip.usd : 0;
+      const halved = costA > 0 ? 1 - costB / costA : 0;
+      set("M11.classifierShare", pct(share), `runs/${s.runId}/summary.json`);
+      set("M11.auditSaving", pct(share * halved), "M11.classifierShare × the batched saving on classifier cost");
+    }
     set("M11.batched", `${pct(b / n)} agreement, ${usd(costB)} over ${batch.length} policies`, "tokenomics/classifier-batch-*.json");
   } else need("M11", "M11", "eval:classifier --batched");
   if (has("tokenomics/rungs.json")) {
@@ -171,11 +179,13 @@ async function main() {
   if (!has("user/quote.md")) need("M18", "M18", "policy-owner session");
   if (has("runs/hw5-ground-truth.json")) {
     type GtRule = { policyRule: number | null; ruleId: string; tenetVerdict: string; outcome: string; enforcedBy: string; scenariosRun: number; scenariosWithToolRefusal: number };
-    const gt = read("runs/hw5-ground-truth.json") as { runs: { runId: string; agent: string; scenarios: number; scenariosNotRun: number; usd: number; agentUsd: number; wallSeconds: number | null; rules: GtRule[] }[] };
+    const gt = read("runs/hw5-ground-truth.json") as { runs: { runId: string; agent: string; scenarios: number; scenariosNotRun: number; usd: number; agentUsd: number; wallSeconds: number | null; agentModelCallsPerScenario?: { median: number | null; max: number | null }; rules: GtRule[] }[] };
     for (const r of gt.runs) {
       const src = "runs/hw5-ground-truth.json";
       const failing = r.rules.filter((x) => x.tenetVerdict === "fail" || x.tenetVerdict === "partial");
-      set(`M20.${r.agent}.${r.runId}.run`, `${r.runId}: ${r.rules.length} rules, ${r.scenarios} scenarios (${r.scenariosNotRun} not run), ${usd(r.usd)} of which the agent ${usd(r.agentUsd)}${r.wallSeconds ? `, ${Math.round(r.wallSeconds / 60)} min` : ""}`, src);
+      const calls = r.agentModelCallsPerScenario;
+      if (calls?.median != null) set(`M20.${r.agent}.${r.runId}.agentCalls`, `a median of ${calls.median} model calls per scenario (up to ${calls.max})`, src);
+      set(`M20.${r.agent}.${r.runId}.run`, `${r.runId}: ${r.rules.length} ${r.rules.length === 1 ? "rule" : "rules"}, ${r.scenarios} scenarios (${r.scenariosNotRun} not run), ${usd(r.usd)} of which the agent ${usd(r.agentUsd)}${r.wallSeconds ? `, ${Math.round(r.wallSeconds / 60)} min` : ""}`, src);
       set(`M20.${r.agent}.${r.runId}.departures`, failing.length ? failing.map((x) => `rule ${x.policyRule ?? "?"} (${x.tenetVerdict}; ${x.enforcedBy}): ${x.outcome}`).join(" · ") : "none", src);
       for (const x of r.rules) set(`M20.${r.agent}.${r.runId}.rule${x.policyRule ?? "x"}.${x.ruleId}`, `${x.tenetVerdict}: ${x.outcome}; tool refusals in ${x.scenariosWithToolRefusal} of ${x.scenariosRun} scenarios; enforced by ${x.enforcedBy}`, src);
     }

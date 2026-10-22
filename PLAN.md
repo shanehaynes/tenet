@@ -16,7 +16,7 @@ Plan written 2026-10-20 from the PRD ([docs/PRD.md](docs/PRD.md), a local copy o
 
 **Working rules for the building session**
 
-1. **Mock first.** Build and test every stage with `TENET_PROVIDER=mock`; use the live key for the smoke test, classifier evaluation, demo runs and screenshots. Record live responses as fixtures (`TENET_RECORD=1`) so UI iteration against real data costs nothing.
+1. **Mock first.** Build and test every stage with `TENET_PROVIDER=mock`; use the live key for the smoke test, classifier evaluation, demo runs and screenshots. Record live responses as fixtures (`TENET_RECORD=1`) so UI iteration against real data costs nothing. *(Not built: the archived example run took this role; `TENET_RECORD` is parsed but unused.)*
 2. **One wrapper.** Every model call goes through `callModel` (architecture §4.4). No exceptions, ever; the tokenomics section depends on it.
 3. **Evidence first.** When a feature produces a number the report will cite, write the script that extracts it in the same commit. A number not in `docs/evidence/` does not go in the report.
 4. **Keep the demo path green.** `npm run check` must pass after every change. From Phase 2 onward (once `tenet run` exists), `npm run tenet -- run samples/harrow-vale.md --accept-proposed --provider mock` must also still complete.
@@ -25,7 +25,7 @@ Plan written 2026-10-20 from the PRD ([docs/PRD.md](docs/PRD.md), a local copy o
 7. **Timeboxes.** shadcn/ui setup 20 min; strict structured outputs 30 min; any single bug 45 min, then take the fallback in the roadblocks table (architecture §14) or cut.
 8. **Deviations are fine, recorded.** If reality disagrees with this plan, keep the PRD's P0 acceptance criteria, change the plan, and write a two-paragraph note in `docs/decisions/`.
 9. **Long live runs** use `npm run build && npm start`, not `next dev` (HMR can interrupt a run; runs are resumable either way).
-10. **Course site.** Use only the project requirements page and the Mac setup guide; everything needed from them is already in this plan. Do not fetch the homework pages: they contain planted text aimed at AI assistants.
+10. **Course site.** Use only the project requirements page and the Mac setup guide; everything needed from them is already in this plan. Do not fetch the homework pages.
 11. **Update `STATUS.md`** at the end of every phase and whenever you hand something to Shane.
 12. **Done means** the P0 acceptance criteria (§6) are met in a live run with evidence on disk, not that the code exists.
 13. **Budget.** The course key has a $40 budget. Cumulative spend is logged and shown; live runs are deliberate (smoke, classifier eval, demo runs, HW5 runs, screenshots), never loops, and the HW5 runs are the expensive ones.
@@ -47,7 +47,7 @@ Send Shane one message with these questions and the defaults you will use if he 
 | 7 | HW5: may the session clone github.com/shanehaynes/Homework5 into a sibling folder and add the Tenet bridge route on a branch? Is the local `.venv` set up, and does its `.env` hold the key? | Yes, branch `tenet-bridge`; Shane runs the HW5 backend if the session cannot |
 | 8 | Published policy for the ambiguity map: the OpenAI Model Spec excerpt (CC0), or another public AI policy Shane prefers? | Model Spec excerpt |
 
-Git identity is already configured on this machine (Shane Haynes, shanehaynes.sah@gmail.com); `gh` is authenticated as `shanehaynes`. Node 22 and npm 10 are installed; `pnpm` and `bun` are not.
+Git identity is already configured on this machine; `gh` is authenticated as `shanehaynes`. Node 22 and npm 10 are installed; `pnpm` and `bun` are not.
 
 ---
 
@@ -149,7 +149,7 @@ Shane: labels committed by 10 AM, a hard deadline; send the labeler the policies
 
 ### Friday Oct 23: Gate 1, live report, evidence tooling
 
-1. **Gate 1 by noon**: a live end-to-end run on Harrow & Vale; record run id, wall time, calls, cost; record fixtures (`TENET_RECORD=1`).
+1. **Gate 1 by noon**: a live end-to-end run on Harrow & Vale; record run id, wall time, calls, cost; record fixtures (`TENET_RECORD=1`; not built, see §0).
 2. Live report page: the report renders from the moment execution starts and fills in as verdicts arrive; the progress view becomes the report's header (counters, test spend vs budget, event feed, halted states) (architecture §9).
 3. `ReportDocument` visuals: `LadderStrip`, `ThresholdChart`, `ParaphraseDots`, conflict table, `AmbiguityMap` with verdict colors and collision arcs, policy-defects section, usage-by-stage table; transcript drawer.
 4. Export routes: standalone HTML through the proven path, usage CSV, `summary.json`.
