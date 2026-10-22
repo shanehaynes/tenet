@@ -23,7 +23,7 @@ export function defaultRunConfig(overrides: Partial<RunConfig> = {}, env: EnvTar
 }
 
 /** An HTTP agent target (architecture §4.6) from a URL, else TENET_AGENT_URL; null when neither is set. */
-export function httpTarget(opts: { url?: string | null; agent?: string | null; name?: string | null } = {}, env: EnvTarget = process.env): Extract<Target, { kind: "http" }> | null {
+export function httpTarget(opts: { url?: string | null; agent?: string | null; name?: string | null; timeoutMs?: number | null } = {}, env: EnvTarget = process.env): Extract<Target, { kind: "http" }> | null {
   const s = settings(env);
   const url = opts.url?.trim() || s.agentUrl;
   if (!url) return null;
@@ -36,5 +36,6 @@ export function httpTarget(opts: { url?: string | null; agent?: string | null; n
       name = url;
     }
   }
-  return { kind: "http", name, url, agent, headers: {}, timeoutMs: HTTP_TIMEOUT_MS, resetPerScenario: true, context: null };
+  const timeoutMs = opts.timeoutMs && opts.timeoutMs > 0 ? opts.timeoutMs : HTTP_TIMEOUT_MS;
+  return { kind: "http", name, url, agent, headers: {}, timeoutMs, resetPerScenario: true, context: null };
 }

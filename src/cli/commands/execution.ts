@@ -67,14 +67,16 @@ const EXEC_OPTIONS = {
   "agent-url": { type: "string" },
   agent: { type: "string" },
   "agent-name": { type: "string" },
+  "agent-timeout": { type: "string" },
 } as const;
 
-/** --target http [--agent-url URL] [--agent customer_service] [--agent-name "Campus Customs (HW5)"]. */
+/** --target http [--agent-url URL] [--agent customer_service] [--agent-name "Campus Customs (HW5)"] [--agent-timeout 300] (seconds per scenario; default 120). */
 function execOptions(values: Record<string, unknown>): ExecuteOptions | string {
   const opts: ExecuteOptions = { spendCapUsd: num(values.cap), concurrency: num(values.concurrency), rungs: num(values.rungs), dismiss: list(values.dismiss) };
   const kind = (values.target as string | undefined) ?? (values["agent-url"] ? "http" : undefined);
   if (kind === "http") {
-    const target = httpTarget({ url: values["agent-url"] as string | undefined, agent: values.agent as string | undefined, name: values["agent-name"] as string | undefined });
+    const seconds = num(values["agent-timeout"]);
+    const target = httpTarget({ url: values["agent-url"] as string | undefined, agent: values.agent as string | undefined, name: values["agent-name"] as string | undefined, timeoutMs: seconds ? seconds * 1000 : null });
     if (!target) return "--target http needs --agent-url or TENET_AGENT_URL.";
     opts.target = target;
   } else if (kind !== undefined && kind !== "model") {
