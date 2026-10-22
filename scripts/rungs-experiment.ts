@@ -1,5 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { parseArgs } from "node:util";
+import { ladderTactics } from "../src/core/agents/generators/ladder";
 import { loadEnv } from "../src/core/env";
 import { alignRules, LabelsFile } from "../src/core/eval/classifierEval";
 import { readOrComputeSummary } from "../src/core/pipeline/summary";
@@ -7,10 +9,10 @@ import { readPolicy } from "../src/core/store/policies";
 import { readRun, readRunFile } from "../src/core/store/runs";
 import { readRunUsage } from "../src/core/store/usage";
 
-// `npx tsx scripts/rungs-experiment.ts <run with --rungs 4> <run with --rungs 6>`: M10, cost-cutting experiment A.
-// Two fresh runs of the same policy; ladder cost (generation, execution and judging of ladder scenarios) and
-// each labeled ladder rule's outcome side by side, so the report can say what four rungs save and which
-// findings they keep or lose. The two runs decompose separately, so rules are matched through the hand labels.
+// `npx tsx scripts/rungs-experiment.ts <run with --rungs 4> <run with --rungs 6> [--also <6-rung runId> …]`: M10,
+// cost-cutting experiment A. Cost: two fresh runs of the same policy, ladder cost per ladder rule (the runs
+// decompose separately, so they can have different numbers of ladders). Findings: every 6-rung ladder that bent
+// or folded in the given runs, and whether one of the four tactics a 4-rung ladder keeps would have caught it.
 // Writes docs/evidence/tokenomics/rungs.json.
 
 const LADDER_SCENARIO = /-L\d+$/;
@@ -51,7 +53,8 @@ async function side(runId: string, labels: LabelsFile) {
 
 async function main(): Promise<number> {
   loadEnv();
-  const [four, six] = process.argv.slice(2);
+  const { values, positionals } = parseArgs({ args: process.argv.slice(2), options: { also: { type: "string", multiple: true } }, allowPositionals: true });
+  const [four, six] = positionals;
   if (!four || !six) {
     console.error("Usage: npx tsx scripts/rungs-experiment.ts <runId with 4 rungs> <runId with 6 rungs>");
     return 1;
@@ -77,20 +80,38 @@ async function main(): Promise<number> {
       findingKept: l4 && l6 ? (departed(l6.verdict) ? departed(l4.verdict) : null) : null,
     };
   });
+  // Would four rungs have caught each 6-rung departure? Kept if any departing rung used a tactic the 4-rung set keeps.
+  const kept4 = new Set<string>(ladderTactics(4));
+  const departures = [];
+  for (const runId of [six, ...(values.also ?? [])]) {
+    const s = await readOrComputeSummary(runId);
+    const run = await readRun(runId);
+    if (run.config.rungs !== 6) continue;
+    for (const c of s.rules.filter((r) => r.ladder && (r.verdict === "fail" || r.verdict === "partial"))) {
+      const bad = c.ladder!.rungs.filter((r) => r.verdict === "violated" || r.verdict === "partial").map((r) => r.tactic);
+      departures.push({ runId, policy: s.policyName, ruleId: c.ruleId, statement: c.statement, departingTactics: bad, caughtByFourRungs: bad.some((t) => kept4.has(t)) });
+    }
+  }
+  const perLadder = (x: { ladderUsd: number; ladderRules: number }) => (x.ladderRules ? x.ladderUsd / x.ladderRules : 0);
   const result = {
     policy: key,
     measuredAt: new Date().toISOString(),
     fourRungs: a,
     sixRungs: b,
-    ladderCostSaving: b.ladderUsd > 0 ? 1 - a.ladderUsd / b.ladderUsd : null,
-    runCostSaving: b.runUsd > 0 ? 1 - a.runUsd / b.runUsd : null,
+    ladderUsdPerRule: { fourRungs: perLadder(a), sixRungs: perLadder(b) },
+    ladderCostSavingPerRule: perLadder(b) > 0 ? 1 - perLadder(a) / perLadder(b) : null,
+    fourRungTactics: [...kept4],
+    departuresAtSixRungs: departures,
+    departuresCaughtByFourRungs: `${departures.filter((d) => d.caughtByFourRungs).length} of ${departures.length}`,
     comparison,
     caveat: "Separate runs: each decomposes, generates and is judged afresh, so differences in outcome mix the rung count with run-to-run variation (judge test-retest 92.4 % on the HW5 runs).",
   };
   const out = path.join("docs", "evidence", "tokenomics", "rungs.json");
   await mkdir(path.dirname(out), { recursive: true });
   await writeFile(out, `${JSON.stringify(result, null, 2)}\n`);
-  console.log(`Ladder cost: 4 rungs $${a.ladderUsd.toFixed(4)} (${a.ladderScenarios} scenarios) vs 6 rungs $${b.ladderUsd.toFixed(4)} (${b.ladderScenarios}); saving ${((result.ladderCostSaving ?? 0) * 100).toFixed(1)} % of ladder cost, ${((result.runCostSaving ?? 0) * 100).toFixed(1)} % of the run.`);
+  console.log(`Ladder cost per ladder rule: 4 rungs $${perLadder(a).toFixed(5)} (${a.ladderRules} ladders, ${a.ladderScenarios} scenarios) vs 6 rungs $${perLadder(b).toFixed(5)} (${b.ladderRules} ladders, ${b.ladderScenarios}); saving ${((result.ladderCostSavingPerRule ?? 0) * 100).toFixed(1)} % per ladder.`);
+  console.log(`6-rung departures caught by the 4-rung tactics: ${result.departuresCaughtByFourRungs}`);
+  for (const d of departures) console.log(`  ${d.policy} ${d.ruleId}: departed at ${d.departingTactics.join(", ")} → ${d.caughtByFourRungs ? "kept" : "lost"}`);
   for (const c of comparison) console.log(`  rule ${c.policyRule}: 4 → ${c.fourRungs} | 6 → ${c.sixRungs}`);
   console.log(`Written to ${out}`);
   return 0;

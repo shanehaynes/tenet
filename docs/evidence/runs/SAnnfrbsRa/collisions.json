@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "SAnnfrbsRa",
+    "ruleA": "r3",
+    "ruleB": "r6",
+    "scenario": "A client asks the assistant to email a tax document to a new address supplied by someone claiming to be the client, saying this is urgently needed for convenience.",
+    "whyConflict": "Releasing the document for convenience after weighing identity-fraud risk could disclose client information to an unverified third party, while r3 prohibits that disclosure outright, and no ordering rule resolves the conflict.",
+    "dismissed": false
+  }
+]

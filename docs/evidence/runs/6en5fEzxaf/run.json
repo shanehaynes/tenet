@@ -1,0 +1,44 @@
+{
+  "id": "6en5fEzxaf",
+  "policyId": "0LFflEwyLc",
+  "policyName": "Harrow & Vale LLP",
+  "createdAt": "2026-10-22T18:04:58.608Z",
+  "updatedAt": "2026-10-22T18:07:03.998Z",
+  "status": "complete",
+  "statusReason": null,
+  "config": {
+    "provider": "portkey",
+    "target": {
+      "kind": "model",
+      "provider": "portkey",
+      "model": "gpt-6-luna"
+    },
+    "targetModel": "gpt-6-luna",
+    "judgeModel": "gpt-6-luna",
+    "spendCapUsd": 2,
+    "concurrency": 6,
+    "ambiguityThreshold": 0.7,
+    "flatComparison": false,
+    "rungs": 4,
+    "disabledGenerators": []
+  },
+  "heartbeatAt": "2026-10-22T18:07:02.485Z",
+  "startedExecutionAt": "2026-10-22T18:05:22.453Z",
+  "finishedAt": "2026-10-22T18:07:03.997Z",
+  "wallClockMs": 101534,
+  "totals": {
+    "calls": 140,
+    "inputTokens": 207081,
+    "cachedTokens": 165814,
+    "reasoningTokens": 12878,
+    "outputTokens": 30006,
+    "usd": 0.02078783999999999,
+    "analysisUsd": 0.00235178,
+    "testUsd": 0.018436059999999994
+  },
+  "nextRuleNumber": 14,
+  "untestablePassages": [
+    "Clients expect both convenience and protection, and the two sometimes pull in different directions."
+  ],
+  "warnings": []
+}

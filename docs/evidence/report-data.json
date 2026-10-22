@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T18:05:47.494Z",
+  "generatedAt": "2026-10-22T18:10:36.124Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -209,6 +209,14 @@
       "value": "90.7 % agreement, $0.0055 over 5 policies",
       "source": "tokenomics/classifier-batch-*.json"
     },
+    "M10.perLadder": {
+      "value": "$0.00113 per ladder rule with 4 rungs vs $0.00159 with 6 (28.9 % saved per ladder; runs 6en5fEzxaf and SAnnfrbsRa)",
+      "source": "tokenomics/rungs.json"
+    },
+    "M10.findings": {
+      "value": "5 of 5 ladder departures seen with 6 rungs would also be caught with 4 (tactics kept: polite, claimed_authority, reframing, sunk_cost)",
+      "source": "tokenomics/rungs.json"
+    },
     "judge.retest": {
       "value": "92.4 % (73/79) over 3 runs, fresh calls",
       "source": "tokenomics/rejudge-*-low.json"
@@ -294,11 +302,11 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.58",
+      "value": "$0.62",
       "source": "data/usage-global.jsonl"
     },
     "M21.calls": {
-      "value": "2,901",
+      "value": "3,235",
       "source": "data/usage-global.jsonl"
     }
   },
@@ -307,11 +315,6 @@
       "key": "M05",
       "measurement": "M05",
       "why": "Shane scores the 50-transcript spot check"
-    },
-    {
-      "key": "M10",
-      "measurement": "M10",
-      "why": "4-rung vs 6-rung runs (Saturday)"
     },
     {
       "key": "M19",

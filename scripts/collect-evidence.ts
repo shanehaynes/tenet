@@ -134,7 +134,12 @@ async function main() {
     set("M11.perRule", `${pct(a / n)} agreement, ${usd(costA)} over ${batch.length} policies`, "tokenomics/classifier-batch-*.json");
     set("M11.batched", `${pct(b / n)} agreement, ${usd(costB)} over ${batch.length} policies`, "tokenomics/classifier-batch-*.json");
   } else need("M11", "M11", "eval:classifier --batched");
-  if (!tok.some((f) => f.startsWith("rungs-"))) need("M10", "M10", "4-rung vs 6-rung runs (Saturday)");
+  if (has("tokenomics/rungs.json")) {
+    const r = read("tokenomics/rungs.json");
+    const src = "tokenomics/rungs.json";
+    set("M10.perLadder", `${usd(r.ladderUsdPerRule.fourRungs, 5)} per ladder rule with 4 rungs vs ${usd(r.ladderUsdPerRule.sixRungs, 5)} with 6 (${pct(r.ladderCostSavingPerRule)} saved per ladder; runs ${r.fourRungs.runId} and ${r.sixRungs.runId})`, src);
+    set("M10.findings", `${r.departuresCaughtByFourRungs} ladder departures seen with 6 rungs would also be caught with 4 (tactics kept: ${r.fourRungTactics.join(", ")})`, src);
+  } else need("M10", "M10", "4-rung vs 6-rung runs (npx tsx scripts/rungs-experiment.ts)");
   // rejudge at the default effort ("low") on the same transcripts is the judge's test–retest; any other effort is M19.
   const rejudge = tok.filter((f) => f.startsWith("rejudge-") && !f.endsWith("-low.json"));
   if (rejudge.length) set("M19.file", `tokenomics/${rejudge.at(-1)}`, `tokenomics/${rejudge.at(-1)}`);

@@ -85,6 +85,13 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - Replaced 2026-10-22: the archived demo run `87VQK7KAKg` was almost entirely a replay of `28Cv5g6wi1`. The fresh run `449NHijnXq` is now the example run, and screenshots S01–S14 and S19 come from it (191 of 192 calls logged `refresh`).
 - Also hidden by the cache: the decomposer's run-to-run variation. Every earlier Harrow & Vale run got the same 13-rule decomposition because one answer was replayed. Fresh runs split the policy into 16 rules (`vTaQ8Ffr36`, which counted scope sentences as rules) and 14 (`449NHijnXq`, which split "Act as a careful professional would and, when unsure, ask" in two). M03 stands as a single measurement; the report should say decompositions vary.
 
+## Thursday (Oct 22), while Shane is away
+
+- **M07 done.** Validation runs on every sample, all calls fresh. Meridian `JLX9iZjgpG`: 5 defects in 12 rules. Northgate `vn3jLywoMW`: 2. Model Spec excerpt `7J1pfQjoOJ`: 10 in 28. Edge mission statement `8N57mBlbay`: "no testable rules". Totals in `runs/defects-per-policy.json`, finding F6.
+- **M10 done** (`tokenomics/rungs.json`). With 4 rungs, ladder cost per rule drops 28.9 % ($0.00113 vs $0.00159; H&V runs `6en5fEzxaf`, `SAnnfrbsRa`). All 5 ladder departures seen with 6 rungs (Meridian, Model Spec, HW5 accounting) would also be caught with 4. What can move is the rung where a departure first shows: the Model Spec objectivity rule first slipped at "urgent", which 4 rungs drop.
+- **Decomposer stability** (`labels/decomposer-stability-harrow-vale.json`): five fresh calls found all 13 labeled rules every time and added 0–3 extras (most often "when unsure, ask" split from the careful-professional rule).
+- **Fresh-clone rehearsal** (`dry-run-rehearsal.md`): clone, install, doctor (no key), a mock CLI run and the mock dev server all work; the README needed no change. M17 itself is still Shane's stopwatch run.
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
@@ -115,5 +122,5 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 1. ~~HW5 bridge and HTTP target~~: done Wed night (see above). Optional P1: a third HW5 run against `boss` (the ordering rules 8 and 17).
 2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
-3. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); once Shane's CSV is in, `tenet spotcheck score 449NHijnXq docs/evidence/spotcheck/449NHijnXq-shane.csv` (M05) and `tenet rejudge 449NHijnXq --effort none` scored against the same CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
+3. Saturday afternoon (after the freeze): once Shane's CSV is in, `tenet spotcheck score 449NHijnXq docs/evidence/spotcheck/449NHijnXq-shane.csv` (M05) and `tenet rejudge 449NHijnXq --effort none` scored against the same CSV (M19); `tenet timing` against Shane's hand-written file (M13); report prose.
 4. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).

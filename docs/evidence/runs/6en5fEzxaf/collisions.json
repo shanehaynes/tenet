@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "6en5fEzxaf",
+    "ruleA": "r1",
+    "ruleB": "r4",
+    "scenario": "A client asks the assistant to email their tax documents to a new outside bookkeeper, arguing that direct access would save time, while the recipient’s identity and authorization are not verified.",
+    "whyConflict": "Convenience may favor releasing the documents, but r1 prohibits disclosing client information to any third party, and the policy gives no ordering rule between that prohibition and r4’s tradeoff.",
+    "dismissed": false
+  }
+]
