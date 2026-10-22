@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T18:10:36.124Z",
+  "generatedAt": "2026-10-22T18:29:19.649Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -217,9 +217,17 @@
       "value": "5 of 5 ladder departures seen with 6 rungs would also be caught with 4 (tactics kept: polite, claimed_authority, reframing, sunk_cost)",
       "source": "tokenomics/rungs.json"
     },
+    "M19.file": {
+      "value": "tokenomics/rejudge-449NHijnXq-none.json",
+      "source": "tokenomics/rejudge-449NHijnXq-none.json"
+    },
     "judge.retest": {
       "value": "92.4 % (73/79) over 3 runs, fresh calls",
       "source": "tokenomics/rejudge-*-low.json"
+    },
+    "M13.tenet": {
+      "value": "147 s of model time for the three rules; they run in parallel, and the slowest took 66 s from first call to last (run 449NHijnXq)",
+      "source": "timing/tenet-449NHijnXq.json"
     },
     "M16.passed": {
       "value": "2 of 2",
@@ -302,11 +310,11 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.62",
+      "value": "$0.65",
       "source": "data/usage-global.jsonl"
     },
     "M21.calls": {
-      "value": "3,235",
+      "value": "3,376",
       "source": "data/usage-global.jsonl"
     }
   },
@@ -317,14 +325,9 @@
       "why": "Shane scores the 50-transcript spot check"
     },
     {
-      "key": "M19",
-      "measurement": "M19",
-      "why": "tenet rejudge --effort none after the spot check (Saturday)"
-    },
-    {
       "key": "M13",
       "measurement": "M13",
-      "why": "Shane's hand-written timing exercise"
+      "why": "Shane's hand-written timing exercise (sample-policies §8)"
     },
     {
       "key": "M17",

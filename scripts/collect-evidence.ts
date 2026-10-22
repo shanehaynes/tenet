@@ -157,7 +157,12 @@ async function main() {
   }
 
   // M13 timing, M16 canary, M17 dry run, M18 user, M20 HW5
-  if (!has("timing/hand-written.md")) need("M13", "M13", "Shane's hand-written timing exercise");
+  const timing = has("timing") ? readdirSync(path.join(EV, "timing")).filter((f) => /^tenet-.*\.json$/.test(f)) : [];
+  if (timing.length) {
+    const t = read(path.join("timing", timing.sort().at(-1)!));
+    set("M13.tenet", `${(t.totals.modelMs / 1000).toFixed(0)} s of model time for the three rules; they run in parallel, and the slowest took ${(t.totals.wallMsMax / 1000).toFixed(0)} s from first call to last (run ${t.runId})`, `timing/${timing.at(-1)}`);
+  }
+  if (!has("timing/hand-written.md")) need("M13", "M13", "Shane's hand-written timing exercise (sample-policies §8)");
   if (has("safety/canary.json")) {
     const c = read("safety/canary.json");
     set("M16.passed", `${c.results.filter((r: { passed: boolean }) => r.passed).length} of ${c.results.length}`, "safety/canary.json");

@@ -93,6 +93,9 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - **Report draft** (`report/report.src.html`): sections 2 (What is new, with S22, the Model Spec excerpt's ambiguity map), 4 (Tokenomics), 5 (Safety table), 6 (Impact: M07 and HW5) and 7 (Limits), plus "Testing a real agent" in section 3. Every number is a placeholder filled from `report-data.json`. Prints to 12 pages. Still draft: Motivation (M18), the demo run step by step, M05, M13, M19. The rebuilt `report.html` is **not** committed yet, because it shows the spot-check run's results; rebuild after Shane has scored.
 - **Slides draft** (`slides/slides.src.html`): problem, agents (with the real-agent option), findings (threshold chart beside the HW5 draft), the Model Spec ambiguity map, cost, safety, impact. Checked slide by slide at 1280×720: no overflow. Still draft: M18 and M13 on the last slide. As with the report, `slides.html` is rebuilt only after the spot check.
 - **M19 prepared:** the spot-check run re-judged at effort "none" (judge cost $0.0076 against $0.0088). It is scored against Shane's CSV with `tenet spotcheck score 449NHijnXq <csv> --verdicts data/runs/449NHijnXq/verdicts-effort-none.json`.
+- **Boss run** against the HW5 boss agent (run `yyowEk4kFO`: the value ordering, the obligations ranking and the tradeoff), so all four rule types are tested on the real agent team. In progress at the time of writing.
+- **Terminal screenshots S15–S17** (`scripts/terminal-shots.ts`): smoke test, doctor finding `.env` one folder up (key fully hidden), canary. Rendered from live runs, with the text kept beside each image.
+- **Report section 3 and Motivation drafted**, with a pipeline diagram (also on the agents slide). The report prints to 13 pages.
 - **Fresh-clone rehearsal** (`dry-run-rehearsal.md`): clone, install, doctor (no key), a mock CLI run and the mock dev server all work; the README needed no change. M17 itself is still Shane's stopwatch run.
 
 ## Deviations found while building (recorded in the docs)
@@ -109,8 +112,9 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 
 | Since | Item | Needed by |
 |---|---|---|
-| 2026-10-21 | Optional: label `samples/openai-model-spec-excerpt.labels.json` (22 rules) so the report can state agreement on a published policy | Sat Oct 24 |
 | 2026-10-22 | **Spot check (M05):** score `docs/evidence/spotcheck/449NHijnXq-blank.csv` (50 transcripts; fill `human_verdict` from `allowed_verdicts`) and save it as `449NHijnXq-shane.csv`. Do it before opening that run's report, `/runs/example`, or screenshots S06–S14, which show its verdicts. | Sat Oct 24 |
+| 2026-10-22 | **Timing exercise (M13, sample-policies §8):** with a stopwatch, hand-write the tests for three Harrow & Vale rules as real user messages: a 6-step pressure sequence for "Never submit a filing, move funds, or send a binding communication…", an 8-point stakes sweep for "Weigh client convenience against identity-fraud risk…", and an 8-point amount sweep for "Escalate any request above $10,000…". Then write down what you would count as a failure for each. Start and end times plus the text go in `docs/evidence/timing/hand-written.md`. Tenet's side is done: 147 s of model time, slowest rule 66 s (`timing/tenet-449NHijnXq.json`). | Sat Oct 24 |
+| 2026-10-22 | **Dry run (M17):** on Sunday, from a fresh clone in a new folder with `.env` one level up, follow the README with a stopwatch to the first report and record the times in `docs/evidence/dry-run.md`. The rehearsal (`dry-run-rehearsal.md`) found nothing to fix. | Sun Oct 25 |
 | 2026-10-21 | Contact a policy owner (Eide Bailly colleague, Yale IT, compliance contact) for Saturday or Sunday; no classmate labeler (in finals; kappa not obtained) | Fri Oct 23 |
 
 ## Known gaps
