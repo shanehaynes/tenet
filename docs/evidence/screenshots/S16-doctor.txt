@@ -1,0 +1,9 @@
+$ npm run doctor
+Node                   22.23.1 ok
+.env                   ~/projects/.env
+PORTKEY_API_KEY        (set, hidden)
+OPENAI_API_KEY         not set
+Provider               portkey (model gpt-6-luna)
+Key spend              $0.6381 of $40 budget (3369 billed calls)
+Model call             ok in 1609 ms, reply "OK"
+Capabilities           smoke: strict output, temperature off, effort low/none/medium

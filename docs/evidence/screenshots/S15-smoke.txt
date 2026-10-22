@@ -1,0 +1,15 @@
+$ npm run smoke
+Probing portkey with gpt-6-luna …
+step                     result                detail
+-----------------------  --------------------  ----------------------------------------------------------------
+1 auth and model string  ok                    portkey accepts "gpt-6-luna"
+2 structured outputs     strict                strict json_schema accepted
+3 sampling controls      temperature rejected  reasoning_effort accepted: low, none, medium
+4 token accounting       cached on repeat      prefix 1075 input tokens; repeat cached 1072; reasoning tokens 0
+4b prompt_cache_key      accepted
+5 rate limits            0 of 8 rate-limited   suggested concurrency 8
+6 latency                median 1818 ms        18 calls
+
+18 calls, $0.0004. Cumulative key spend $0.6381 of $40.
+Capabilities saved to data/capabilities.json (portkey:gpt-6-luna).
+Evidence written to docs/evidence/model-capabilities.md.
