@@ -13,8 +13,11 @@
 .reveal p, .reveal li { font-size: 0.8em; }
 .reveal img { max-height: 520px; border: 1px solid #e4e4e7; border-radius: 8px; }
 .accent { color: #3730a3; }
-.small { font-size: 0.6em; color: #52525b; }
+.reveal .small { font-size: 0.55em; color: #52525b; } /* beats .reveal p */
 table.types { font-size: 0.55em; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.cols img { max-height: 470px; max-width: 100%; }
+.reveal ul { font-size: 0.75em; }
 </style>
 </head>
 <body>
@@ -22,7 +25,15 @@ table.types { font-size: 0.55em; }
 <!-- Ten slides (evidence-report-slides.md §3). {{key}} values come from docs/evidence/report-data.json and
      <img data-evidence="…"> images are inlined by scripts/build-slides.mjs. -->
 <section><h1>Tenet</h1><p>Typed tests for AI policies</p><p class="small">Shane Haynes · MGT 409 · Fall 2026</p></section>
-<section><h2>The problem</h2><p>A team writes a policy for its AI agent. Nobody can say whether the agent follows it.</p></section>
+<section><h2>The problem</h2><p>A team writes a policy for its AI agent. Nobody can say whether the agent follows it.</p>
+<ul>
+<li>A rule that holds when asked politely but folds under claimed authority</li>
+<li>A threshold the agent follows that is not the one the policy states</li>
+<li>"Be candid" that depends on how the question is phrased</li>
+<li>Two rules that point opposite ways, with nothing saying which wins</li>
+<li>A rule whose kind was never decided</li>
+</ul>
+<p class="small">Today: nothing, a generic benchmark, or ten ad hoc prompts. Pass/fail cannot see any of these.</p></section>
 <section><h2>What is new</h2>
 <table class="types"><tr><th>Rule type</th><th>The test it demands</th></tr>
 <tr><td>Constraint</td><td>Six requests under rising pressure</td></tr>
@@ -30,13 +41,27 @@ table.types { font-size: 0.55em; }
 <tr><td>Disposition</td><td>Ten paraphrases: is the trait stable?</td></tr>
 <tr><td>Ordering</td><td>Forced conflicts: which value wins?</td></tr></table>
 <p class="accent">Tenet's new part is the rule-type taxonomy and the ambiguity map.</p></section>
-<section><h2>The agents</h2><p>Scanner → decomposer → classifier → human review → collision mapper → generators → agent under test → judge → report</p></section>
+<section><h2>The agents</h2><p>Scanner → decomposer → classifier → <span class="accent">human review</span> → collision mapper → generators → agent under test → judge → report</p>
+<p class="small">Plain code calls each narrow agent in turn; no agent calls another. Every call goes through one wrapper that logs tokens and cost and enforces the budgets.</p>
+<p class="small">The agent under test: gpt-6-luna with the policy as its system prompt, or a <span class="accent">real agent over HTTP</span>. Here, the author's five-agent HW5 team, with its own prompts and tools.</p></section>
 <section><h2>A real run: the rules</h2><img data-evidence="S03-review" alt="Review table"></section>
-<section><h2>A real run: the findings</h2><img data-evidence="S10-threshold-chart" alt="Threshold chart"></section>
-<section><h2>The ambiguity map</h2><img data-evidence="S19-ambiguity-map" alt="Ambiguity map"><p class="small">An ambiguous rule means the authors never decided; the agent decides for them.</p></section>
-<section><h2>Cost</h2><p>{{M08.usd}} per policy audit · {{M09.cachedShare}} of input cached · {{M12.perUserMonth}} per user per month</p></section>
-<section><h2>Safety</h2><img data-evidence="S02-quarantine" alt="Quarantine"><p class="small">Injected policies quarantined · budget halts · judge ignores planted instructions ({{M16.passed}})</p></section>
-<section><h2>Impact and next steps</h2><p class="small">Draft (Sunday): the policy owner's answer, the HW5 ground truth, the time ratio, next steps.</p></section>
+<section><h2>A real run: the findings</h2><div class="cols"><img data-evidence="S10-threshold-chart" alt="Threshold chart"><img data-evidence="S20c-agent-draft" alt="HW5 agent's drafted reply"></div>
+<p class="small">Left: the policy says escalate above $10,000; the agent escalates every payment, because another rule already requires approval. Right: the real HW5 agent drafts "under review", which its role prompt scripts and its charter forbids.</p></section>
+<section><h2>The ambiguity map</h2><img data-evidence="S22-model-spec-map" alt="Ambiguity map of the OpenAI Model Spec excerpt" style="max-height: 450px"><p class="small">22 sentences of the published OpenAI Model Spec. An ambiguous rule means the authors never decided; the agent decides for them.</p></section>
+<section><h2>Cost</h2><p>{{M08.usd}} per policy audit · {{M09.cachedShare}} of input cached · {{M12.perUserMonth}} per user per month</p>
+<ul>
+<li>Four-rung ladders instead of six: {{M10.perLadder}}</li>
+<li>A real agent costs about three times as much: every scenario is a full agent run</li>
+<li>Whole project, every live call: {{M21.usd}} of the $40 key budget</li>
+</ul></section>
+<section><h2>Safety</h2><div class="cols"><img data-evidence="S02-quarantine" alt="Quarantine"><img data-evidence="S07-halted" alt="Halted run"></div><p class="small">Injected policies quarantined · runs halt at their budget · the judge ignores planted instructions ({{M16.passed}} canaries) · every verdict quotes the agent verbatim, checked in code</p></section>
+<section><h2>Impact and next steps</h2>
+<ul>
+<li>Untested policies: {{M07.summary}}</li>
+<li>The HW5 team: the charter and a role prompt disagree; two privacy rules carry their scope in a neighboring sentence; the money rules held before any tool had to refuse</li>
+<li>Next: other models, full model specs, CI regression tests for prompt changes</li>
+</ul>
+<p class="small">Draft (Sunday): the policy owner's answer (M18) and the time ratio (M13).</p></section>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.min.js"></script>
 <script>Reveal.initialize({ hash: true, controls: true, progress: true, center: true, width: 1280, height: 720 });</script>
