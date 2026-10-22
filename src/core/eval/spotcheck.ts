@@ -151,6 +151,82 @@ export function parseCsv(text: string): Record<string, string>[] {
   return body.map((r) => Object.fromEntries(header.map((h, i) => [h.trim(), (r[i] ?? "").trim()])));
 }
 
+// Scoring page helpers (/spotcheck/[runId]). The page reads only the blank file and Shane's own file
+// (`<runId>-blank.csv`, `<runId>-shane.csv`); nothing here touches verdicts, so it stays blind.
+
+/** Run ids the scoring page accepts: letters and digits only, so a run id can never name another path. */
+export const SPOTCHECK_RUN_ID = /^[A-Za-z0-9]{6,20}$/;
+
+/** The two files the scoring page may read, in the spot-check directory. */
+export function spotcheckFileNames(runId: string): { blank: string; saved: string } {
+  if (!SPOTCHECK_RUN_ID.test(runId)) throw new Error(`Not a run id: "${runId}"`);
+  return { blank: `${runId}-blank.csv`, saved: `${runId}-shane.csv` };
+}
+
+/** The verdicts a row accepts, from its allowed_verdicts cell ("a | b | both | neither"). */
+export function allowedVerdicts(row: Pick<SpotcheckRow, "allowed_verdicts">): string[] {
+  return row.allowed_verdicts
+    .split("|")
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+/** Parsed CSV records as full spot-check rows (a missing column becomes ""). */
+export function toSpotcheckRows(records: Record<string, string>[]): SpotcheckRow[] {
+  return records.map((r) => Object.fromEntries(SPOTCHECK_COLUMNS.map((c) => [c, r[c] ?? ""])) as SpotcheckRow);
+}
+
+export type HumanVerdict = { scenarioId: string; human_verdict?: string; human_note?: string };
+
+/**
+ * The blank rows, in their order, with human_verdict and human_note taken from `saved` by scenarioId. A
+ * field absent from a saved entry keeps the row's current value; saved entries for unknown ids are ignored.
+ */
+export function mergeHumanVerdicts(blank: SpotcheckRow[], saved: HumanVerdict[]): SpotcheckRow[] {
+  const by = new Map(saved.map((s) => [s.scenarioId, s]));
+  return blank.map((row) => {
+    const s = by.get(row.scenarioId);
+    if (!s) return { ...row };
+    return {
+      ...row,
+      human_verdict: s.human_verdict === undefined ? row.human_verdict : s.human_verdict.trim(),
+      human_note: s.human_note === undefined ? row.human_note : s.human_note.trim(),
+    };
+  });
+}
+
+/** Problems with a set of human verdicts against the blank rows; an empty list means they can be saved. */
+export function validateHumanVerdicts(blank: SpotcheckRow[], updates: HumanVerdict[]): string[] {
+  const by = new Map(blank.map((r) => [r.scenarioId, r]));
+  const seen = new Set<string>();
+  const problems: string[] = [];
+  for (const u of updates) {
+    const row = by.get(u.scenarioId);
+    if (!row) {
+      problems.push(`${u.scenarioId}: not in this spot check`);
+      continue;
+    }
+    if (seen.has(u.scenarioId)) problems.push(`${u.scenarioId}: given twice`);
+    seen.add(u.scenarioId);
+    const verdict = (u.human_verdict ?? "").trim();
+    const allowed = allowedVerdicts(row);
+    if (verdict && !allowed.includes(verdict)) problems.push(`${u.scenarioId}: "${verdict}" is not one of ${allowed.join(", ")}`);
+  }
+  return problems;
+}
+
+/** Rows with a human verdict. */
+export function countScored(rows: Pick<SpotcheckRow, "human_verdict">[]): number {
+  return rows.filter((r) => r.human_verdict.trim() !== "").length;
+}
+
+/** The scoring page's state from the blank file's text and, if it exists, Shane's saved file's text. */
+export function spotcheckState(blankCsv: string, savedCsv: string | null): { rows: SpotcheckRow[]; saved: number } {
+  const blank = toSpotcheckRows(parseCsv(blankCsv));
+  const rows = savedCsv === null ? blank : mergeHumanVerdicts(blank, toSpotcheckRows(parseCsv(savedCsv)));
+  return { rows, saved: countScored(rows) };
+}
+
 /** A finding the report would count against the agent. */
 export function isProblem(rubric: ScenarioKind, verdict: string, ctx: { value: number | null; implied: number | null; ordering: boolean }): boolean {
   switch (rubric) {
