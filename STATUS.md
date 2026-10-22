@@ -50,11 +50,11 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 - Export: standalone `report.html` per run (CSS and every transcript inlined; route via `react-dom/server.edge`, CLI `tenet export`), usage CSV, buttons on the report page.
 - `scripts/check-secrets.mjs` (also searches for the local key value), in CI before the gate.
 - Evidence commands: `tenet spotcheck export|score` (blind, seeded, rubric-stratified 50; scorer writes `agreement-<run>.json`), `tenet rejudge --effort none` (the gateway accepts `none`, `low`, `medium`; not `minimal`), `tenet timing`, `eval:classifier --batched` (M11 done: batched 68/75 = 90.7 % vs per-rule 65/75 = 86.7 % at about half the cost, single runs).
-- **Evidence screenshots S01–S14, S19 captured live** (`npm run screenshots`; demo run `87VQK7KAKg`, halted run `7wWBDu449L`); `RUN_ID=<id> npm run screenshots` re-captures the report shots without a new run.
-- **Archived example run** `87VQK7KAKg` in `docs/evidence/runs/`, rendered at `/runs/example` without a key, linked from the home page.
+- **Evidence screenshots S01–S14, S19 captured live** (`npm run screenshots`; re-captured 2026-10-22 from fresh demo run `449NHijnXq` and halted run `ySmxtWrMwE`); `RUN_ID=<id> npm run screenshots` re-captures the report shots without a new run.
+- **Archived example run** `449NHijnXq` (since 2026-10-22; was `87VQK7KAKg`) in `docs/evidence/runs/`, rendered at `/runs/example` without a key, linked from the home page.
 - README full draft (10-minute path, troubleshooting, what the report shows, safety numbers, configuration, CLI).
 - `collect-evidence` → `docs/evidence/report-data.json` (50 values with sources); `report/report.src.html` + `build-report.mjs --allow-missing` + `report:pages` (skeleton prints to 6 pages); `slides/slides.src.html` + `build-slides.mjs` (10 slides, reveal.js 6.0.2 from cdnjs). The prose is the weekend's work.
-- New numbers: caching served 82.1 % of the demo run's input tokens and saved 45 %; at the PRD's usage assumption, about $0.25 per user per month ($2,474 a month at 10,000 users).
+- Numbers from the fresh demo run `449NHijnXq` (2026-10-22): 192 calls, $0.0267, 120 s; caching served 88.1 % of input tokens and saved 45.9 %; at the PRD's usage assumption, about $0.32 per user per month ($3,210 a month at 10,000 users). (The first figures, from the replayed run `87VQK7KAKg`, were 82.1 %, $0.25 and $2,474.)
 
 ## HW5 bridge and HTTP target (Wed night, ahead of plan)
 
@@ -82,7 +82,8 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
   - The canary's "repeated twice": withdrawn; three fresh runs pass.
   - "Rule 2 held in both runs": corrected to one observation.
   - The first judge retest and the first in-place re-judge: redone fresh.
-- Still to replace: the archived demo run `87VQK7KAKg` (example run; screenshots S01–S14 and S19; M06, M08's wall clock, M13) was almost entirely a replay of `28Cv5g6wi1`. Its tokens and cost stand as the cost of one run; its 7.8 s test time does not. Saturday's fresh Harrow & Vale run replaces it as the example, and the screenshots are re-captured from that run.
+- Replaced 2026-10-22: the archived demo run `87VQK7KAKg` was almost entirely a replay of `28Cv5g6wi1`. The fresh run `449NHijnXq` is now the example run, and screenshots S01–S14 and S19 come from it (191 of 192 calls logged `refresh`).
+- Also hidden by the cache: the decomposer's run-to-run variation. Every earlier Harrow & Vale run got the same 13-rule decomposition because one answer was replayed. Fresh runs split the policy into 16 rules (`vTaQ8Ffr36`, which counted scope sentences as rules) and 14 (`449NHijnXq`, which split "Act as a careful professional would and, when unsure, ask" in two). M03 stands as a single measurement; the report should say decompositions vary.
 
 ## Deviations found while building (recorded in the docs)
 
@@ -99,9 +100,12 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 | Since | Item | Needed by |
 |---|---|---|
 | 2026-10-21 | Optional: label `samples/openai-model-spec-excerpt.labels.json` (22 rules) so the report can state agreement on a published policy | Sat Oct 24 |
+| 2026-10-22 | **Spot check (M05):** score `docs/evidence/spotcheck/449NHijnXq-blank.csv` (50 transcripts; fill `human_verdict` from `allowed_verdicts`) and save it as `449NHijnXq-shane.csv`. Do it before opening that run's report, `/runs/example`, or screenshots S06–S14, which show its verdicts. | Sat Oct 24 |
 | 2026-10-21 | Contact a policy owner (Eide Bailly colleague, Yale IT, compliance contact) for Saturday or Sunday; no classmate labeler (in finals; kappa not obtained) | Fri Oct 23 |
 
 ## Known gaps
+
+- A provider content filter can reject a judge call: Portkey routes some calls to Azure OpenAI, whose filter blocked one judge prompt in `449NHijnXq` (400). That scenario is reported as not run, never as a pass.
 
 - gpt-6-luna rejects `temperature`, so live results vary run to run; every reported number names its run id.
 - The executor prefix (1,075 tokens on the demo policy) caches; a much shorter user policy would fall under the 1,024-token floor, and the report should say so.
@@ -110,6 +114,6 @@ Updated 2026-10-21 (evening) by the building session. Plan: `PLAN.md` §3 (re-ba
 ## Next step
 
 1. ~~HW5 bridge and HTTP target~~: done Wed night (see above). Optional P1: a third HW5 run against `boss` (the ordering rules 8 and 17).
-2. **Fresh demo run** (first thing Saturday, or sooner): `tenet run samples/harrow-vale.md --accept-proposed --set r5=ordering` live, archive it as the example (`docs/evidence/runs/example.json`), and re-capture S01–S14 and S19 (`npm run build && npm run screenshots`). That run is also the spot-check run, so Shane scores its 50 transcripts before opening its report.
-3. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); a fresh Harrow & Vale run for the 50-transcript spot check (Shane scores it before opening that run's report); `tenet rejudge --effort none` scored against Shane's CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
+2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
+3. Saturday afternoon (after the freeze): validation runs on every sample with final prompts (M07); once Shane's CSV is in, `tenet spotcheck score 449NHijnXq docs/evidence/spotcheck/449NHijnXq-shane.csv` (M05) and `tenet rejudge 449NHijnXq --effort none` scored against the same CSV (M19); 4-rung vs 6-rung runs (M10); `tenet timing` against Shane's hand-written file (M13); report prose.
 4. Batched classifier: answered 2026-10-21, per-rule stays the default (it saves about 4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).

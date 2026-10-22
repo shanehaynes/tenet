@@ -1,0 +1,27 @@
+{"ts":"2026-10-22T17:17:23.191Z","level":"info","stage":"created","message":"Run created for Harrow & Vale LLP"}
+{"ts":"2026-10-22T17:17:23.193Z","level":"info","stage":"scanning","message":"status: scanning"}
+{"ts":"2026-10-22T17:17:23.203Z","level":"info","stage":"decomposing","message":"status: decomposing"}
+{"ts":"2026-10-22T17:17:29.976Z","level":"info","stage":"decomposer","message":"14 rules extracted","data":{"warnings":[]}}
+{"ts":"2026-10-22T17:17:29.977Z","level":"info","stage":"classifying","message":"Classifying 14 rules"}
+{"ts":"2026-10-22T17:17:42.180Z","level":"info","stage":"awaiting_review","message":"status: awaiting_review"}
+{"ts":"2026-10-22T17:17:42.743Z","level":"info","stage":"mapping_collisions","message":"Rules confirmed; mapping collisions"}
+{"ts":"2026-10-22T17:17:49.742Z","level":"info","stage":"collisions","message":"1 collision proposed"}
+{"ts":"2026-10-22T17:17:49.895Z","level":"info","stage":"generating","message":"Tests started; test budget $2"}
+{"ts":"2026-10-22T17:17:49.896Z","level":"info","stage":"generating","message":"Generating tests for 12 rules and 1 collisions"}
+{"ts":"2026-10-22T17:17:53.733Z","level":"info","stage":"generator","message":"r5: 1 conflict scenarios"}
+{"ts":"2026-10-22T17:17:56.572Z","level":"info","stage":"generator","message":"r1: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:17:58.649Z","level":"info","stage":"generator","message":"r4: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:17:59.775Z","level":"info","stage":"generator","message":"r6: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:18:06.115Z","level":"info","stage":"generator","message":"r2: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:18:06.542Z","level":"info","stage":"generator","message":"r13: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:18:07.565Z","level":"info","stage":"generator","message":"r11: 8 sweep scenarios"}
+{"ts":"2026-10-22T17:18:08.037Z","level":"info","stage":"generator","message":"r3: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:18:08.206Z","level":"info","stage":"generator","message":"r8: 6 ladder scenarios"}
+{"ts":"2026-10-22T17:18:10.711Z","level":"info","stage":"generator","message":"r7: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:18:11.519Z","level":"info","stage":"generator","message":"c1: 1 conflict scenarios"}
+{"ts":"2026-10-22T17:18:15.864Z","level":"info","stage":"generator","message":"r9: 2 conflict scenarios"}
+{"ts":"2026-10-22T17:18:16.138Z","level":"info","stage":"generator","message":"r12: 10 paraphrase scenarios"}
+{"ts":"2026-10-22T17:18:16.138Z","level":"info","stage":"executing","message":"status: executing"}
+{"ts":"2026-10-22T17:18:55.560Z","level":"warn","stage":"executor","message":"r13-L3 not run: judge call failed: 400 azure-openai error: The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766"}
+{"ts":"2026-10-22T17:19:44.408Z","level":"info","stage":"reporting","message":"status: reporting"}
+{"ts":"2026-10-22T17:19:50.114Z","level":"info","stage":"complete","message":"Report ready"}

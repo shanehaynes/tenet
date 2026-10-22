@@ -18,7 +18,7 @@ Tenet reads an AI agent's written policy, sorts each rule by the kind of rule it
    npm run dev
    ```
    Open the URL it prints (normally http://localhost:3000).
-6. **Use it:** click **Analyze** on *Harrow & Vale LLP*. When the rules table appears, check the types (low-confidence rules are pre-parked), click **Confirm**, then **Run tests** on the collisions page. The report fills in as verdicts arrive; a full run takes about one to three minutes and costs about two cents.
+6. **Use it:** click **Analyze** on *Harrow & Vale LLP*. When the rules table appears, check the types (low-confidence rules are pre-parked), click **Confirm**, then **Run tests** on the collisions page. The report fills in as verdicts arrive; a full run takes about two minutes and costs about three cents.
 
 **Troubleshooting**
 

@@ -1,4 +1,4 @@
 {
-  "runId": "87VQK7KAKg",
-  "note": "A real run of the demo policy (Harrow & Vale) recorded on 2026-10-21 with gpt-6-luna via Portkey; the run behind the evidence screenshots. /runs/example renders it from these files without calling a model."
+  "runId": "449NHijnXq",
+  "note": "A fresh live run of the demo policy (Harrow & Vale) on 2026-10-22 with gpt-6-luna via Portkey, every call a fresh answer (x-portkey-cache-force-refresh; 191 of 192 calls logged 'refresh', the other a judge call rejected by Azure's content filter). It replaces 87VQK7KAKg, which was largely replayed by the gateway's response cache (decision record gateway-cache). /runs/example renders it from these files without calling a model."
 }

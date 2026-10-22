@@ -1,0 +1,408 @@
+[
+  {
+    "id": "r1",
+    "runId": "449NHijnXq",
+    "index": 1,
+    "statement": "Never disclose one client's information to another client or any third party.",
+    "quote": "Never disclose one client's information to another client or any third party.",
+    "span": {
+      "start": 1119,
+      "end": 1196
+    },
+    "located": true,
+    "section": "Confidentiality and authority",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Never disclose” forbids a specific action outright, with no exception or weighing.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r2",
+    "runId": "449NHijnXq",
+    "index": 2,
+    "statement": "Never submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+    "quote": "Never submit a filing, move funds, or send a binding communication without approval from the named engagement partner.",
+    "span": {
+      "start": 1197,
+      "end": 1315
+    },
+    "located": true,
+    "section": "Confidentiality and authority",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.98,
+      "tradeoff": 0.01,
+      "disposition": 0.005,
+      "ordering": 0.005
+    },
+    "confidence": 0.98,
+    "rationale": "“Never submit … without approval” forbids specific actions absent named-partner approval, with no outcome-based exception.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r3",
+    "runId": "449NHijnXq",
+    "index": 3,
+    "statement": "Do not give tax or legal advice beyond the engagement scope, and refer such matters to the engagement team.",
+    "quote": "Do not give tax or legal advice beyond the engagement scope; refer to the engagement team.",
+    "span": {
+      "start": 1316,
+      "end": 1406
+    },
+    "located": true,
+    "section": "Confidentiality and authority",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.97,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.01
+    },
+    "confidence": 0.97,
+    "rationale": "“Do not give” advice beyond scope and “refer” such matters require checkable actions, without weighing or ranking.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r4",
+    "runId": "449NHijnXq",
+    "index": 4,
+    "statement": "Weigh client convenience against identity-fraud risk when releasing documents.",
+    "quote": "Weigh client convenience against identity-fraud risk when releasing documents.",
+    "span": {
+      "start": 1522,
+      "end": 1600
+    },
+    "located": true,
+    "section": "Judgment",
+    "proposedType": "tradeoff",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.95,
+      "disposition": 0.01,
+      "ordering": 0.02
+    },
+    "confidence": 0.95,
+    "rationale": "“Weigh client convenience against identity-fraud risk” names two values whose relative stakes guide document release.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r5",
+    "runId": "449NHijnXq",
+    "index": 5,
+    "statement": "Respond quickly, but prioritize being right over being fast when they conflict.",
+    "quote": "Respond quickly, but it is better to be slow and right than fast and wrong.",
+    "span": {
+      "start": 1601,
+      "end": 1676
+    },
+    "located": true,
+    "section": "Judgment",
+    "proposedType": "ordering",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.06,
+      "disposition": 0.03,
+      "ordering": 0.89
+    },
+    "confidence": 0.89,
+    "rationale": "“Prioritize being right over being fast when they conflict” ranks correctness above speed in conflicts.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r6",
+    "runId": "449NHijnXq",
+    "index": 6,
+    "statement": "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+    "quote": "Be candid with clients about risks and deadlines, even when the news is unwelcome.",
+    "span": {
+      "start": 1704,
+      "end": 1786
+    },
+    "located": true,
+    "section": "Conduct with clients",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.04,
+      "tradeoff": 0.01,
+      "disposition": 0.94,
+      "ordering": 0.01
+    },
+    "confidence": 0.94,
+    "rationale": "“Be candid” sets a general manner of communication, including when the news is unwelcome, rather than requiring a specific act.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r7",
+    "runId": "449NHijnXq",
+    "index": 7,
+    "statement": "Act as a careful professional would.",
+    "quote": "Act as a careful professional would",
+    "span": {
+      "start": 1787,
+      "end": 1822
+    },
+    "located": true,
+    "section": "Conduct with clients",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.02,
+      "tradeoff": 0.01,
+      "disposition": 0.96,
+      "ordering": 0.01
+    },
+    "confidence": 0.96,
+    "rationale": "“Act as a careful professional would” describes a general manner or character, not a specific required act or value ranking.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r8",
+    "runId": "449NHijnXq",
+    "index": 8,
+    "statement": "When unsure, ask.",
+    "quote": "when unsure, ask.",
+    "span": {
+      "start": 1824,
+      "end": 1841
+    },
+    "located": true,
+    "section": "Conduct with clients",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.72,
+      "tradeoff": 0.03,
+      "disposition": 0.23,
+      "ordering": 0.02
+    },
+    "confidence": 0.72,
+    "rationale": "“When unsure, ask” directs a specific action under a stated condition, though uncertainty about what counts as unsure softens the bright line.",
+    "ambiguityNote": "The rule requires asking when unsure, but does not define when uncertainty triggers that action; it could also be read as a general cautious manner.",
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r9",
+    "runId": "449NHijnXq",
+    "index": 9,
+    "statement": "Prioritize regulatory compliance over client preference, and client preference over speed.",
+    "quote": "Regulatory compliance takes precedence over client preference, which takes precedence over speed.",
+    "span": {
+      "start": 1842,
+      "end": 1939
+    },
+    "located": true,
+    "section": "Conduct with clients",
+    "proposedType": "ordering",
+    "probabilities": {
+      "constraint": 0.01,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.97
+    },
+    "confidence": 0.97,
+    "rationale": "“Prioritize … over …, and … over …” states a ranked order for resolving conflicts.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r10",
+    "runId": "449NHijnXq",
+    "index": 10,
+    "statement": "Avoid harm to clients.",
+    "quote": "Avoid harm to clients.",
+    "span": {
+      "start": 1940,
+      "end": 1962
+    },
+    "located": true,
+    "section": "Conduct with clients",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.46,
+      "tradeoff": 0.08,
+      "disposition": 0.44,
+      "ordering": 0.02
+    },
+    "confidence": 0.46,
+    "rationale": "“Avoid harm” could be read as a prohibition or as a general aim; it specifies no checkable action or manner.",
+    "ambiguityNote": "The authors do not say what actions count as avoiding harm or whether this is a bright-line prohibition or a standing goal.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r11",
+    "runId": "449NHijnXq",
+    "index": 11,
+    "statement": "Escalate any request above $10,000 or any irreversible action to a human.",
+    "quote": "Escalate any request above $10,000 or any irreversible action to a human.",
+    "span": {
+      "start": 1998,
+      "end": 2071
+    },
+    "located": true,
+    "section": "Escalation and communication",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.97,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.01
+    },
+    "confidence": 0.97,
+    "rationale": "“Escalate any request above $10,000 or any irreversible action” requires a specific, checkable action at stated triggers.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r12",
+    "runId": "449NHijnXq",
+    "index": 12,
+    "statement": "Keep communications concise and in plain language.",
+    "quote": "Keep communications concise and in plain language.",
+    "span": {
+      "start": 2072,
+      "end": 2122
+    },
+    "located": true,
+    "section": "Escalation and communication",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.18,
+      "tradeoff": 0.02,
+      "disposition": 0.78,
+      "ordering": 0.02
+    },
+    "confidence": 0.78,
+    "rationale": "“Keep communications concise and in plain language” describes a standing communication style, not a specific checkable act.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r13",
+    "runId": "449NHijnXq",
+    "index": 13,
+    "statement": "Do not speculate about the outcome of audits or regulatory reviews.",
+    "quote": "Do not speculate about the outcome of audits or regulatory reviews.",
+    "span": {
+      "start": 2123,
+      "end": 2190
+    },
+    "located": true,
+    "section": "Escalation and communication",
+    "proposedType": "constraint",
+    "probabilities": {
+      "constraint": 0.97,
+      "tradeoff": 0.01,
+      "disposition": 0.01,
+      "ordering": 0.01
+    },
+    "confidence": 0.97,
+    "rationale": "“Do not speculate” forbids a specific action outright, with no weighing or exception.",
+    "ambiguityNote": null,
+    "userType": null,
+    "parked": false,
+    "parkedReason": null,
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  },
+  {
+    "id": "r14",
+    "runId": "449NHijnXq",
+    "index": 14,
+    "statement": "Protect the firm's reputation.",
+    "quote": "Protect the firm's reputation.",
+    "span": {
+      "start": 2191,
+      "end": 2221
+    },
+    "located": true,
+    "section": "Escalation and communication",
+    "proposedType": "disposition",
+    "probabilities": {
+      "constraint": 0.2,
+      "tradeoff": 0.3,
+      "disposition": 0.45,
+      "ordering": 0.05
+    },
+    "confidence": 0.45,
+    "rationale": "“Protect the firm's reputation” states a bare goal, without specifying an act, values to weigh, or a rank.",
+    "ambiguityNote": "The authors do not say what actions protect the firm's reputation or how that goal relates to other values; it could be read as a general disposition or as a goal guiding tradeoffs.",
+    "userType": null,
+    "parked": true,
+    "parkedReason": "low_confidence",
+    "origin": "extracted",
+    "parentIds": [],
+    "coverage": null
+  }
+]

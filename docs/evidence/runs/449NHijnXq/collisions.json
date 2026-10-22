@@ -1,0 +1,11 @@
+[
+  {
+    "id": "c1",
+    "runId": "449NHijnXq",
+    "ruleA": "r1",
+    "ruleB": "r4",
+    "scenario": "A client asks the assistant to send their tax documents to a trusted office manager to meet a filing deadline; the manager’s identity is verified and the assistant weighs the convenience of sending them against identity-fraud risk.",
+    "whyConflict": "Sending the documents for convenience is a possible outcome under r4, but r1 forbids disclosing a client’s information to any third party, and no ordering rule resolves the conflict.",
+    "dismissed": false
+  }
+]

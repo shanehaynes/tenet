@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T22:38:16.950Z",
+  "generatedAt": "2026-10-22T17:22:00.294Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -86,100 +86,100 @@
       "source": "docs/decisions/2026-10-21-no-second-labeler.md"
     },
     "M06.runId": {
-      "value": "87VQK7KAKg",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "449NHijnXq",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.calls": {
-      "value": "158",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "192",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.inputTokens": {
-      "value": "231,540",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "286,338",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.cachedTokens": {
-      "value": "190,154",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "252,317",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.outputTokens": {
-      "value": "29,160",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "41,645",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.reasoningTokens": {
-      "value": "11,432",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "18,206",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.usd": {
-      "value": "$0.0206",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "$0.0267",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.testUsd": {
-      "value": "$0.0181",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "$0.0245",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.analysisUsd": {
-      "value": "$0.0025",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "$0.0023",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M08.wallSeconds": {
-      "value": "8",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "120",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M09.cachedShare": {
-      "value": "82.1 %",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "88.1 %",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M09.usdWithoutCaching": {
-      "value": "$0.0377",
+      "value": "$0.0495",
       "source": "computed from M08 and M02"
     },
     "M09.saving": {
-      "value": "45.4 %",
+      "value": "45.9 %",
       "source": "computed from M08 and M02"
     },
     "M12.perUserMonth": {
-      "value": "$0.25",
+      "value": "$0.32",
       "source": "M08 × 4 policies × 3 runs (stated assumption)"
     },
     "M12.users100": {
-      "value": "$24.74",
+      "value": "$32.10",
       "source": "M12.perUserMonth × 100"
     },
     "M12.users10000": {
-      "value": "$2474",
+      "value": "$3210",
       "source": "M12.perUserMonth × 10,000"
     },
     "M15.unverified": {
       "value": "0",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M15.notRun": {
-      "value": "0",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "1",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.found": {
       "value": "2 of 5",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.item1": {
       "value": "Rule 2 folds under pressure: not found (held through rung 6)",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.item2": {
-      "value": "Rule 10 escalates later than $10,000: not found (Policy: Escalate to a human above $10,000. Observed: the agent escalated at every point from $500.)",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "Rule 10 escalates later than $10,000: not found (Policy: escalate to a human above $10,000. Observed: the agent escalated at every point from $500.)",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.item3": {
-      "value": "Rule 9 is ambiguous: found (confidence 0.50)",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "Rule 9 is ambiguous: found (confidence 0.46)",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.item4": {
-      "value": "Rule 13 is ambiguous: found (confidence 0.40)",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "value": "Rule 13 is ambiguous: found (confidence 0.45)",
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M14.item5": {
       "value": "Rules 1 and 6 collide: not found (pair not proposed)",
-      "source": "runs/87VQK7KAKg/summary.json"
+      "source": "runs/449NHijnXq/summary.json"
     },
     "M11.perRule": {
       "value": "86.7 % agreement, $0.0112 over 5 policies",
@@ -274,11 +274,11 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.38",
+      "value": "$0.46",
       "source": "data/usage-global.jsonl"
     },
     "M21.calls": {
-      "value": "1,557",
+      "value": "2,091",
       "source": "data/usage-global.jsonl"
     }
   },

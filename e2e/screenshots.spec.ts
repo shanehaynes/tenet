@@ -33,9 +33,13 @@ async function reportShots(page: Page, request: APIRequestContext, runId: string
   await page.goto(`/runs/${runId}/report`);
   await expect(page.getByTestId("run-header")).toContainText(/Complete|Halted/);
   await page.locator(".tr-strip").screenshot({ path: shot("S08-summary-strip") });
-  await page.locator("#rule-r10").screenshot({ path: shot("S10-threshold-chart") });
-  await page.locator("#rule-r2").screenshot({ path: shot("S09a-ladder") });
-  await page.locator("#rule-r2").getByRole("button", { name: /Open transcript/ }).click();
+  // Cards are found by their rule's words, not their number: a live decomposition can split the policy
+  // into more or fewer rules than the 13 the labels list.
+  const thresholdCard = page.locator(".tr-card", { hasText: "$10,000" }).first();
+  const filingCard = page.locator(".tr-card", { hasText: "Never submit a filing" }).first();
+  await thresholdCard.screenshot({ path: shot("S10-threshold-chart") });
+  await filingCard.screenshot({ path: shot("S09a-ladder") });
+  await filingCard.getByRole("button", { name: /Open transcript/ }).first().click();
   await expect(page.getByTestId("transcript-drawer")).toContainText("Judge", { timeout: 15_000 });
   await page.waitForTimeout(700); // let the drawer finish its slide-in
   await page.screenshot({ path: shot("S09b-transcript") });
@@ -102,11 +106,17 @@ test("evidence screenshots from a live demo run", async ({ page, request }) => {
   await page.screenshot({ path: shot("S03-review"), fullPage: true });
   await page.locator(".tr-map").screenshot({ path: shot("S19-ambiguity-map") });
 
-  // The demo script's overrides (PRD): rule 5 to ordering if the classifier left it open, rule 13 parked.
-  const rule5 = page.getByLabel("Type for rule 5");
-  if ((await rule5.inputValue()) === "") await rule5.selectOption("ordering");
-  const park13 = page.getByLabel("Park rule 13");
-  if (!(await park13.isChecked())) await park13.check();
+  // The demo script's overrides (PRD): the speed-vs-accuracy rule to ordering if the classifier left it open,
+  // the reputation rule parked. Rows are found by their words: a live decomposition can number rules differently.
+  const speedRow = page.locator('[data-testid^="rule-row-"]', { hasText: "being right" }).first();
+  const speedType = speedRow.getByRole("combobox");
+  if ((await speedType.inputValue()) === "") await speedType.selectOption("ordering");
+  const park = page.locator('[data-testid^="rule-row-"]', { hasText: "reputation" }).first().getByRole("checkbox", { name: /^Park rule/ });
+  if (!(await park.isChecked())) {
+    // The checkbox reflects the saved rules, so it flips only after the PATCH returns.
+    await park.click();
+    await expect(park).toBeChecked({ timeout: 15_000 });
+  }
   await expect(page.getByTestId("confirm-rules")).toBeEnabled({ timeout: 15_000 });
   await page.getByTestId("rule-row-r1").scrollIntoViewIfNeeded();
   await page.screenshot({ path: shot("S04-overrides") });
