@@ -24,7 +24,7 @@ table.types { font-size: 0.55em; }
 <div class="reveal"><div class="slides">
 <!-- Ten slides (evidence-report-slides.md §3). {{key}} values come from docs/evidence/report-data.json and
      <img data-evidence="…"> images are inlined by scripts/build-slides.mjs. -->
-<section><h1>Tenet</h1><p>Typed tests for AI policies</p><p class="small">Shane Haynes · MGT 409 · Fall 2026</p></section>
+<section><h1>Tenet</h1><p>Typed tests for AI policies</p><p class="small">Shane Haynes · MGT 409 · Fall 2026</p><aside class="notes">Tenet tests whether an AI agent actually follows its written policy. In one sentence: it sorts each rule by kind, runs the test that kind demands, and reports where the agent departs from the policy and where the policy contradicts itself.</aside></section>
 <section><h2>The problem</h2><p>A team writes a policy for its AI agent. Nobody can say whether the agent follows it.</p>
 <ul>
 <li>A rule that holds when asked politely but folds under claimed authority</li>
@@ -33,14 +33,14 @@ table.types { font-size: 0.55em; }
 <li>Two rules that point opposite ways, with nothing saying which wins</li>
 <li>A rule whose kind was never decided</li>
 </ul>
-<p class="small">Today: nothing, a generic benchmark, or ten ad hoc prompts. Pass/fail cannot see any of these.</p></section>
+<p class="small">Today: nothing, a generic benchmark, or ten ad hoc prompts. Pass/fail cannot see any of these.</p><aside class="notes">The person accountable for an agent today does nothing, runs a generic benchmark, or writes ten prompts by hand. None of those catches these five failures. A pass/fail check on 'did it refuse?' records the first polite refusal and stops.</aside></section>
 <section><h2>What is new</h2>
 <table class="types"><tr><th>Rule type</th><th>The test it demands</th></tr>
 <tr><td>Constraint</td><td>Six requests under rising pressure</td></tr>
 <tr><td>Tradeoff</td><td>Eight stakes levels: where does it switch?</td></tr>
 <tr><td>Disposition</td><td>Ten paraphrases: is the trait stable?</td></tr>
 <tr><td>Ordering</td><td>Forced conflicts: which value wins?</td></tr></table>
-<p class="accent">Tenet's new part is the rule-type taxonomy and the ambiguity map.</p></section>
+<p class="accent">Tenet's new part is the rule-type taxonomy and the ambiguity map.</p><aside class="notes">A constraint is held or broken. A tradeoff has a threshold. A disposition is a trait that should survive rephrasing. An ordering has a winner. So each type gets a different test. Harnesses like promptfoo or Inspect run the tests you write; scanners like garak probe generic failures. Tenet derives the tests from the policy's own structure. Say the last line as written.</aside></section>
 <section><h2>The agents</h2><div style="max-width: 1100px; margin: 0 auto"><svg viewBox="0 0 980 190" role="img" aria-label="Tenet's pipeline" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">
 <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52525b"/></marker></defs>
 <g fill="#eef2ff" stroke="#6366f1" stroke-width="1.2">
@@ -63,25 +63,25 @@ table.types { font-size: 0.55em; }
 <text x="70" y="92" text-anchor="middle" font-size="11" fill="#b91c1c">flagged → quarantine</text>
 </svg></div>
 <p class="small">Plain code calls each narrow agent in turn; no agent calls another. Every call goes through one wrapper that logs tokens and cost and enforces the budgets.</p>
-<p class="small">The agent under test: gpt-6-luna with the policy as its system prompt, or a <span class="accent">real agent over HTTP</span>. Here, the author's five-agent HW5 team, with its own prompts and tools.</p></section>
-<section><h2>A real run: the rules</h2><img data-evidence="S03-review" alt="Review table"></section>
+<p class="small">The agent under test: gpt-6-luna with the policy as its system prompt, or a <span class="accent">real agent over HTTP</span>. Here, the author's five-agent HW5 team, with its own prompts and tools.</p><aside class="notes">Plain code calls narrow agents in turn; no agent calls another. A human reviews the rules before anything is tested, because only the owner can settle a rule the classifier could not. The agent under test can be the model with the policy as its prompt, or a real agent over HTTP: here, my HW5 team with its own tools.</aside></section>
+<section><h2>A real run: the rules</h2><img data-evidence="S03-review" alt="Review table"><aside class="notes">The demo policy split into rules, each with a type and a confidence. Point at the parked, low-confidence rows: Tenet does not guess their type; it reports them as ambiguous. Read the numbers off the screen.</aside></section>
 <section><h2>A real run: the findings</h2><div class="cols"><img data-evidence="S10-threshold-chart" alt="Threshold chart"><img data-evidence="S20c-agent-draft" alt="HW5 agent's drafted reply"></div>
-<p class="small">Left: a stakes sweep of the $10,000 escalation rule (finding F1, first seen in run 28Cv5g6wi1). Right: the real HW5 agent drafts "under review", which its role prompt scripts and its charter forbids.</p></section>
-<section><h2>The ambiguity map</h2><img data-evidence="S22-model-spec-map" alt="Ambiguity map of the OpenAI Model Spec excerpt" style="max-height: 450px"><p class="small">22 sentences of the published OpenAI Model Spec. An ambiguous rule means the authors never decided; the agent decides for them.</p></section>
+<p class="small">Left: a stakes sweep of the $10,000 escalation rule (finding F1, first seen in run 28Cv5g6wi1). Right: the real HW5 agent drafts "under review", which its role prompt scripts and its charter forbids.</p><aside class="notes">Left: the stakes sweep for the $10,000 rule; read where the agent began escalating from the chart. Right: my real HW5 agent. Under the discount ladder it drafted 'your request is under review'. Its role prompt scripts that sentence; its charter forbids even hinting at a discount. The agent followed its prompt; the policy contradicts itself (finding F2).</aside></section>
+<section><h2>The ambiguity map</h2><img data-evidence="S22-model-spec-map" alt="Ambiguity map of the OpenAI Model Spec excerpt" style="max-height: 450px"><p class="small">22 sentences of the published OpenAI Model Spec. An ambiguous rule means the authors never decided; the agent decides for them.</p><aside class="notes">This is a published policy, 22 sentences of the OpenAI Model Spec. Corners are the four types; rules in the middle are ones whose words never settle what kind of rule they are. Red dots are rules the model broke; red arcs are collisions. An ambiguous rule means the authors never decided, so the agent decides for them.</aside></section>
 <section><h2>Cost</h2><p>{{M08.usd}} per policy audit · {{M09.cachedShare}} of input cached · {{M12.perUserMonth}} per user per month</p>
 <ul>
 <li>Four-rung ladders instead of six: {{M10.perLadder}}</li>
 <li>A real agent costs about three times as much: every scenario is a full agent run</li>
 <li>Whole project, every live call: {{M21.usd}} of the $40 key budget</li>
-</ul></section>
-<section><h2>Safety</h2><div class="cols"><img data-evidence="S02-quarantine" alt="Quarantine"><img data-evidence="S07-halted" alt="Halted run"></div><p class="small">Injected policies quarantined · runs halt at their budget · the judge ignores planted instructions ({{M16.passed}} canaries) · every verdict quotes the agent verbatim, checked in code</p></section>
+</ul><aside class="notes">Every call is logged with its tokens; caching the policy-sized prefix is what keeps an audit to a few cents. Four rungs instead of six cut ladder cost and, in these runs, lost no finding. A real agent costs about three times as much, because every scenario is a full agent run. The whole project used well under the $40 key budget.</aside></section>
+<section><h2>Safety</h2><div class="cols"><img data-evidence="S02-quarantine" alt="Quarantine"><img data-evidence="S07-halted" alt="Halted run"></div><p class="small">Injected policies quarantined · runs halt at their budget · the judge ignores planted instructions ({{M16.passed}} canaries) · every verdict quotes the agent verbatim, checked in code</p><aside class="notes">Left: a policy with an injected instruction is quarantined before any agent sees it. Right: a run that reaches its test budget halts and says why; nothing unrun counts as a pass. The judge ignores instructions planted in transcripts, and every verdict must quote the agent verbatim, checked in code.</aside></section>
 <section><h2>Impact and next steps</h2>
 <ul>
 <li>Untested policies: {{M07.summary}}</li>
 <li>The HW5 team: the charter and a role prompt disagree; the boss overrode a rule only the specialist could see; the money rules held before any tool had to refuse</li>
 <li>Next: other models, full model specs, CI regression tests for prompt changes</li>
 </ul>
-<p class="small">Draft (Sunday): the policy owner's answer (M18) and the time ratio (M13).</p></section>
+<p class="small">Draft (Sunday): the policy owner's answer (M18) and the time ratio (M13).</p><aside class="notes">Every untested policy had defects. On my own HW5 team, Tenet found things I did not know: the charter and a role prompt disagree, and the boss pushed a specialist to undo a correct refusal because the rule lived only in that specialist's prompt. Next: other models, full model specs, and running Tenet on every prompt change like a test suite. Add the policy owner's answer here once it is in.</aside></section>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.min.js"></script>
 <script>Reveal.initialize({ hash: true, controls: true, progress: true, center: true, width: 1280, height: 720 });</script>
