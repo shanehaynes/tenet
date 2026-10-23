@@ -20,3 +20,8 @@ blockquote { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--acc
 @page { size: Letter; margin: 1in; }
 @media print { body { font-size: 11pt; } main { padding: 0; max-width: none; } h2 { margin-top: 24px; } }
 figure.pipeline svg { width: 100%; height: auto; max-width: 980px; display: block; }
+/* Tall screenshots: show the top, where the content the text refers to is. */
+figure.crop .crop-box { overflow: hidden; border: 1px solid var(--rule); border-radius: 8px; }
+figure.crop .crop-box img { border: 0; border-radius: 0; }
+figure.crop-4 .crop-box { max-height: 4in; }
+figure.crop-3 .crop-box { max-height: 2.6in; }
