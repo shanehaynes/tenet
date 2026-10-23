@@ -53,6 +53,26 @@ async function main() {
     total += at.total;
   }
   if (total) set("M03.pooled", `${pct(agree / total)} (${agree}/${total})`, "labels/eval-*.json (latest per policy)");
+  // Run-to-run variation: every classifier-v2 evaluation (v2 from 2026-10-21 20:00), grouped by day.
+  const V2_SINCE = "2026-10-21T20:00";
+  const rounds = new Map<string, { agree: number; total: number; policies: string[] }>();
+  const perPolicy = new Map<string, number[]>();
+  for (const f of labelFiles) {
+    const d = read(path.join("labels", f));
+    if (d.evaluatedAt < V2_SINCE) continue;
+    const at = d.thresholds.find((t: { threshold: number }) => t.threshold === d.primaryThreshold);
+    const day = d.evaluatedAt.slice(0, 10);
+    const r = rounds.get(day) ?? { agree: 0, total: 0, policies: [] };
+    r.agree += at.agree;
+    r.total += at.total;
+    r.policies.push(d.policy);
+    rounds.set(day, r);
+    perPolicy.set(d.policy, [...(perPolicy.get(d.policy) ?? []), at.agreement]);
+  }
+  if (rounds.size > 1) {
+    set("M03.rounds", [...rounds.entries()].sort().map(([day, r]) => `${day}: ${pct(r.agree / r.total)} (${r.agree}/${r.total}, ${r.policies.length} policies)`).join("; "), "labels/eval-*.json (classifier v2)");
+    set("M03.range", [...perPolicy.entries()].map(([p, xs]) => `${p} ${pct(Math.min(...xs))}–${pct(Math.max(...xs))}`).join("; "), "labels/eval-*.json (classifier v2)");
+  }
   else need("M03", "M03", "run npm run eval:classifier");
   set("M04", "not obtained (no second labeler; decision record 2026-10-21-no-second-labeler)", "docs/decisions/2026-10-21-no-second-labeler.md");
 

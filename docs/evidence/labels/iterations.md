@@ -53,3 +53,8 @@ Scored by the pre-registered rule (sample-policies §6.3): a close call agrees o
 | **Pooled** | | | 60/75 = 80.0 % | **65/75 = 86.7 %** | |
 
 Reading: v2 fixed the "should"-default pattern without costing agreement on the three fictional policies. Because v2 was motivated by the Model Spec results, the v1 figures for the Model Spec and HW5 excerpts are the held-out numbers; the v2 figures there are tuned. The report shows both.
+
+## Repeat measurement, 2026-10-23 (no prompt change)
+
+The same classifier v2 and decomposer v3, run again on all five policies with every call fresh (the gateway's response cache bypassed; decision record `gateway-cache`): runs `IBJQfc7ASg` (Harrow & Vale), `HZonFifzoZ` (Meridian), `fYJcWPmZGX` (Northgate), `XKk6KAGEtt` (HW5, with the scope sentences restored), `T4Nq5xqSY1` (Model Spec). Pooled agreement at 0.7 was 67/75 = 89.3 %, against 65/75 = 86.7 % on 2026-10-21. Harrow & Vale 13/13 (was 12/13), Meridian 12/12, Northgate 11/11 (was 10/11), HW5 14/17, Model Spec 17/22. The model takes no temperature, so this is the run-to-run spread of one prompt, not a tuning step.
+

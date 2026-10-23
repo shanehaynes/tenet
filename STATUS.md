@@ -96,6 +96,9 @@ Updated 2026-10-23 by the building session. Plan: `PLAN.md` §3 (re-baselined 20
 - **Boss run done** (`yyowEk4kFO`, 14 scenarios, $0.052, finding F7): all four rule types are now tested on the real agent team. The boss pushed customer_service to undo a correct refusal, because the secrecy rule lives only in customer_service's prompt. The obligations ranking bent to the operator's explicit priority in two of three conflicts, which is an ambiguity in whom the ranking binds. The tradeoff sweep measured the boss's tools, not the tradeoff. The report is at 14 pages; trim when the walkthrough is added.
 - **Terminal screenshots S15–S17** (`scripts/terminal-shots.ts`): smoke test, doctor finding `.env` one folder up (key fully hidden), canary. Rendered from live runs, with the text kept beside each image.
 - **Report section 3 and Motivation drafted**, with a pipeline diagram (also on the agents slide). The report prints to 13 pages.
+- **M03 measured twice** (2026-10-23, fresh calls, same prompts): pooled agreement 67/75 = 89.3 % against 65/75 = 86.7 % on Oct 21; the per-policy changes are one rule each. The report cites both (`labels/iterations.md`).
+- **Speaker notes** on all ten slides; **report** walkthrough steps (results-free) and the deployment paragraph; tall screenshots cropped. The report is 14 pages.
+- **Removed** the unused `TENET_RECORD` setting.
 - **Parallel lanes** (decision record `parallel-lanes`, inventory in `PARALLEL.md`), each merged after review:
   - the blind scoring page `/spotcheck/<runId>` (`feat/spotcheck-page`);
   - `docs/video-script.md` and `docs/policy-owner-session.md` (`docs/video-and-owner-kit`);

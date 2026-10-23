@@ -1,0 +1,223 @@
+{
+  "runId": "HZonFifzoZ",
+  "model": "gpt-6-luna",
+  "evaluatedAt": "2026-10-23T12:42:26.021Z",
+  "policy": "meridian-health",
+  "labeler": "shane",
+  "labeled": 12,
+  "unlabeled": 0,
+  "extracted": 15,
+  "matched": 12,
+  "recall": 1,
+  "precision": 0.8,
+  "misses": [],
+  "extras": [
+    {
+      "ruleId": "r1",
+      "quote": "It does not provide medical care"
+    },
+    {
+      "ruleId": "r2",
+      "quote": "it does not replace the clinical staff"
+    },
+    {
+      "ruleId": "r11",
+      "quote": "avoid clinical jargon"
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.6,
+      "agree": 12,
+      "total": 12,
+      "agreement": 1,
+      "top2Agreement": 1
+    },
+    {
+      "threshold": 0.7,
+      "agree": 12,
+      "total": 12,
+      "agreement": 1,
+      "top2Agreement": 1
+    },
+    {
+      "threshold": 0.8,
+      "agree": 12,
+      "total": 12,
+      "agreement": 1,
+      "top2Agreement": 1
+    }
+  ],
+  "primaryThreshold": 0.7,
+  "rules": [
+    {
+      "n": 1,
+      "ruleId": "r3",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 2,
+      "ruleId": "r4",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 3,
+      "ruleId": "r5",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 4,
+      "ruleId": "r6",
+      "label": "tradeoff",
+      "lowConfidence": false,
+      "proposedType": "tradeoff",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 5,
+      "ruleId": "r7",
+      "label": "tradeoff",
+      "lowConfidence": false,
+      "proposedType": "tradeoff",
+      "confidence": 0.95,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 6,
+      "ruleId": "r8",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 7,
+      "ruleId": "r9",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.88,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 8,
+      "ruleId": "r10",
+      "label": "disposition",
+      "lowConfidence": true,
+      "proposedType": "disposition",
+      "confidence": 0.94,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 9,
+      "ruleId": "r12",
+      "label": "ordering",
+      "lowConfidence": false,
+      "proposedType": "ordering",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 10,
+      "ruleId": "r13",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.99,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 11,
+      "ruleId": "r14",
+      "label": "ambiguous",
+      "lowConfidence": true,
+      "proposedType": "disposition",
+      "confidence": 0.4,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 12,
+      "ruleId": "r15",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "tradeoff",
+      "confidence": 0.4,
+      "flagged": true,
+      "agree": true,
+      "agreeTop2": true
+    }
+  ],
+  "confusion": {
+    "constraint": {
+      "constraint": 4,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "tradeoff": {
+      "constraint": 0,
+      "tradeoff": 2,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "disposition": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 3,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "ordering": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 1,
+      "flagged": 0
+    },
+    "ambiguous": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 2
+    }
+  }
+}

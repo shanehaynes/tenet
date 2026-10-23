@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T18:57:59.317Z",
+  "generatedAt": "2026-10-23T12:42:37.108Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -19,67 +19,75 @@
     },
     "M03.campus-customs-hw5.agreement": {
       "value": "82.4 % (14/17)",
-      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+      "source": "labels/eval-campus-customs-hw5-XKk6KAGEtt.json"
     },
     "M03.campus-customs-hw5.recall": {
       "value": "100.0 %",
-      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+      "source": "labels/eval-campus-customs-hw5-XKk6KAGEtt.json"
     },
     "M03.campus-customs-hw5.precision": {
-      "value": "65.4 %",
-      "source": "labels/eval-campus-customs-hw5-vpM6BDk5qZ.json"
+      "value": "56.7 %",
+      "source": "labels/eval-campus-customs-hw5-XKk6KAGEtt.json"
     },
     "M03.harrow-vale.agreement": {
-      "value": "92.3 % (12/13)",
-      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+      "value": "100.0 % (13/13)",
+      "source": "labels/eval-harrow-vale-IBJQfc7ASg.json"
     },
     "M03.harrow-vale.recall": {
       "value": "100.0 %",
-      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+      "source": "labels/eval-harrow-vale-IBJQfc7ASg.json"
     },
     "M03.harrow-vale.precision": {
-      "value": "100.0 %",
-      "source": "labels/eval-harrow-vale-2IYNzEbKTY.json"
+      "value": "92.9 %",
+      "source": "labels/eval-harrow-vale-IBJQfc7ASg.json"
     },
     "M03.meridian-health.agreement": {
       "value": "100.0 % (12/12)",
-      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+      "source": "labels/eval-meridian-health-HZonFifzoZ.json"
     },
     "M03.meridian-health.recall": {
       "value": "100.0 %",
-      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+      "source": "labels/eval-meridian-health-HZonFifzoZ.json"
     },
     "M03.meridian-health.precision": {
       "value": "80.0 %",
-      "source": "labels/eval-meridian-health-I64iup0Lqd.json"
+      "source": "labels/eval-meridian-health-HZonFifzoZ.json"
     },
     "M03.northgate-it.agreement": {
-      "value": "90.9 % (10/11)",
-      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+      "value": "100.0 % (11/11)",
+      "source": "labels/eval-northgate-it-fYJcWPmZGX.json"
     },
     "M03.northgate-it.recall": {
       "value": "100.0 %",
-      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+      "source": "labels/eval-northgate-it-fYJcWPmZGX.json"
     },
     "M03.northgate-it.precision": {
       "value": "91.7 %",
-      "source": "labels/eval-northgate-it-ksHiNGzCgE.json"
+      "source": "labels/eval-northgate-it-fYJcWPmZGX.json"
     },
     "M03.openai-model-spec-excerpt.agreement": {
       "value": "77.3 % (17/22)",
-      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+      "source": "labels/eval-openai-model-spec-excerpt-T4Nq5xqSY1.json"
     },
     "M03.openai-model-spec-excerpt.recall": {
       "value": "100.0 %",
-      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+      "source": "labels/eval-openai-model-spec-excerpt-T4Nq5xqSY1.json"
     },
     "M03.openai-model-spec-excerpt.precision": {
       "value": "81.5 %",
-      "source": "labels/eval-openai-model-spec-excerpt-Nf1wMD9drR.json"
+      "source": "labels/eval-openai-model-spec-excerpt-T4Nq5xqSY1.json"
     },
     "M03.pooled": {
-      "value": "86.7 % (65/75)",
+      "value": "89.3 % (67/75)",
       "source": "labels/eval-*.json (latest per policy)"
+    },
+    "M03.rounds": {
+      "value": "2026-10-21: 86.7 % (65/75, 5 policies); 2026-10-23: 89.3 % (67/75, 5 policies)",
+      "source": "labels/eval-*.json (classifier v2)"
+    },
+    "M03.range": {
+      "value": "campus-customs-hw5 82.4 %–82.4 %; harrow-vale 92.3 %–100.0 %; meridian-health 100.0 %–100.0 %; northgate-it 90.9 %–100.0 %; openai-model-spec-excerpt 77.3 %–77.3 %",
+      "source": "labels/eval-*.json (classifier v2)"
     },
     "M04": {
       "value": "not obtained (no second labeler; decision record 2026-10-21-no-second-labeler)",
@@ -354,11 +362,11 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.68",
+      "value": "$0.70",
       "source": "data/usage-global.jsonl (snapshot: tokenomics/usage-global-*.jsonl)"
     },
     "M21.calls": {
-      "value": "3,402",
+      "value": "3,505",
       "source": "data/usage-global.jsonl"
     }
   },

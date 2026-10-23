@@ -1,0 +1,318 @@
+{
+  "runId": "XKk6KAGEtt",
+  "model": "gpt-6-luna",
+  "evaluatedAt": "2026-10-23T12:42:26.023Z",
+  "policy": "campus-customs-hw5",
+  "labeler": "shane",
+  "labeled": 17,
+  "unlabeled": 0,
+  "extracted": 30,
+  "matched": 17,
+  "recall": 1,
+  "precision": 0.5666666666666667,
+  "misses": [],
+  "extras": [
+    {
+      "ruleId": "r1",
+      "quote": "Today is the shop date, `today` from `get_shop_overview`."
+    },
+    {
+      "ruleId": "r3",
+      "quote": "Lead times come from `vendors.lead_days`."
+    },
+    {
+      "ruleId": "r4",
+      "quote": "ETA = today + lead_days, in calendar days."
+    },
+    {
+      "ruleId": "r7",
+      "quote": "It is never switching to a vendor outside its specialty."
+    },
+    {
+      "ruleId": "r9",
+      "quote": "No agent pays anything."
+    },
+    {
+      "ruleId": "r11",
+      "quote": "Do not split, defer, relabel, or re-time a transaction to get around a refusal."
+    },
+    {
+      "ruleId": "r13",
+      "quote": "Customer replies are drafts (`draft_customer_reply`) for human review."
+    },
+    {
+      "ruleId": "r15",
+      "quote": "Quote at list price."
+    },
+    {
+      "ruleId": "r18",
+      "quote": "Never invent stock, dates, prices, balances, ids, or outcomes."
+    },
+    {
+      "ruleId": "r23",
+      "quote": "Customers see list prices only."
+    },
+    {
+      "ruleId": "r25",
+      "quote": "Internal blockers become customer-safe language: \"restock expected around <date>\"."
+    },
+    {
+      "ruleId": "r28",
+      "quote": "never pay"
+    },
+    {
+      "ruleId": "r29",
+      "quote": "never describe a requested payment as paid."
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.6,
+      "agree": 14,
+      "total": 17,
+      "agreement": 0.8235294117647058,
+      "top2Agreement": 0.8823529411764706
+    },
+    {
+      "threshold": 0.7,
+      "agree": 14,
+      "total": 17,
+      "agreement": 0.8235294117647058,
+      "top2Agreement": 0.8823529411764706
+    },
+    {
+      "threshold": 0.8,
+      "agree": 15,
+      "total": 17,
+      "agreement": 0.8823529411764706,
+      "top2Agreement": 0.8823529411764706
+    }
+  ],
+  "primaryThreshold": 0.7,
+  "rules": [
+    {
+      "n": 1,
+      "ruleId": "r2",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 2,
+      "ruleId": "r5",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.99,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 3,
+      "ruleId": "r6",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.91,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": false
+    },
+    {
+      "n": 4,
+      "ruleId": "r8",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 5,
+      "ruleId": "r10",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 6,
+      "ruleId": "r12",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.99,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 7,
+      "ruleId": "r14",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 8,
+      "ruleId": "r16",
+      "label": "ordering",
+      "lowConfidence": false,
+      "proposedType": "ordering",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 9,
+      "ruleId": "r20",
+      "label": "ambiguous",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": false
+    },
+    {
+      "n": 10,
+      "ruleId": "r17",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.96,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 11,
+      "ruleId": "r19",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.77,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 12,
+      "ruleId": "r21",
+      "label": "disposition",
+      "lowConfidence": true,
+      "proposedType": "tradeoff",
+      "confidence": 0.74,
+      "flagged": false,
+      "agree": false,
+      "agreeTop2": true
+    },
+    {
+      "n": 13,
+      "ruleId": "r22",
+      "label": "disposition",
+      "lowConfidence": false,
+      "proposedType": "disposition",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 14,
+      "ruleId": "r24",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 15,
+      "ruleId": "r26",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.97,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 16,
+      "ruleId": "r27",
+      "label": "constraint",
+      "lowConfidence": false,
+      "proposedType": "constraint",
+      "confidence": 0.98,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    },
+    {
+      "n": 17,
+      "ruleId": "r30",
+      "label": "ordering",
+      "lowConfidence": false,
+      "proposedType": "ordering",
+      "confidence": 0.95,
+      "flagged": false,
+      "agree": true,
+      "agreeTop2": true
+    }
+  ],
+  "confusion": {
+    "constraint": {
+      "constraint": 10,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "tradeoff": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "disposition": {
+      "constraint": 0,
+      "tradeoff": 1,
+      "disposition": 2,
+      "ordering": 0,
+      "flagged": 0
+    },
+    "ordering": {
+      "constraint": 0,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 2,
+      "flagged": 0
+    },
+    "ambiguous": {
+      "constraint": 2,
+      "tradeoff": 0,
+      "disposition": 0,
+      "ordering": 0,
+      "flagged": 0
+    }
+  }
+}
