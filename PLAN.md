@@ -43,7 +43,7 @@ Send Shane one message with these questions and the defaults you will use if he 
 | 3 | Confirm the Harrow & Vale hand labels as transcribed from the PRD (sample-policies §6.1), and whether to tweak the wording of samples 2 and 3 before labeling them | Labels confirmed; samples as drafted |
 | 4 | UI kit: shadcn/ui (20-minute timebox) or plain Tailwind? | shadcn/ui |
 | 5 | Hosting: none (local only)? | None |
-| 6 | Who are the classmate labeler and the policy-owner candidate (Eide Bailly colleague, Yale IT, a compliance contact), and when will their inputs land? | Shane handles; the session needs the dates for `STATUS.md` |
+| 6 | Who are the classmate labeler and the policy-owner candidate (a former colleague, Yale IT, a compliance contact), and when will their inputs land? | Shane handles; the session needs the dates for `STATUS.md` |
 | 7 | HW5: may the session clone github.com/shanehaynes/Homework5 into a sibling folder and add the Tenet bridge route on a branch? Is the local `.venv` set up, and does its `.env` hold the key? | Yes, branch `tenet-bridge`; Shane runs the HW5 backend if the session cannot |
 | 8 | Published policy for the ambiguity map: the OpenAI Model Spec excerpt (CC0), or another public AI policy Shane prefers? | Model Spec excerpt |
 
@@ -126,7 +126,7 @@ Exit criteria: `npm run check` green; `npm run tenet -- analyze samples/harrow-v
 
 Roadblocks: `create-next-app` refuses the non-empty folder (sibling trick); TypeScript 7 (pin 5); no key on this machine (mock mode, ask); the Model Spec page unreachable or its license line missing (substitute a published company AI policy with permissive terms, or skip the published sample and say so in the report).
 
-Shane today: answer the kickoff questions; confirm the Harrow & Vale labels; label Meridian, Northgate and the HW5 excerpt tonight (he wrote the HW5 rules, so this is quick); contact the classmate labeler and a policy owner (Eide Bailly colleague, Yale IT, or a compliance contact); confirm the `.env` path; confirm the HW5 repo runs locally (`.venv`, `.env` with the key, `uvicorn`).
+Shane today: answer the kickoff questions; confirm the Harrow & Vale labels; label Meridian, Northgate and the HW5 excerpt tonight (he wrote the HW5 rules, so this is quick); contact the classmate labeler and a policy owner (a former colleague, Yale IT, or a compliance contact); confirm the `.env` path; confirm the HW5 repo runs locally (`.venv`, `.env` with the key, `uvicorn`).
 
 ### Thursday Oct 22: review UI, ambiguity map, execution engine
 
@@ -212,7 +212,7 @@ Morning: if Gate 3 failed, README and repo first. Re-run `screenshots.spec` only
 
 | Day | Task | Feeds |
 |---|---|---|
-| Wed Oct 21 | Answer the kickoff questions; confirm Harrow & Vale labels; label Meridian, Northgate and the HW5 excerpt tonight; contact the classmate labeler and a policy owner (Eide Bailly colleague, Yale IT, compliance contact); confirm the `.env` path; confirm the HW5 repo runs locally | Wed–Thu |
+| Wed Oct 21 | Answer the kickoff questions; confirm Harrow & Vale labels; label Meridian, Northgate and the HW5 excerpt tonight; contact the classmate labeler and a policy owner (a former colleague, Yale IT, compliance contact); confirm the `.env` path; confirm the HW5 repo runs locally | Wed–Thu |
 | Thu Oct 22 | Labels committed by 10 AM (hard deadline); 10 minutes with the live ambiguity map | M03 |
 | Fri Oct 23 | 10 minutes with the first live report; timing exercise for rules 2, 4, 10 with a stopwatch (sample-policies §8); book the policy-owner session; HW5 backend runnable on his machine | Gate 1, M13 |
 | Sat Oct 24 | HW5 backend running with his key if needed (morning); hand-score 50 transcripts before reading that run's report (afternoon, about an hour); policy-owner session: show the ambiguity map, ask "would you change the policy, and which line?", capture the quote; collect the classmate's labels | M20, M05, M18, M04 |

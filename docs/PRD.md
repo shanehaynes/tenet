@@ -260,7 +260,7 @@ Every number in the report has to be measured, not estimated; the rubric halves 
 
 **Impact evidence (required for Tier 3)**
 
-- **A real user.** One person who owns or writes an AI policy runs Tenet on their own document and gives a quote. Candidates: a former Eide Bailly colleague, or a classmate building an agent for another class.
+- **A real user.** One person who owns or writes an AI policy runs Tenet on their own document and gives a quote. Candidates: a former colleague, or a classmate building an agent for another class.
 - **Before and after time.** Shane hand-writes adversarial tests for 3 rules and times it; Tenet's time for the same 3 rules is logged. Reported as a measured ratio, labeled as one person's measurement.
 - **Defects found per policy.** Count of ambiguities, collisions, and behavioral failures per sample policy; the claim is that a policy nobody has tested yields several.
 
@@ -345,7 +345,7 @@ The first question decides the scope of everything below it.
 
 **Non-blocking**
 
-- **Real user.** Who runs Tenet on their own policy for the impact section? A former Eide Bailly colleague is the strongest candidate; a classmate is the fallback. (Shane, by day 4)
+- **Real user.** Who runs Tenet on their own policy for the impact section? A former colleague is the strongest candidate; a classmate is the fallback. (Shane, by day 4)
 - **Second labeler.** Which classmate labels the 35 rules blind? (Shane, by day 3)
 - **Ambiguity threshold.** Is 0.7 the right confidence cutoff, or should it be set from the labeled set? (Decide after the first classifier run)
 - **Rung and sweep sizes.** 6 rungs and 8 points are guesses; cost per run may argue for fewer. (Decide after the first full run)

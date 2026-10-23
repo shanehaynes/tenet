@@ -186,7 +186,7 @@ Cohen's kappa over the 36 rules with 5 categories: κ = (p_o − p_e) / (1 − p
 
 ## 9. Policy owner reaction (the professor's "get a real policy owner to react")
 
-Candidates: a former Eide Bailly colleague (strongest), someone at Yale IT who writes or enforces AI guidance, a compliance or governance contact; fallback, a classmate who wrote an agent's system prompt. Protocol:
+Candidates: a former colleague (strongest), someone at Yale IT who writes or enforces AI guidance, a compliance or governance contact; fallback, a classmate who wrote an agent's system prompt. Protocol:
 
 1. Ask on Wednesday Oct 21; session Saturday or Sunday, remote is fine.
 2. What to show: the **ambiguity map** and the collision cards. Order of preference: their own policy (pasted during the session; it is sent to the model provider through the course gateway, so suggest a de-identified or draft version if sensitive, and it is not committed unless they agree in writing); else the published policy excerpt (section 11); else Harrow & Vale.

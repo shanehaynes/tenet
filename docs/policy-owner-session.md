@@ -2,7 +2,7 @@
 
 The professor asked for a real policy owner's reaction. The protocol is in `docs/plan/sample-policies.md` §9: show the ambiguity map and the collision cards, ask two questions word for word, and capture the answers, a quote, the attribution and one screenshot. The answers go into report section 7 and slide 10. In the evidence inventory this is M18, "Real user: quote, attribution, counts" (`docs/plan/evidence-report-slides.md` §1.2). Schedule the session for Saturday Oct 24 or Sunday Oct 25. A written answer by **Sunday Oct 25, 12:00** also counts (§9, step 5).
 
-Candidates, in order (§9): a former Eide Bailly colleague, someone at Yale IT who writes or enforces AI guidance, a compliance or governance contact, and as a fallback a classmate who wrote an agent's system prompt.
+Candidates, in order (§9): a former colleague, someone at Yale IT who writes or enforces AI guidance, a compliance or governance contact, and as a fallback a classmate who wrote an agent's system prompt.
 
 ## 1. Invitation (send as is; fill the brackets)
 
