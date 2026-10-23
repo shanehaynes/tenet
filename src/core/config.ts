@@ -21,7 +21,6 @@ export type Settings = {
   keyBudgetUsd: number;
   allowOverKeyBudget: boolean;
   dataDir: string;
-  record: boolean;
   agentUrl: string | null;
   agentName: string | null;
 };
@@ -42,7 +41,6 @@ export function settings(env: EnvTarget = process.env): Settings {
     keyBudgetUsd: num(env, "TENET_KEY_BUDGET_USD", 40),
     allowOverKeyBudget: env.TENET_ALLOW_OVER_KEY_BUDGET === "1",
     dataDir: path.resolve(/*turbopackIgnore: true*/ env.TENET_DATA_DIR?.trim() || path.join(process.cwd(), "data")),
-    record: env.TENET_RECORD === "1",
     agentUrl: env.TENET_AGENT_URL?.trim() || null,
     agentName: env.TENET_AGENT_NAME?.trim() || null,
   };

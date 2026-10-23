@@ -24,7 +24,7 @@ It must pass after every change. From Thursday on, `npm run tenet -- run samples
 
 ## Working rules (from PLAN.md §0)
 
-- **Mock first.** Build and test with `TENET_PROVIDER=mock` (or `--provider mock`). Live calls only for smoke, classifier eval, demo runs, HW5 runs and screenshots. (There is no fixture recorder: `TENET_RECORD` is parsed but unused.)
+- **Mock first.** Build and test with `TENET_PROVIDER=mock` (or `--provider mock`). Live calls only for smoke, classifier eval, demo runs, HW5 runs and screenshots. (There is no fixture recorder; the archived example run plays that role.)
 - **One wrapper.** Every model call goes through `callModel` in `src/core/model/client.ts`. The one exception is `scripts/probe-gateway-cache.ts`, which needs the gateway's response headers.
 - **Evidence first.** A number the report cites comes from a script that writes it under `docs/evidence/`.
 - **Commit small on `main`, push often.** Conventional commits. Never commit `.env*` (except `.env.example`) or `data/runs`.

@@ -16,7 +16,7 @@ Plan written 2026-10-20 from the PRD ([docs/PRD.md](docs/PRD.md), a local copy o
 
 **Working rules for the building session**
 
-1. **Mock first.** Build and test every stage with `TENET_PROVIDER=mock`; use the live key for the smoke test, classifier evaluation, demo runs and screenshots. Record live responses as fixtures (`TENET_RECORD=1`) so UI iteration against real data costs nothing. *(Not built: the archived example run took this role; `TENET_RECORD` is parsed but unused.)*
+1. **Mock first.** Build and test every stage with `TENET_PROVIDER=mock`; use the live key for the smoke test, classifier evaluation, demo runs and screenshots. Record live responses as fixtures (`TENET_RECORD=1`) so UI iteration against real data costs nothing. *(Not built: the archived example run took this role, and the setting was removed on 2026-10-23.)*
 2. **One wrapper.** Every model call goes through `callModel` (architecture §4.4). No exceptions, ever; the tokenomics section depends on it.
 3. **Evidence first.** When a feature produces a number the report will cite, write the script that extracts it in the same commit. A number not in `docs/evidence/` does not go in the report.
 4. **Keep the demo path green.** `npm run check` must pass after every change. From Phase 2 onward (once `tenet run` exists), `npm run tenet -- run samples/harrow-vale.md --accept-proposed --provider mock` must also still complete.
