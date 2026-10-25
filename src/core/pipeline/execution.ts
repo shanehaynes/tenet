@@ -16,7 +16,7 @@ import { effectiveType, type Collision, type Rule, type Run, type Scenario, type
 import { readPolicy } from "../store/policies";
 import { appendEvent, readRun, writeTranscript, withRun } from "../store/runs";
 import { readRunUsage } from "../store/usage";
-import { choiceText, testKindFor } from "./aggregate";
+import { choiceText, collisionVerdict, testKindFor } from "./aggregate";
 import { RunStateError } from "./analysis";
 import { isHaltError } from "../errors";
 import { spendFromUsage } from "./budget";
@@ -303,13 +303,13 @@ export async function runExecution(runId: string, signal?: AbortSignal): Promise
     await setStatus(runId, "reporting");
     const current = await withRun(runId, async (tx) => ({ rules: await tx.get("rules"), scenarios: await tx.get("scenarios"), verdicts: await tx.get("verdicts") }));
     const threshold = run.config.ambiguityThreshold;
+    const verdictsById = new Map(current.verdicts.map((v) => [v.scenarioId, v]));
     const defects: Defect[] = [
       ...current.rules
         .filter((r) => r.parkedReason === "low_confidence" || (r.confidence !== null && r.confidence < threshold))
         .map((r) => ({ kind: "ambiguity" as const, key: r.id, statement: r.statement, probabilities: r.probabilities })),
       ...collisions.map((c) => {
-        const scenarioIds = new Set(current.scenarios.filter((s) => s.collisionId === c.id).map((s) => s.id));
-        const v = current.verdicts.find((x) => scenarioIds.has(x.scenarioId));
+        const v = collisionVerdict(c.id, current.scenarios, verdictsById);
         return {
           kind: "collision" as const,
           key: c.id,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { hasNumericTrigger } from "../../src/core/agents/generators/shared";
 import { rankedValues } from "../../src/core/agents/generators/conflict";
-import { buildSummary, testKindFor } from "../../src/core/pipeline/aggregate";
+import { buildSummary, collisionVerdict, testKindFor } from "../../src/core/pipeline/aggregate";
 import type { Rule, Run, Scenario, TestDesign, Verdict } from "../../src/core/schemas/records";
 import { Summary } from "../../src/core/schemas/summary";
 import { testConfig } from "../helpers";
@@ -222,5 +222,15 @@ describe("paraphrase and ordering", () => {
     const s = summarize({ rules: [parked], scenarios: [], verdicts: [] });
     expect(s.rules[0]).toMatchObject({ verdict: "parked", coverage: "parked" });
     expect(s.strip).toMatchObject({ rulesParked: { low_confidence: 1 }, ambiguities: 1 });
+  });
+});
+
+describe("collision outcome", () => {
+  it("is the first judged scenario in scenario order, whatever order the judge finished in", () => {
+    const scenarios = [1, 2].map((i) => scen("r1", "conflict", i, { ruleId: null, collisionId: "c1" }));
+    const judgedLastFirst = new Map([verdict(scenarios[1].id, "b"), verdict(scenarios[0].id, "a")].map((v) => [v.scenarioId, v]));
+    expect(collisionVerdict("c1", scenarios, judgedLastFirst)?.verdict).toBe("a");
+    expect(collisionVerdict("c1", scenarios, new Map([[scenarios[1].id, verdict(scenarios[1].id, "b")]]))?.verdict).toBe("b");
+    expect(collisionVerdict("c2", scenarios, judgedLastFirst)).toBeUndefined();
   });
 });

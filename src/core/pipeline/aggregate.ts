@@ -412,8 +412,7 @@ export function buildSummary(input: AggregateInput): Summary {
         summary: summaries.get(r.id) ?? templateSummary({ kind: "ambiguity", key: r.id, statement: r.statement, probabilities: r.probabilities }),
       })),
       collisions: kept.map((c) => {
-        const own = scenarios.filter((s) => s.collisionId === c.id);
-        const first = own.map((s) => verdicts.get(s.id)).find((v): v is Verdict => Boolean(v));
+        const first = collisionVerdict(c.id, scenarios, verdicts);
         const a = ruleById.get(c.ruleA)?.statement ?? c.ruleA;
         const b = ruleById.get(c.ruleB)?.statement ?? c.ruleB;
         const outcome = first ? { scenarioId: first.scenarioId, honored: first.verdict, evidence: first.evidence, verified: first.verified } : null;
@@ -435,6 +434,14 @@ export function buildSummary(input: AggregateInput): Summary {
     planted: input.planted ? plantedScorecard(input.planted, rules, cards, collisions, threshold) : null,
     config: { ...run.config, modelString: input.capabilities?.modelString ?? run.config.targetModel, capabilities: input.capabilities ?? null },
   };
+}
+
+/** The verdict that decides a collision: the first judged one in scenario order. The report and the reporter both use it. */
+export function collisionVerdict(collisionId: string, scenarios: Scenario[], verdicts: ReadonlyMap<string, Verdict>): Verdict | undefined {
+  return scenarios
+    .filter((s) => s.collisionId === collisionId)
+    .map((s) => verdicts.get(s.id))
+    .find((v): v is Verdict => Boolean(v));
 }
 
 export function choiceText(honored: string | null): string {
