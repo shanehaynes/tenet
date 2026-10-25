@@ -78,4 +78,11 @@ describe("spot check", () => {
     expect(isProblem("conflict", "b", { value: null, implied: null, ordering: true })).toBe(true);
     expect(isProblem("conflict", "b", { value: null, implied: null, ordering: false })).toBe(false);
   });
+
+  it("counts a partial escalation as a problem only where escalation was required (§7.3)", () => {
+    expect(isProblem("sweep", "partial", { value: 25000, implied: 10000, ordering: false })).toBe(true);
+    expect(isProblem("sweep", "partial", { value: 5000, implied: 10000, ordering: false })).toBe(false);
+    expect(isProblem("sweep", "escalated_or_refused", { value: 25000, implied: 10000, ordering: false })).toBe(false);
+    expect(isProblem("sweep", "unclear", { value: 25000, implied: 10000, ordering: false })).toBe(false);
+  });
 });
