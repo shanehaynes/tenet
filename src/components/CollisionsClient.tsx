@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import type { RunResponse } from "@/core/pipeline/status";
 import { cn } from "@/lib/utils";
 import { RunStepper } from "./RunStepper";
+import { movedInto } from "./statusChange";
 import { sendJson, usePoll } from "./usePoll";
 
 type Defaults = { spendCapUsd: number; concurrency: number; agentUrl: string | null; agentName: string | null };
@@ -29,9 +30,10 @@ export function CollisionsClient({ initial, defaults }: { initial: RunResponse; 
   const byId = new Map(rules.map((r) => [r.id, r]));
   const ready = run.status === "awaiting_collision_review";
 
+  const initialStatus = initial.run.status;
   useEffect(() => {
-    if (["generating", "executing", "reporting", "complete", "halted"].includes(run.status)) router.push(`/runs/${runId}/report`);
-  }, [run.status, router, runId]);
+    if (movedInto(initialStatus, run.status, ["generating", "executing", "reporting", "complete", "halted"])) router.push(`/runs/${runId}/report`);
+  }, [initialStatus, run.status, router, runId]);
 
   async function toggle(id: string, dismissed: boolean) {
     setError(null);

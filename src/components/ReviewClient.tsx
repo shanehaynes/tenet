@@ -15,6 +15,7 @@ import { RULE_TYPES, type RuleType } from "@/core/schemas/agents";
 import { effectiveType, type Rule } from "@/core/schemas/records";
 import { cn } from "@/lib/utils";
 import { RunStepper } from "./RunStepper";
+import { movedInto } from "./statusChange";
 import { sendJson, usePoll } from "./usePoll";
 
 const WORKING = new Set(["created", "scanning", "decomposing", "classifying", "mapping_collisions"]);
@@ -54,9 +55,10 @@ export function ReviewClient({ initial }: { initial: RunResponse }) {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const initialStatus = initial.run.status;
   useEffect(() => {
-    if (run.status === "awaiting_collision_review") router.push(`/runs/${runId}/collisions`);
-  }, [run.status, router, runId]);
+    if (movedInto(initialStatus, run.status, ["awaiting_collision_review"])) router.push(`/runs/${runId}/collisions`);
+  }, [initialStatus, run.status, router, runId]);
 
   async function apply(ops: unknown[]) {
     setError(null);

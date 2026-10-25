@@ -29,6 +29,16 @@ test("analyze the demo policy, override, confirm, run and open a transcript", as
   await expect(page.getByTestId("collision-c1")).toBeVisible({ timeout: 30_000 });
   await page.screenshot({ path: "test-results/shots/03-collisions.png", fullPage: true });
 
+  // The stepper links back to a finished step, and that page stays put (read-only) instead of bouncing forward.
+  await page.getByLabel("Run steps").getByRole("link", { name: /Review/ }).click();
+  await page.waitForURL(/\/review$/);
+  await page.waitForTimeout(1500);
+  await expect(page).toHaveURL(/\/review$/);
+  await expect(page.locator("tbody tr")).toHaveCount(13);
+  await page.goBack();
+  await page.waitForURL(/\/collisions$/);
+  await expect(page.getByTestId("collision-c1")).toBeVisible({ timeout: 30_000 });
+
   await page.getByTestId("run-tests").click();
   await page.waitForURL(/\/report$/);
   await expect(page.getByTestId("run-header")).toContainText("Complete", { timeout: 60_000 });
