@@ -50,8 +50,11 @@ export function runsDir(): string {
   return path.join(dataDir(), "runs");
 }
 
+/** Run and scenario ids are path segments, so only these characters are accepted. */
+const SAFE_ID = /^[A-Za-z0-9_-]+$/;
+
 export function runDir(runId: string): string {
-  if (!/^[A-Za-z0-9_-]+$/.test(runId)) throw new RunNotFound(runId);
+  if (!SAFE_ID.test(runId)) throw new RunNotFound(runId);
   return path.join(runsDir(), runId);
 }
 
@@ -168,6 +171,7 @@ export async function listRuns(): Promise<Run[]> {
   }
   const runs: Run[] = [];
   for (const id of entries) {
+    if (!SAFE_ID.test(id)) continue; // e.g. a .DS_Store left by Finder
     const run = await readJson(runFilePath(id, FILES.run.name), Run).catch(() => null);
     if (run) runs.push(run);
   }
@@ -193,6 +197,6 @@ export async function writeTranscript(runId: string, transcript: Transcript): Pr
 }
 
 export async function readTranscript(runId: string, scenarioId: string): Promise<Transcript | null> {
-  if (!/^[A-Za-z0-9_-]+$/.test(scenarioId)) return null;
+  if (!SAFE_ID.test(scenarioId)) return null;
   return readJson(runFilePath(runId, path.join("transcripts", `${scenarioId}.json`)), Transcript);
 }

@@ -1,4 +1,4 @@
-import { appendFileSync, mkdtempSync, readdirSync, rmSync } from "node:fs";
+import { appendFileSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -72,6 +72,12 @@ describe("runs", () => {
     expect((await listRuns()).map((r) => r.id)).toEqual([b.id, a.id]);
     await appendEvent(a.id, { stage: "decomposer", message: "13 rules" });
     expect((await readEvents(a.id))[0].message).toBe("13 rules");
+  });
+
+  it("lists runs past a stray file in the runs folder", async () => {
+    const a = await createRun({ policyId: "p1", policyName: "A", config: testConfig() });
+    writeFileSync(path.join(dir, "runs", ".DS_Store"), "");
+    expect((await listRuns()).map((r) => r.id)).toEqual([a.id]);
   });
 });
 
