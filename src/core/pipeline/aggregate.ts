@@ -67,6 +67,14 @@ export function testKindFor(type: RuleType, statement: string): ScenarioKind {
 
 const TERMINAL: ReadonlySet<RunStatus> = new Set<RunStatus>(["complete", "halted", "failed", "interrupted", "cancelled", "quarantined"]);
 
+/** The recorded test time, else from the start of execution to the run's end (or to now, while it is still going). */
+function testTimeMs(run: Run, now: number): number | null {
+  if (run.wallClockMs !== null) return run.wallClockMs;
+  if (!run.startedExecutionAt) return null;
+  const end = TERMINAL.has(run.status) ? Date.parse(run.finishedAt ?? run.heartbeatAt ?? run.updatedAt) : now;
+  return end - Date.parse(run.startedExecutionAt);
+}
+
 type Verified = { verdict: string | null; verified: boolean; evidence: string | null; scenarioId: string };
 
 function lookup(scenario: Scenario, verdicts: Map<string, Verdict>): Verified {
@@ -396,7 +404,7 @@ export function buildSummary(input: AggregateInput): Summary {
       usd: t.usd,
       analysisUsd: t.analysisUsd,
       testUsd: t.testUsd,
-      wallClockMs: run.wallClockMs ?? (run.startedExecutionAt ? Date.now() - Date.parse(run.startedExecutionAt) : null),
+      wallClockMs: testTimeMs(run, Date.now()),
     },
     rules: cards,
     map: {

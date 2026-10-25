@@ -234,3 +234,13 @@ describe("collision outcome", () => {
     expect(collisionVerdict("c2", scenarios, judgedLastFirst)).toBeUndefined();
   });
 });
+
+describe("test time", () => {
+  it("stops at the end of a failed or interrupted run instead of growing with every view", () => {
+    for (const status of ["failed", "interrupted"] as const) {
+      const ended = { ...run(status), wallClockMs: null, startedExecutionAt: "2026-10-21T00:00:00.000Z", finishedAt: status === "failed" ? "2026-10-21T00:00:42.000Z" : null, heartbeatAt: "2026-10-21T00:00:42.000Z" };
+      const s = buildSummary({ run: ended, rules: [], collisions: [], scenarios: [], designs: [], verdicts: [], usage: [] });
+      expect(s.strip.wallClockMs).toBe(42_000);
+    }
+  });
+});
