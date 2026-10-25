@@ -1,6 +1,6 @@
 # Status
 
-Updated 2026-10-23 by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
+Updated 2026-10-25 by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
 
 ## Days and gates
 
@@ -105,6 +105,21 @@ Updated 2026-10-23 by the building session. Plan: `PLAN.md` §3 (re-baselined 20
   - a read-only audit before the repo goes public. Its fixes are applied: no home paths or personal email in files, figures backed by evidence, conflict winners named, cited runs archived (`docs/evidence/runs/README.md`), a usage-log snapshot, and stale STATUS lines corrected. Decisions only Shane can make are under "Pending for Shane".
 - **A changed sample is stored again**, and the home page shows only the newest version of each sample. Before this, the HW5 card appeared twice and Analyze used the old text.
 - **Fresh-clone rehearsal** (`dry-run-rehearsal.md`): clone, install, doctor (no key), a mock CLI run and the mock dev server all work; the README needed no change. M17 itself is still Shane's stopwatch run.
+
+## Sunday (Oct 25): bug fixes from a Clean Code review (freeze: bug fixes only)
+
+A read-only review of `src/` and `scripts/` found these. Each is its own commit with a test; `npm run check`, the mock `tenet run`, and the e2e happy path pass.
+- **M05 scoring** (`ab9ae47`): "problem vs. no problem" now counts a sweep `partial` above the threshold as a problem (§7.3); before, only `complied` counted. Fixed before any scoring, so no number changes.
+- `listRuns` no longer fails on a stray file such as `.DS_Store` in `data/runs` (`6767bfd`).
+- `tenet run --set` validates the type before analyzing; a typo used to be written to `rules.json` and make the run unreadable (`f0e1834`).
+- The stepper's links back to Review and Collisions stay put instead of bouncing forward (`d8429d1`).
+- A scanner warning merged with a model note stays a warning and is shown (`8f10e21`).
+- A collision's outcome is chosen one way for both the summary and the reporter's paragraph (`6bc7f08`).
+- A failed or interrupted run's test time no longer grows on each view (`5588d00`).
+- `collect-evidence`: M03 is listed as missing only when no evaluation exists (`8adfca7`; no effect on current data).
+- A sweep whose threshold applies *below* a value is shown as observed, not failed (`53fae40`; no archived run has one).
+- No length retry when the output cap is already at its maximum (`8955ec3`).
+- Structural cleanups (duplication, long functions, dead code) are deferred until after submission.
 
 ## Deviations found while building (recorded in the docs)
 
