@@ -16,6 +16,7 @@ import {
   type ProviderResponse,
 } from "../../src/core/model/types";
 import { BudgetExceeded, Ledger } from "../../src/core/pipeline/budget";
+import { MAX_OUTPUT_TOKENS } from "../../src/core/pipeline/guards";
 import { MOCK_CAPABILITIES, type Capabilities } from "../../src/core/schemas/capabilities";
 import type { UsageEvent } from "../../src/core/schemas/records";
 
@@ -151,6 +152,17 @@ describe("callModel", () => {
 
     const g = fakeProvider([reply("{", { finishReason: "length" }), reply("{", { finishReason: "length" })]);
     await expect(setup(g.provider).client.callModel({ ...base, schema: Out })).rejects.toBeInstanceOf(SchemaInvalid);
+  });
+
+  it("does not retry a length stop that is already at the maximum cap", async () => {
+    const f = fakeProvider([reply("partial", { finishReason: "length" })]);
+    const res = await setup(f.provider).client.callModel({ ...base, stage: "executor", role: "target", maxOutputTokens: MAX_OUTPUT_TOKENS });
+    expect(f.requests.map((r) => r.maxCompletionTokens)).toEqual([MAX_OUTPUT_TOKENS]);
+    expect(res.truncated).toBe(true);
+
+    const g = fakeProvider([reply("{", { finishReason: "length" })]);
+    await expect(setup(g.provider).client.callModel({ ...base, schema: Out, maxOutputTokens: MAX_OUTPUT_TOKENS })).rejects.toBeInstanceOf(SchemaInvalid);
+    expect(g.requests).toHaveLength(1);
   });
 
   it("logs missing usage details as null", async () => {

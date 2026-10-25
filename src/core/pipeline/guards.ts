@@ -11,7 +11,7 @@ export const MAX_CALLS_PER_RUN = 600;
 /** Per model call: one retry on a network error, 5xx or timeout; up to three waits on a 429. */
 export const MAX_TRANSIENT_RETRIES = 1;
 export const MAX_RATE_LIMIT_WAITS = 3;
-/** Per model call: one retry at twice the output cap when the reply hits the token limit. */
+/** Per model call: one retry at twice the output cap (at most MAX_OUTPUT_TOKENS) when the reply hits the token limit. */
 export const MAX_LENGTH_RETRIES = 1;
 /** Per model call: one repair request when structured output fails validation. */
 export const MAX_REPAIRS = 1;

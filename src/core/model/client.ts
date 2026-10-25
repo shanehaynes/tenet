@@ -292,14 +292,14 @@ export function createModelClient(deps: ModelDeps): ModelClient {
       });
 
       if (response.finishReason === "length") {
-        if (lengthRetries < MAX_LENGTH_RETRIES) {
+        if (lengthRetries < MAX_LENGTH_RETRIES && maxTokens < MAX_OUTPUT_TOKENS) {
           lengthRetries += 1;
           maxTokens = Math.min(maxTokens * 2, MAX_OUTPUT_TOKENS);
           kind = "length_retry";
           continue;
         }
         if (!args.schema) return result(response.text as T, true);
-        throw new SchemaInvalid(args.stage, `${args.stage} output was cut off by the token limit twice`, response.text);
+        throw new SchemaInvalid(args.stage, `${args.stage} output was cut off at the ${maxTokens}-token limit`, response.text);
       }
 
       if (!args.schema) return result(response.text as T, false);
