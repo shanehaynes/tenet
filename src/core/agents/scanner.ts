@@ -62,14 +62,16 @@ export function numberLines(text: string): string {
     .join("\n");
 }
 
-function merge(regex: ScanFinding[], model: ScanFinding[]): ScanFinding[] {
+/** One finding per line. Two findings on a line keep the stronger severity: a warning stays a warning. */
+export function mergeFindings(regex: ScanFinding[], model: ScanFinding[]): ScanFinding[] {
   const byLine = new Map<number, ScanFinding>();
   for (const f of regex) byLine.set(f.line, f);
   for (const f of model) {
     const existing = byLine.get(f.line);
     if (!existing) byLine.set(f.line, f);
     else if (!existing.reason.includes(f.reason)) {
-      byLine.set(f.line, { ...existing, severity: "flag", reason: `${existing.reason} Model check: ${f.reason}` });
+      const severity = existing.severity === "flag" || f.severity === "flag" ? "flag" : "warning";
+      byLine.set(f.line, { ...existing, severity, reason: `${existing.reason} Model check: ${f.reason}` });
     }
   }
   return [...byLine.values()].sort((a, b) => a.line - b.line);
@@ -103,7 +105,7 @@ export async function scanPolicy(text: string, opts: { runId?: string | null; si
     // The regex result stands; a failed model check is shown as a warning, never as a pass.
     modelFindings = [{ line: 1, excerpt: "", reason: `Model check did not complete: ${(err as Error).message}`, severity: "warning" }];
   }
-  const findings = merge(regexFindings, modelFindings);
+  const findings = mergeFindings(regexFindings, modelFindings);
   const flagged = strongHit || modelFlagged;
   const source = strongHit && modelFlagged ? "both" : strongHit ? "regex" : modelFlagged ? "model" : findings.length ? "regex" : "none";
   return { flagged, findings, source };

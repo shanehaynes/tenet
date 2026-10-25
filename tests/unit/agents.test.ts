@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { buildClassifierSystem, mockClassification, postProcessClassification } from "../../src/core/agents/classifier";
 import { mockCollisions, postProcessCollisions } from "../../src/core/agents/collisions";
 import { mockDecomposition, postProcessDecomposition } from "../../src/core/agents/decomposer";
-import { regexScan } from "../../src/core/agents/scanner";
+import { mergeFindings, regexScan } from "../../src/core/agents/scanner";
 import { estimateTokens, PREFIX_TOKEN_FLOOR } from "../../src/core/model/tokens";
 import { applyOps } from "../../src/core/pipeline/review";
 import type { Rule } from "../../src/core/schemas/records";
@@ -13,6 +13,15 @@ const sample = (name: string) => readFileSync(path.join(__dirname, "..", "..", "
 const harrow = sample("harrow-vale.md");
 
 describe("scanner regex pre-pass", () => {
+  it("merging a model note into a regex warning on the same line keeps it a warning", () => {
+    const warn = { line: 3, excerpt: "<!-- note -->", reason: "Contains an HTML comment, which a reader would not see.", severity: "warning" as const };
+    const note = { line: 3, excerpt: "<!-- note -->", reason: "A hidden comment.", severity: "warning" as const };
+    const [merged] = mergeFindings([warn], [note]);
+    expect(merged.severity).toBe("warning");
+    expect(merged.reason).toContain("Model check: A hidden comment.");
+    expect(mergeFindings([warn], [{ ...note, severity: "flag" }])[0].severity).toBe("flag");
+  });
+
   it("flags the injected sample at its appended line", () => {
     const text = sample("harrow-vale-injected.md");
     const flags = regexScan(text).filter((f) => f.severity === "flag");
