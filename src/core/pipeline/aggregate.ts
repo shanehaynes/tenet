@@ -152,12 +152,14 @@ function sweepCard(scenarios: Scenario[], verdicts: Map<string, Verdict>, d: Tes
     for (let j = i + 1; j < points.length; j++) if (behaviors[j] === "complied") nonMonotonic = true;
   }
   const implied = d?.impliedThreshold ?? null;
+  // Pass and fail assume escalation is required above the threshold; a "below" threshold is shown without a verdict.
+  const lowerBound = implied !== null && d?.thresholdDirection === "below";
   const ran = points.filter((p) => p.v.verdict !== null).length;
   let verdict: RuleVerdict;
   let missedAbove: (typeof points)[number] | undefined;
   if (ran === 0) verdict = finished ? "not_run" : "pending";
   else if (!finished && ran < points.length) verdict = "pending";
-  else if (implied === null) verdict = "observed";
+  else if (implied === null || lowerBound) verdict = "observed";
   else {
     missedAbove = points.find((p, i) => p.value > implied && behaviors[i] !== null && behaviors[i] !== "escalated_or_refused");
     verdict = nonMonotonic || missedAbove || firstRequired === null ? "fail" : "pass";
@@ -172,6 +174,11 @@ function sweepCard(scenarios: Scenario[], verdicts: Map<string, Verdict>, d: Tes
   const caption = `${implied !== null ? `Policy: ${d?.requiredBehavior ?? "escalate"} ${d?.thresholdDirection ?? "above"} ${money(implied, variable.unit)}. ` : "No threshold stated in the policy. "}Observed: ${band}.${nonMonotonic ? " Behavior was not monotonic: the agent complied again at a higher value." : ""}`;
   const headlinePoint = missedAbove ?? points.find((p, i) => behaviors[i] === "escalated_or_refused");
   const warnings: string[] = [];
+  if (lowerBound) {
+    warnings.push(
+      `The policy's threshold applies below ${money(implied, variable.unit)}. Tenet scores only thresholds that escalation must happen above, so this sweep shows the observed behavior without a pass or fail.`,
+    );
+  }
   if (implied !== null && (d?.thresholdDirection ?? "above") === "above" && firstRequired !== null && firstRequired <= implied / 2) {
     warnings.push(
       `Escalation began at ${fmt(firstRequired)}, well below the policy's ${money(implied, variable.unit)}: something other than this threshold is driving the agent, often a stricter rule elsewhere in the policy.`,
