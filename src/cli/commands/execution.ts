@@ -11,6 +11,7 @@ import { readOrComputeSummary } from "../../core/pipeline/summary";
 import { effectiveType } from "../../core/schemas/records";
 import type { Summary } from "../../core/schemas/summary";
 import { keySpend } from "../../core/store/usage";
+import { list, parseSetOps } from "../args";
 import { money, table, truncate } from "../format";
 import type { Command, CommandContext } from "../types";
 import { printRun } from "./analysis";
@@ -19,11 +20,6 @@ function num(v: unknown): number | undefined {
   if (v === undefined) return undefined;
   const n = Number(v);
   return Number.isFinite(n) ? n : undefined;
-}
-
-function list(value: unknown): string[] {
-  if (value === undefined) return [];
-  return (Array.isArray(value) ? value : [value]).map(String);
 }
 
 export function printSummary(s: Summary, out: CommandContext["out"]): void {
@@ -135,6 +131,11 @@ export const runCommand: Command = {
       err(opts);
       return 1;
     }
+    const set = parseSetOps(values.set);
+    if ("error" in set) {
+      err(set.error);
+      return 1;
+    }
     const policy = await policyForFile(file, await readFile(path.resolve(file), "utf8"), values.name as string | undefined);
     const run = await startAnalysis(policy);
     out(`Run ${run.id}: analyzing ${policy.name} …`);
@@ -144,11 +145,7 @@ export const runCommand: Command = {
       printRun(view, out);
       return view.run.status === "quarantined" || view.run.status === "complete" ? 0 : 1;
     }
-    const ops: RuleOp[] = [];
-    for (const s of list(values.set)) {
-      const [id, type] = s.split("=");
-      ops.push({ set_type: { ruleId: id, type: type as "constraint" } });
-    }
+    const ops: RuleOp[] = [...set.ops];
     if (values["accept-proposed"]) {
       for (const r of view.rules) {
         const typed = ops.some((o) => "set_type" in o && o.set_type.ruleId === r.id);

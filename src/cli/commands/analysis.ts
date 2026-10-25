@@ -1,19 +1,14 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { RuleType } from "../../core/schemas/agents";
 import { confirmRun, RunStateError, startAnalysis } from "../../core/pipeline/analysis";
 import { waitForJob } from "../../core/pipeline/jobs";
 import { policyForFile } from "../../core/pipeline/policies";
 import { applyRuleOps, type RuleOp } from "../../core/pipeline/review";
 import { readRunView, type RunView } from "../../core/pipeline/status";
 import { effectiveType } from "../../core/schemas/records";
+import { list, parseSetOps } from "../args";
 import { money, table, truncate } from "../format";
 import type { Command, CommandContext } from "../types";
-
-function list(value: unknown): string[] {
-  if (value === undefined) return [];
-  return (Array.isArray(value) ? value : [value]).map(String);
-}
 
 export function printRun(view: RunView, out: CommandContext["out"]): void {
   const { run, rules, collisions } = view;
@@ -96,16 +91,12 @@ export const rulesCommand: Command = {
       err("Give a run id.");
       return 1;
     }
-    const ops: RuleOp[] = [];
-    for (const s of list(values.set)) {
-      const [id, type] = s.split("=");
-      const parsed = RuleType.safeParse(type);
-      if (!id || !parsed.success) {
-        err(`--set expects <ruleId>=<constraint|tradeoff|disposition|ordering>, got "${s}"`);
-        return 1;
-      }
-      ops.push({ set_type: { ruleId: id, type: parsed.data } });
+    const set = parseSetOps(values.set);
+    if ("error" in set) {
+      err(set.error);
+      return 1;
     }
+    const ops: RuleOp[] = [...set.ops];
     for (const id of list(values.park)) ops.push({ park: { ruleId: id } });
     for (const id of list(values.unpark)) ops.push({ unpark: { ruleId: id } });
     const keep = new Set(list(values.keep).flatMap((k) => k.split(",").map((x) => x.trim()).filter(Boolean)));

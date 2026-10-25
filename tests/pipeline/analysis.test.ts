@@ -73,6 +73,13 @@ describe("analysis pipeline (mock)", () => {
     await expect(confirmRun(view.run.id)).rejects.toThrow(/needs a type or must be parked/);
   });
 
+  it("refuses an unknown rule type without writing it", async () => {
+    const view = await analyze("harrow-vale.md");
+    const bad = [{ set_type: { ruleId: "r5", type: "orderng" } }] as unknown as Parameters<typeof applyRuleOps>[1];
+    await expect(applyRuleOps(view.run.id, bad)).rejects.toMatchObject({ name: "ZodError" });
+    expect((await readRunView(view.run.id)).rules.find((r) => r.id === "r5")?.userType).toBeNull();
+  });
+
   it("quarantines the injected sample without decomposing it", async () => {
     const view = await analyze("harrow-vale-injected.md");
     expect(view.run.status).toBe("quarantined");

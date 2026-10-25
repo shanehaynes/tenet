@@ -39,6 +39,12 @@ describe("cli", () => {
     expect(output).toContain("Cumulative key spend: $0.0000");
   });
 
+  it("run refuses a mistyped --set before analyzing anything", async () => {
+    expect(await main(["run", "samples/harrow-vale.md", "--provider", "mock", "--accept-proposed", "--set", "r5=orderng"])).toBe(1);
+    expect(output).toContain('--set expects <ruleId>=<constraint|tradeoff|disposition|ordering>, got "r5=orderng"');
+    expect(output).not.toContain("analyzing");
+  });
+
   it("rejects unknown commands and options", async () => {
     expect(await main(["nope"])).toBe(1);
     expect(await main(["policies", "--bogus"])).toBe(1);

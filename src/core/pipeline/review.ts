@@ -84,7 +84,8 @@ export function applyOps(rules: Rule[], ops: RuleOp[], nextRuleNumber: number): 
   return { rules: list.map((r, i) => ({ ...r, index: i + 1 })), nextRuleNumber: next };
 }
 
-export async function applyRuleOps(runId: string, ops: RuleOp[]): Promise<Rule[]> {
+export async function applyRuleOps(runId: string, input: RuleOp[]): Promise<Rule[]> {
+  const ops = z.array(RuleOp).parse(input); // a bad type would otherwise be written and break every later read
   const rules = await withRun(runId, async (tx) => {
     const run = await tx.get("run");
     if (run.status !== "awaiting_review") throw new RunStateError(`Rules can be changed only while the run awaits review (it is ${run.status}).`);
