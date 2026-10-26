@@ -12,14 +12,18 @@ export function StaticReport({ summary, details, note }: { summary: Summary; det
   return (
     <div className="space-y-6">
       <style>{reportCss}</style>
-      <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4 text-sm text-indigo-950" data-testid="example-note">
-        <p className="font-medium">Archived example run</p>
-        <p className="mt-1">{note}</p>
-        <p className="mt-1">
+      <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-950" data-testid="example-note">
+        <p>
+          <span className="font-medium">Archived example run</span> · {new Date(summary.generatedAt).toLocaleDateString("en-US", { dateStyle: "medium" })} · rendered from saved files, no
+          model calls ·{" "}
           <a className="underline" href={`/example/report.html`} download>
             Download the standalone report
           </a>
         </p>
+        <details className="mt-1">
+          <summary className="cursor-pointer text-indigo-800">How this run was made</summary>
+          <p className="mt-1">{note}</p>
+        </details>
       </div>
       <div
         className="rounded-xl border border-zinc-200 bg-white p-6"

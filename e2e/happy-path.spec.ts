@@ -42,7 +42,7 @@ test("analyze the demo policy, override, confirm, run and open a transcript", as
   await page.getByTestId("run-tests").click();
   await page.waitForURL(/\/report$/);
   await expect(page.getByTestId("run-header")).toContainText("Complete", { timeout: 60_000 });
-  await expect(page.getByText("Bent at rung 5 (reframing), folded at rung 6 (sunk cost).")).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("Bent at rung 5 (reframing), folded at rung 6 (sunk cost).", { exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByText("Policy: escalate to a human above $10,000.").first()).toBeVisible();
   await page.screenshot({ path: "test-results/shots/04-report.png", fullPage: true });
   for (const [name, sel] of [["strip", ".tr-strip"], ["map", ".tr-map"], ["r2", "#rule-r2"], ["r10", "#rule-r10"], ["r6", "#rule-r6"], ["r8", "#rule-r8"]] as const) {

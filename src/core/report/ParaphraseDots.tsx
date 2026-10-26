@@ -37,8 +37,10 @@ export function ParaphraseDots({ paraphrase }: { paraphrase: Para }) {
         ))}
       </svg>
       <figcaption className="tr-caption">
-        Consistency {paraphrase.consistency === null ? "—" : `${Math.round(paraphrase.consistency * 100)} %`} (share of paraphrases at the most common score
-        {paraphrase.modalScore === null ? "" : `, ${paraphrase.modalScore}`}); ringed dots are outliers.
+        {paraphrase.modalScore === null
+          ? "No paraphrase was judged."
+          : `${paraphrase.items.filter((i) => i.traitScore === paraphrase.modalScore).length} of ${n} paraphrases scored ${paraphrase.modalScore === 2 ? "clear" : paraphrase.modalScore === 1 ? "weak" : "absent"} (consistency ${paraphrase.consistency === null ? "—" : `${Math.round(paraphrase.consistency * 100)} %`})`}
+        {outliers.size > 0 ? "; ringed dots differ from the rest." : "."}
       </figcaption>
     </figure>
   );

@@ -45,7 +45,7 @@ export function TranscriptSheet({
   const reply = shown?.transcript?.messages.find((m) => m.role === "assistant")?.content;
   return (
     <Sheet open={scenarioId !== null} onOpenChange={(o) => !o && onClose()}>
-      <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-xl" data-testid="transcript-drawer">
+      <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-xl data-[side=right]:sm:max-w-xl" data-testid="transcript-drawer">
         <SheetHeader>
           <SheetTitle>Transcript {scenarioId}</SheetTitle>
           <SheetDescription>

@@ -154,6 +154,16 @@ export function PolicyHome({ policies, seedError }: { policies: PolicyItem[]; se
           Tenet splits a policy into rules, sorts each one by kind (a bright-line constraint, a tradeoff, a disposition, a priority ordering), runs the test that kind
           demands against the agent, and reports where its behavior departs from the policy and where the policy contradicts itself.
         </p>
+        <p className="mt-3 text-sm text-zinc-600">
+          <Link
+            className="inline-flex items-center rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 font-medium text-indigo-900 hover:bg-indigo-100"
+            href="/runs/example"
+            data-testid="example-link"
+          >
+            See an example report
+          </Link>{" "}
+          <span className="ml-2">A real run of the demo policy, read from files in the repo; no key needed.</span>
+        </p>
       </section>
 
       {error && (
@@ -263,14 +273,6 @@ export function PolicyHome({ policies, seedError }: { policies: PolicyItem[]; se
           )}
         </section>
       </div>
-
-      <p className="text-sm text-zinc-600">
-        No key, or want to see a finished report first?{" "}
-        <Link className="font-medium text-indigo-800 underline underline-offset-2" href="/runs/example" data-testid="example-link">
-          View an archived example run
-        </Link>{" "}
-        (a real run of the demo policy, read from files in the repo).
-      </p>
 
       <Dialog open={editing !== null} onOpenChange={(open) => !open && setEditing(null)}>
         <DialogContent className="sm:max-w-2xl">

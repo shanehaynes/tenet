@@ -32,6 +32,12 @@ ${reportCss}
 </head>
 <body>
 ${body}
+<script>
+// Print every folded section, and open the one a link points to.
+addEventListener("beforeprint", () => document.querySelectorAll("details").forEach((d) => (d.open = true)));
+function openTarget() { const t = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); for (let e = t; e; e = e.parentElement) if (e.tagName === "DETAILS") e.open = true; }
+addEventListener("hashchange", openTarget); openTarget();
+</script>
 <p class="tr-export-foot">Exported from Tenet, run ${escapeHtml(summary.runId)}, summary generated ${escapeHtml(generated)} UTC. Every number above is computed from the run's logged model calls; cost is logged tokens × published list price.</p>
 </body>
 </html>
