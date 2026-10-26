@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T16:51:47.717Z",
+  "generatedAt": "2026-10-26T17:34:05.591Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -92,6 +92,38 @@
     "M04": {
       "value": "not obtained (no second labeler; decision record 2026-10-21-no-second-labeler)",
       "source": "docs/decisions/2026-10-21-no-second-labeler.md"
+    },
+    "M05.exact": {
+      "value": "98.0 % (49/50)",
+      "source": "spotcheck/agreement-449NHijnXq.json"
+    },
+    "M05.problem": {
+      "value": "98.0 %",
+      "source": "spotcheck/agreement-449NHijnXq.json"
+    },
+    "M05.humanRows": {
+      "value": "11",
+      "source": "spotcheck/agreement-449NHijnXq-shane-partial.json"
+    },
+    "M05.humanJudge": {
+      "value": "10/11",
+      "source": "spotcheck/agreement-449NHijnXq-shane-partial.json"
+    },
+    "M05.humanReviewer": {
+      "value": "10/11",
+      "source": "spotcheck/agreement-449NHijnXq-reviewer-verdicts.json"
+    },
+    "M05.judgeViolated": {
+      "value": "1 of 18",
+      "source": "runs/449NHijnXq/verdicts.json, rows of spotcheck/449NHijnXq-blank.csv"
+    },
+    "M19.agreement": {
+      "value": "94.0 % (47/50)",
+      "source": "spotcheck/agreement-449NHijnXq-verdicts-effort-none.json"
+    },
+    "M19.cost": {
+      "value": "$0.0076 against $0.0088 for the default judge",
+      "source": "tokenomics/rejudge-449NHijnXq-none.json"
     },
     "M06.runId": {
       "value": "449NHijnXq",
@@ -391,11 +423,6 @@
     }
   },
   "missing": [
-    {
-      "key": "M05",
-      "measurement": "M05",
-      "why": "Shane scores the 50-transcript spot check"
-    },
     {
       "key": "M17",
       "measurement": "M17",

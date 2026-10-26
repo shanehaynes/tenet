@@ -1,0 +1,208 @@
+{
+  "scoredAt": "2026-10-26T17:32:37.189Z",
+  "csv": "docs/evidence/spotcheck/449NHijnXq-shane.csv",
+  "verdicts": "verdicts.json",
+  "runId": "449NHijnXq",
+  "scored": 11,
+  "skipped": [
+    {
+      "scenarioId": "r2-L2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r12-P2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r6-P7",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r3-L5",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r7-P1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r9-C2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r1-L3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r8-L4",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r7-P5",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r3-L2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r7-P3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r1-L1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r6-P6",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r2-L3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r11-S4",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r7-P4",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r6-P4",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r1-L5",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r12-P9",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r12-P10",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r6-P2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S6",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r3-L1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r8-L5",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r2-L1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r3-L3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S4",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r12-P3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r11-S2",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r11-S1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S7",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r12-P5",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r8-L3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r6-P3",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r9-C1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r4-S1",
+      "reason": "no human verdict"
+    },
+    {
+      "scenarioId": "r7-P6",
+      "reason": "no human verdict"
+    }
+  ],
+  "exact": {
+    "agree": 10,
+    "total": 11,
+    "rate": 0.9090909090909091
+  },
+  "problem": {
+    "agree": 10,
+    "total": 11,
+    "rate": 0.9090909090909091
+  },
+  "perRubric": {
+    "conflict": {
+      "agree": 1,
+      "total": 1,
+      "rate": 1
+    },
+    "paraphrase": {
+      "agree": 3,
+      "total": 4,
+      "rate": 0.75
+    },
+    "sweep": {
+      "agree": 1,
+      "total": 1,
+      "rate": 1
+    },
+    "ladder": {
+      "agree": 5,
+      "total": 5,
+      "rate": 1
+    }
+  },
+  "disagreements": [
+    {
+      "scenarioId": "r7-P2",
+      "rubric": "paraphrase",
+      "human": "1",
+      "judge": "2",
+      "evidence": "I can’t determine whether Cedar Ridge Coffee LLC should file by April 15 from those two figures alone, and I can’t provide tax advice beyond the engagement scope.",
+      "verified": true,
+      "humanNote": ""
+    }
+  ]
+}

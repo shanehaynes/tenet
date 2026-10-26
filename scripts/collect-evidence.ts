@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { parseCsv } from "../src/core/eval/spotcheck";
 import { Summary } from "../src/core/schemas/summary";
 import { readGlobalUsage } from "../src/core/store/usage";
 import { loadEnv } from "../src/core/env";
@@ -108,6 +109,36 @@ async function main() {
     set("M05.exact", `${pct(a.exact.rate)} (${a.exact.agree}/${a.exact.total})`, `spotcheck/${spot.at(-1)}`);
     set("M05.problem", pct(a.problem.rate), `spotcheck/${spot.at(-1)}`);
   } else need("M05", "M05", "Shane scores the 50-transcript spot check");
+  // M05 was scored by an independent model reviewer (decision record 2026-10-26-model-reviewer-spotcheck). The rows
+  // Shane scored by hand first calibrate it: Shane vs the judge, and Shane vs the reviewer, on the same rows.
+  const spotFiles = has("spotcheck") ? readdirSync(path.join(EV, "spotcheck")) : [];
+  const humanJudge = spotFiles.find((f) => /^agreement-[A-Za-z0-9]+-shane-partial\.json$/.test(f));
+  const humanReviewer = spotFiles.find((f) => /^agreement-[A-Za-z0-9]+-reviewer-verdicts\.json$/.test(f));
+  if (humanJudge && humanReviewer) {
+    const hj = read(path.join("spotcheck", humanJudge));
+    const hr = read(path.join("spotcheck", humanReviewer));
+    set("M05.humanRows", hj.exact.total, `spotcheck/${humanJudge}`);
+    set("M05.humanJudge", `${hj.exact.agree}/${hj.exact.total}`, `spotcheck/${humanJudge}`);
+    set("M05.humanReviewer", `${hr.exact.agree}/${hr.exact.total}`, `spotcheck/${humanReviewer}`);
+  } else need("M05.human", "M05", "score Shane's partial CSV against the judge and against the reviewer");
+  // How many sampled ladders the judge marked violated: high agreement on a sample of mostly passes says little.
+  const blankCsv = spotFiles.find((f) => /^[A-Za-z0-9]+-blank\.csv$/.test(f));
+  const sampleRun = blankCsv?.replace(/-blank\.csv$/, "");
+  if (blankCsv && sampleRun && has(path.join("runs", sampleRun, "verdicts.json"))) {
+    const ids = new Set(parseCsv(readFileSync(path.join(EV, "spotcheck", blankCsv), "utf8")).map((r) => r.scenarioId));
+    const judged: { scenarioId: string; rubric: string; verdict: string }[] = read(path.join("runs", sampleRun, "verdicts.json"));
+    const ladders = judged.filter((v) => ids.has(v.scenarioId) && v.rubric === "ladder");
+    set("M05.judgeViolated", `${ladders.filter((v) => v.verdict === "violated").length} of ${ladders.length}`, `runs/${sampleRun}/verdicts.json, rows of spotcheck/${blankCsv}`);
+  }
+  // M19: the cheaper judge's verdicts scored against the same spot-check verdicts, beside both judges' cost.
+  const cheap = spotFiles.find((f) => /^agreement-[A-Za-z0-9]+-verdicts-effort-[a-z]+\.json$/.test(f));
+  const cheapCost = has("tokenomics") ? readdirSync(path.join(EV, "tokenomics")).find((f) => /^rejudge-[A-Za-z0-9]+-none\.json$/.test(f)) : undefined;
+  if (cheap && cheapCost) {
+    const c = read(path.join("spotcheck", cheap));
+    const cost = read(path.join("tokenomics", cheapCost)).cost;
+    set("M19.agreement", `${pct(c.exact.rate)} (${c.exact.agree}/${c.exact.total})`, `spotcheck/${cheap}`);
+    set("M19.cost", `${usd(cost.cheaper.usd)} against ${usd(cost.defaultJudge.usd)} for the default judge`, `tokenomics/${cheapCost}`);
+  } else need("M19.agreement", "M19", "tenet spotcheck score … --verdicts verdicts-effort-none.json");
 
   // M06, M08, M09, M12, M14, M15: the demo run
   const example = has("runs/example.json") ? read("runs/example.json") : null;
