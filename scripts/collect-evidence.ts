@@ -169,7 +169,48 @@ async function main() {
     if (s.planted) {
       const found = s.planted.filter((p) => p.found === true).length;
       set("M14.found", `${found} of ${s.planted.length}`, `runs/${s.runId}/summary.json`);
-      for (const [i, p] of s.planted.entries()) set(`M14.item${i + 1}`, `${p.item}: ${p.found === true ? "found" : p.found === false ? "not found" : "n/a"} (${p.detail})`, `runs/${s.runId}/summary.json`);
+      for (const [i, p] of s.planted.entries()) {
+        set(`M14.item${i + 1}`, `${p.item}: ${p.found === true ? "found" : p.found === false ? "not found" : "n/a"} (${p.detail})`, `runs/${s.runId}/summary.json`);
+        set(`M14.detail${i + 1}`, p.detail, `runs/${s.runId}/summary.json`);
+        const predicted = /\(predicted: ([^)]+)\)/.exec(p.expected)?.[1];
+        if (predicted) set(`M14.predicted${i + 1}`, predicted, `runs/${s.runId}/summary.json`);
+      }
+    }
+    // What the demo run found, rule by rule (report section 3).
+    const src = `runs/${s.runId}/summary.json`;
+    const parked = s.rules.filter((r) => r.parked);
+    set("M06.rules", `${st.rulesTotal} rules, ${st.rulesTested} of them tested`, src);
+    set("M06.parked", parked.map((r) => `"${r.statement.replace(/\.$/, "")}" (${r.confidence?.toFixed(2) ?? "no confidence"})`).join(" and "), src);
+    set("M06.scenarios", `${st.scenariosTotal} scenarios (${st.scenariosNotRun} not run)`, src);
+    set("M06.failures", st.failures, src);
+    const ladders = s.rules.filter((r) => r.ladder);
+    const bent = ladders.filter((r) => r.ladder!.rungs.some((g) => g.verdict === "violated" || g.verdict === "partial"));
+    set("M06.laddersHeld", `${ladders.length - bent.length} of ${ladders.length}`, src);
+    if (bent.length === 1) {
+      const rungs = bent[0].ladder!.rungs;
+      const first = rungs.find((g) => g.verdict === "violated" || g.verdict === "partial")!;
+      set("M06.ladderFail", `rung ${first.index} of ${rungs.length} (${first.tactic.replace(/_/g, " ")}), judged ${first.verdict}`, src);
+      set("M06.ladderHeldRest", rungs.filter((g) => g.verdict === "held").length, src);
+    }
+    const stated = s.rules.find((r) => r.sweep?.impliedThreshold != null)?.sweep;
+    if (stated) {
+      const firstUp = stated.points.find((p) => p.behavior === "escalated_or_refused");
+      set("M06.escalatedFrom", `${firstUp?.label ?? "no point"}, against a stated $${stated.impliedThreshold!.toLocaleString("en-US")}`, src);
+    }
+    const open = s.rules.find((r) => r.sweep && r.sweep.impliedThreshold == null)?.sweep;
+    if (open) {
+      const firstUp = open.points.find((p) => p.behavior === "escalated_or_refused");
+      set("M06.tradeoffLow", `${open.points[0].label} (judged ${(open.points[0].behavior ?? "not run").replace(/_/g, " ")})`, src);
+      set("M06.tradeoffFrom", `${firstUp?.label ?? "no point"} (${open.points.filter((p) => p.behavior === "escalated_or_refused").length} of ${open.points.length} points)`, src);
+    }
+    const dispositions = s.rules.filter((r) => r.paraphrase);
+    set("M06.dispositions", dispositions.map((r) => (r.paraphrase!.consistency === null ? "not scored" : pct(r.paraphrase!.consistency))).join(", "), src);
+    const conflicts = s.rules.flatMap((r) => r.conflicts ?? []);
+    set("M06.orderings", `${conflicts.filter((c) => c.honored === "a").length} of ${conflicts.length}`, src);
+    const [collision] = s.defects.collisions;
+    if (collision && s.defects.collisions.length === 1) {
+      const won = collision.outcome?.honored === "a" ? collision.ruleA : collision.outcome?.honored === "b" ? collision.ruleB : "neither";
+      set("M06.collision", `${collision.ruleA} against ${collision.ruleB}, won by ${won}`, src);
     }
   } else need("M06", "M06", "archive the demo run (docs/evidence/runs/example.json)");
 

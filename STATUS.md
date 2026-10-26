@@ -143,7 +143,7 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 ## Known gaps
 
-- `report.html` and `slides.html` rebuilt 2026-10-26 from the final evidence (15 pages); M17 and M18 are still missing from `report-data.json`. Still marked draft in the report: "what this run found" (§3) and "which predictions did not come true" (§7). The README image can go back to S08 if wanted.
+- `report.html` and `slides.html` rebuilt 2026-10-26 from the final evidence (15 pages); M17 and M18 are still missing from `report-data.json`. The §3 "what the run found" and §7 predictions paragraphs are written (2026-10-26, every number from `report-data.json`). Still marked draft: the two M18 policy-owner paragraphs (§1 and §6); cut them if no quote arrives. The README image can go back to S08 if wanted.
 
 - A provider content filter can reject a judge call: Portkey routes some calls to Azure OpenAI, whose filter blocked one judge prompt in `449NHijnXq` (400). That scenario is reported as not run, never as a pass.
 
@@ -155,5 +155,5 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 1. ~~HW5 bridge and HTTP target~~: done Wed night. ~~Boss run~~: done 2026-10-22 (`yyowEk4kFO`, F7).
 2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
-3. ~~Spot check scoring (M05, M19)~~ and ~~M13~~: done 2026-10-26. Left: the two draft paragraphs in the report, M17, M18, then rebuild and submit.
+3. ~~Spot check scoring (M05, M19)~~ and ~~M13~~: done 2026-10-26. Report prose done except M18. Left: M17, M18 (or cut its two draft paragraphs), then rebuild and submit.
 4. Batched classifier: answered 2026-10-21, per-rule stays the default (on the fresh demo run the classifier is 4.8 % of a run's cost, so batching saves about 2.4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
