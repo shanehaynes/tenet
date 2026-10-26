@@ -16,7 +16,7 @@ Updated 2026-10-26 by the building session. Plan: `PLAN.md` §3 (re-baselined 20
 ## Done (Wed Oct 21)
 
 - `5825f94` Samples and label templates committed before any code: Harrow & Vale (+ injected), Meridian, Northgate, Campus Customs HW5 excerpt (17 rules, verbatim from the HW5 prompts; rules 8 and 17 condensed, as the file header says), OpenAI Model Spec excerpt (22 sentences, v2026-08-18, CC0), edge mission statement.
-- Repo https://github.com/shanehaynes/tenet (private until submission); CI (gate, build, Playwright placeholder, mock) green on every push.
+- Repo https://github.com/shanehaynes/tenet (**public since 2026-10-26**, Shane's call; anonymous clone checked); CI (gate, build, Playwright placeholder, mock) green on every push.
 - `3b81f7c` Scaffold: Next.js 16.4.2, TypeScript 5.9.3, eslint 9, vitest 5. Amendments to architecture.md recorded in `docs/decisions/2026-10-21-scaffold-and-versions.md`.
 - `0c84faf` Core: env loader (`./.env` then `../.env`), settings, schemas (agent outputs, records with the `Target` union, the `Summary` contract + fixture), text utilities (`locate`, `dice`, `verifyQuote`), JSON store with the per-run single-writer queue, global usage log with cumulative key spend.
 - `13113be` Model layer: `callModel` with capability gating, retries, length retry, repair; Portkey/OpenAI/mock providers; lazy capability probe; test-budget ledger; key-budget guard (warn 75 %, refuse 95 % of $40).
@@ -155,5 +155,5 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 1. ~~HW5 bridge and HTTP target~~: done Wed night. ~~Boss run~~: done 2026-10-22 (`yyowEk4kFO`, F7).
 2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
-3. ~~Spot check scoring (M05, M19)~~ and ~~M13~~: done 2026-10-26. Report prose done; M18 cut (no policy owner). Left: M17, then submit.
+3. ~~Spot check scoring (M05, M19)~~ and ~~M13~~: done 2026-10-26. Report prose done; M18 cut (no policy owner). Left: M17, then submit. **Submission rule changed (instructor email, 2026-10-26):** upload only `report.html`, `slides.html` and an optional video, nothing else; the repo URL must be in both files (it is, marked public).
 4. Batched classifier: answered 2026-10-21, per-rule stays the default (on the fresh demo run the classifier is 4.8 % of a run's cost, so batching saves about 2.4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
