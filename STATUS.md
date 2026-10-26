@@ -1,6 +1,6 @@
 # Status
 
-Updated 2026-10-25 by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
+Updated 2026-10-26 by the building session. Plan: `PLAN.md` §3 (re-baselined 2026-10-21).
 
 ## Days and gates
 
@@ -135,7 +135,7 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 | Since | Item | Needed by |
 |---|---|---|
-| 2026-10-22 | **Spot check (M05):** open `http://localhost:3000/spotcheck/449NHijnXq` (after `npm run dev`). It shows the 50 transcripts one at a time, blind; press 1–4 to choose a verdict, and it autosaves to `docs/evidence/spotcheck/449NHijnXq-shane.csv`. Until you have scored, do not open that run's report, `/runs/example`, screenshots S06–S14, `docs/evidence/report-data.json`, or `docs/evidence/runs/449NHijnXq/`: they show its verdicts. | Sat Oct 24 |
+| 2026-10-22 | ~~**Spot check (M05)**~~: done 2026-10-26 by an independent model reviewer, not by hand (decision record `model-reviewer-spotcheck`). Shane scored 11 rows (`449NHijnXq-shane.csv`, kept); a blind Claude Opus 5.5 subagent scored all 50 (`449NHijnXq-reviewer.csv`). Judge vs reviewer 49/50 = 98.0 %; effort-"none" judge vs reviewer 47/50 (M19); on Shane's 11 rows the judge and the reviewer each matched him 10/11. The one disagreement (r1-L3) is the only sampled ladder the judge marked violated. The report says the reviewer is a model and lists a full human spot check as a next step. | Sat Oct 24 |
 | 2026-10-22 | **Before the repo goes public (your calls):** (1) ~~license~~: MIT (`LICENSE`, 2026-10-22). (2) ~~Homework5~~: stays private; the README and report say the bridge is available to course staff on request. (3) ~~git history~~: left as is (Shane, 2026-10-23). Older commits keep the author email and the firm's name. (4) ~~former employer named~~: changed to "a former colleague" everywhere (Shane, 2026-10-22). | Sun Oct 25 |
 | 2026-10-22 | ~~**Timing exercise (M13, sample-policies §8)**~~: done 2026-10-26, 17:20 by stopwatch for r2, r4, r11 (`timing/hand-written.md`). `collect-evidence` computes the ratio (7× Tenet's write-run-judge time, 46× its writing step); report §6 and the last slide cite it, with the caveat that the hand-written tests lost the ladder and sweep design. Original brief: with a stopwatch, hand-write the tests for three Harrow & Vale rules as real user messages: a 6-step pressure sequence for "Never submit a filing, move funds, or send a binding communication…", an 8-point stakes sweep for "Weigh client convenience against identity-fraud risk…", and an 8-point amount sweep for "Escalate any request above $10,000…". Then write down what you would count as a failure for each. Start and end times plus the text go in `docs/evidence/timing/hand-written.md`. Tenet's side is done: 147 s of model time, slowest rule 66 s (`timing/tenet-449NHijnXq.json`). | Sat Oct 24 |
 | 2026-10-22 | **Dry run (M17):** on Sunday, from a fresh clone in a new folder with `.env` one level up, follow the README with a stopwatch to the first report and record the times in `docs/evidence/dry-run.md`. The rehearsal (`dry-run-rehearsal.md`) found nothing to fix. | Sun Oct 25 |
@@ -143,7 +143,7 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 ## Known gaps
 
-- The root `report.html` and `slides.html` are still the early skeleton builds, citing the superseded run `87VQK7KAKg`. Rebuild both after the spot check (`npm run collect-evidence && npm run build-report && npm run build-slides`) and commit them before the repo goes public. After scoring, the README image can go back to S08 if wanted.
+- `report.html` and `slides.html` rebuilt 2026-10-26 from the final evidence (15 pages); M17 and M18 are still missing from `report-data.json`. Still marked draft in the report: "what this run found" (§3) and "which predictions did not come true" (§7). The README image can go back to S08 if wanted.
 
 - A provider content filter can reject a judge call: Portkey routes some calls to Azure OpenAI, whose filter blocked one judge prompt in `449NHijnXq` (400). That scenario is reported as not run, never as a pass.
 
@@ -155,5 +155,5 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 1. ~~HW5 bridge and HTTP target~~: done Wed night. ~~Boss run~~: done 2026-10-22 (`yyowEk4kFO`, F7).
 2. ~~Fresh demo run~~: done 2026-10-22 (`449NHijnXq`, archived as the example; screenshots re-captured; spot-check CSV exported for Shane).
-3. Saturday afternoon (after the freeze): once Shane's CSV is in, `tenet spotcheck score 449NHijnXq docs/evidence/spotcheck/449NHijnXq-shane.csv` (M05) and `tenet rejudge 449NHijnXq --effort none` scored against the same CSV (M19); `tenet timing` against Shane's hand-written file (M13); report prose.
+3. ~~Spot check scoring (M05, M19)~~ and ~~M13~~: done 2026-10-26. Left: the two draft paragraphs in the report, M17, M18, then rebuild and submit.
 4. Batched classifier: answered 2026-10-21, per-rule stays the default (on the fresh demo run the classifier is 4.8 % of a run's cost, so batching saves about 2.4 % of an audit; per-rule gives progressive feedback, isolates failures and has headroom for long policies). Batched stays as the measured experiment (M11).
