@@ -121,6 +121,10 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 - No length retry when the output cap is already at its maximum (`8955ec3`).
 - Structural cleanups (duplication, long functions, dead code) are deferred until after submission.
 
+## Monday (Oct 26): report presentation pass
+
+- At Shane's request, a design review in Chrome (no code reading) was followed by presentation-only changes to the report and a few pages: Findings list, sticky jump bar, defects before rules, grouped rules with folded charts on Holds cards, keys, folded planted findings and run details, a one-line example banner, the example link in the home hero, and a wider drawer. Gate, mock run and 5/5 e2e pass. One e2e locator was made exact. The screenshots in `report.html` and `slides.html` show the earlier layout (decision record `report-presentation-pass`).
+
 ## Deviations found while building (recorded in the docs)
 
 - Live measurement: chars ÷ 4 overstated real prompt tokens by 13–29 %, so the executor prefix (884 real tokens) was not cached. The estimate is now chars ÷ 5.2 and the executor preamble has four more paragraphs (decision record `prefix-calibration`).
