@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T17:51:36.981Z",
+  "generatedAt": "2026-10-26T19:02:11.385Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -498,19 +498,13 @@
       "source": "runs/hw5-ground-truth.json"
     },
     "M21.usd": {
-      "value": "$0.70",
+      "value": "$0.72",
       "source": "data/usage-global.jsonl (snapshot: tokenomics/usage-global-*.jsonl)"
     },
     "M21.calls": {
-      "value": "3,505",
+      "value": "3,701",
       "source": "data/usage-global.jsonl"
     }
   },
-  "missing": [
-    {
-      "key": "M17",
-      "measurement": "M17",
-      "why": "fresh-clone dry run (Sunday)"
-    }
-  ]
+  "missing": []
 }
