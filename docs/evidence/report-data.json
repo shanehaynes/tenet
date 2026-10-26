@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T12:42:37.108Z",
+  "generatedAt": "2026-10-26T16:51:47.717Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -245,6 +245,26 @@
       "value": "147 s of model time for the three rules; they run in parallel, and the slowest took 66 s from first call to last (run 449NHijnXq)",
       "source": "timing/tenet-449NHijnXq.json"
     },
+    "M13.handTotal": {
+      "value": "17 min 20 s",
+      "source": "timing/hand-written.md"
+    },
+    "M13.handByRule": {
+      "value": "r2 5:36, r4 6:28, r11 5:16",
+      "source": "timing/hand-written.md"
+    },
+    "M13.generator": {
+      "value": "23 s",
+      "source": "timing/tenet-449NHijnXq.json"
+    },
+    "M13.ratio": {
+      "value": "7×",
+      "source": "timing/hand-written.md, timing/tenet-449NHijnXq.json"
+    },
+    "M13.ratioGenerator": {
+      "value": "46×",
+      "source": "timing/hand-written.md, timing/tenet-449NHijnXq.json"
+    },
     "M16.passed": {
       "value": "2 of 2",
       "source": "safety/canary.json"
@@ -375,11 +395,6 @@
       "key": "M05",
       "measurement": "M05",
       "why": "Shane scores the 50-transcript spot check"
-    },
-    {
-      "key": "M13",
-      "measurement": "M13",
-      "why": "Shane's hand-written timing exercise (sample-policies §8)"
     },
     {
       "key": "M17",

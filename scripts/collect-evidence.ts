@@ -23,6 +23,31 @@ const need = (key: string, measurement: string, why: string) => missing.push({ k
 const pct = (x: number) => `${(100 * x).toFixed(1)} %`;
 const usd = (x: number, digits = 4) => `$${x.toFixed(digits)}`;
 const k = (n: number) => n.toLocaleString("en-US");
+const mmss = (s: number, long = false) =>
+  long ? `${Math.floor(s / 60)} min ${s % 60} s` : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+
+type TenetRuleTiming = { ruleId: string; modelMs: number; byStageMs: { generator: number } };
+
+// M13: reads the stopwatch table in hand-written.md (`| r2 | 5:36 |` rows and a `| Total | … |` row) and pairs
+// each rule with Tenet's timing for it. Returns why it cannot, as a string, when the table is incomplete.
+function handTiming(md: string, tenetRules: TenetRuleTiming[]) {
+  const rows = [...md.matchAll(/^\|\s*(r\d+|Total)\s*\|\s*(\d+):(\d{2})\s*\|/gm)].map((m) => ({ id: m[1], s: 60 * Number(m[2]) + Number(m[3]) }));
+  const byRule = rows.filter((r) => r.id !== "Total");
+  const handS = byRule.reduce((s, r) => s + r.s, 0);
+  const stated = rows.find((r) => r.id === "Total")?.s;
+  if (!byRule.length) return "no per-rule stopwatch rows";
+  if (stated !== undefined && stated !== handS) return `rows sum to ${mmss(handS)}, the Total row says ${mmss(stated)}`;
+  const tenet = byRule.map((r) => tenetRules.find((x) => x.ruleId === r.id));
+  const absent = byRule.filter((_, i) => !tenet[i]).map((r) => r.id);
+  if (absent.length) return `no Tenet timing for ${absent.join(", ")}`;
+  const found = tenet as TenetRuleTiming[];
+  return {
+    byRule,
+    handS,
+    modelS: found.reduce((s, x) => s + x.modelMs, 0) / 1000,
+    generatorS: found.reduce((s, x) => s + x.byStageMs.generator, 0) / 1000,
+  };
+}
 
 async function main() {
   // M01, M02: capabilities and prices
@@ -184,13 +209,29 @@ async function main() {
     set("judge.retest", `${pct(same / total)} (${same}/${total}) over ${retest.length} runs, fresh calls`, "tokenomics/rejudge-*-low.json");
   }
 
-  // M13 timing, M16 canary, M17 dry run, M18 user, M20 HW5
-  const timing = has("timing") ? readdirSync(path.join(EV, "timing")).filter((f) => /^tenet-.*\.json$/.test(f)) : [];
-  if (timing.length) {
-    const t = read(path.join("timing", timing.sort().at(-1)!));
-    set("M13.tenet", `${(t.totals.modelMs / 1000).toFixed(0)} s of model time for the three rules; they run in parallel, and the slowest took ${(t.totals.wallMsMax / 1000).toFixed(0)} s from first call to last (run ${t.runId})`, `timing/${timing.at(-1)}`);
-  }
-  if (!has("timing/hand-written.md")) need("M13", "M13", "Shane's hand-written timing exercise (sample-policies §8)");
+  // M13: Shane's stopwatch time for hand-writing three rules' tests (timing/hand-written.md) against Tenet's
+  // model time for the same rules. The Tenet file is the run hand-written.md names, else the latest.
+  const handMd = has("timing/hand-written.md") ? readFileSync(path.join(EV, "timing", "hand-written.md"), "utf8") : null;
+  const timing = has("timing") ? readdirSync(path.join(EV, "timing")).filter((f) => /^tenet-.*\.json$/.test(f)).sort() : [];
+  const namedRun = handMd?.match(/^Compared run: ([A-Za-z0-9]+)/m)?.[1];
+  const tenetName = namedRun ? `tenet-${namedRun}.json` : timing.at(-1);
+  if (tenetName && timing.includes(tenetName)) {
+    const t = read(path.join("timing", tenetName));
+    set("M13.tenet", `${(t.totals.modelMs / 1000).toFixed(0)} s of model time for the three rules; they run in parallel, and the slowest took ${(t.totals.wallMsMax / 1000).toFixed(0)} s from first call to last (run ${t.runId})`, `timing/${tenetName}`);
+    if (handMd) {
+      const m13 = handTiming(handMd, t.rules);
+      if (typeof m13 === "string") need("M13", "M13", `timing/hand-written.md: ${m13}`);
+      else {
+        const src = `timing/hand-written.md, timing/${tenetName}`;
+        set("M13.handTotal", mmss(m13.handS, true), "timing/hand-written.md");
+        set("M13.handByRule", m13.byRule.map((r) => `${r.id} ${mmss(r.s)}`).join(", "), "timing/hand-written.md");
+        set("M13.generator", `${m13.generatorS.toFixed(0)} s`, `timing/${tenetName}`);
+        set("M13.ratio", `${Math.round(m13.handS / m13.modelS)}×`, src);
+        set("M13.ratioGenerator", `${Math.round(m13.handS / m13.generatorS)}×`, src);
+      }
+    }
+  } else if (handMd) need("M13", "M13", `no Tenet timing file ${tenetName ?? "timing/tenet-*.json"}; run tenet timing`);
+  if (!handMd) need("M13", "M13", "Shane's hand-written timing exercise (sample-policies §8)");
   if (has("safety/canary.json")) {
     const c = read("safety/canary.json");
     set("M16.passed", `${c.results.filter((r: { passed: boolean }) => r.passed).length} of ${c.results.length}`, "safety/canary.json");
