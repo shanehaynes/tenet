@@ -224,7 +224,7 @@ async function main() {
         `M07.${p.runId}`,
         p.kind === "no_testable_rules"
           ? `${p.policy}: no testable rules (run ${p.runId})`
-          : `${p.policy}: ${p.defects.total} defects in ${p.rules} rules (${p.defects.failures} failing, ${p.defects.partials} partial, ${p.defects.ambiguities} ambiguous, ${p.defects.collisions} collisions; ${p.rulesTested} rules tested, ${usd(p.usd)}, run ${p.runId})`,
+          : `${p.policy}: ${p.defects.total} defects in ${p.rules} rules (${p.defects.failures} failing, ${p.defects.partials} partial, ${p.defects.ambiguities} ambiguous, ${p.defects.collisions} ${p.defects.collisions === 1 ? "collision" : "collisions"}; ${p.rulesTested} rules tested, ${usd(p.usd)}, run ${p.runId})`,
         src,
       );
     }

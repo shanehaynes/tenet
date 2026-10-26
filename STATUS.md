@@ -124,6 +124,7 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 ## Monday (Oct 26): report presentation pass
 
 - At Shane's request, a design review in Chrome (no code reading) was followed by presentation-only changes to the report and a few pages: Findings list, sticky jump bar, defects before rules, grouped rules with folded charts on Holds cards, keys, folded planted findings and run details, a one-line example banner, the example link in the home hero, and a wider drawer. Gate, mock run and 5/5 e2e pass. One e2e locator was made exact. The screenshots in `report.html` and `slides.html` show the earlier layout (decision record `report-presentation-pass`).
+- Newcomer pass on the slides and report (15:30). Two read-only reviewers, a tech journalist and a technical instructor, both found that the deck assumed the reader already knew what Tenet is. The deck is rewritten around a worked example: the one-line definition on slide 1, the clinic chest-pain exchange as the hook, the four types with example rules, the $10,000 sweep traced end to end, the HW5 slide with S20a, the map legend in words, a trust slide, and a closing slide with limits. S03 is cut from the deck. In the report, raw template strings are replaced: the HW5 departures and the per-policy defects are now tables, the classifier agreement is given per policy, and F-numbers, scenario IDs and "Pick an agent to test" are gone. `collect-evidence` now writes "1 collision" in the singular. The report prints to 15 pages, and every slide fits 1280×720 (checked by screenshot). Decision record `newcomer-deck`.
 
 ## Deviations found while building (recorded in the docs)
 
@@ -147,7 +148,7 @@ A read-only review of `src/` and `scripts/` found these. Each is its own commit 
 
 ## Known gaps
 
-- `report.html` and `slides.html` rebuilt 2026-10-26 from the final evidence (15 pages); last rebuilt 15:02, after M17, when only the cumulative key spend changed ($0.72 over 3,701 calls: run `xcZrgkqJiG` from this checkout had been added to the log; the dry run's $0.0218 in the clone's log is not counted). `report-data.json` lists nothing missing; M18 is recorded as not obtained. The §3 "what the run found" and §7 predictions paragraphs are written (2026-10-26, every number from `report-data.json`). No draft text remains in the report or slides. The README image can go back to S08 if wanted.
+- `report.html` and `slides.html` rebuilt 2026-10-26 at 15:30 after the newcomer pass (15 pages; `collect-evidence` rerun, key spend still $0.72, now over 3,703 calls). Before that: rebuilt 15:02, after M17, when only the cumulative key spend changed ($0.72 over 3,701 calls: run `xcZrgkqJiG` from this checkout had been added to the log; the dry run's $0.0218 in the clone's log is not counted). `report-data.json` lists nothing missing; M18 is recorded as not obtained. The §3 "what the run found" and §7 predictions paragraphs are written (2026-10-26, every number from `report-data.json`). No draft text remains in the report or slides. The README image can go back to S08 if wanted.
 
 - A provider content filter can reject a judge call: Portkey routes some calls to Azure OpenAI, whose filter blocked one judge prompt in `449NHijnXq` (400). That scenario is reported as not run, never as a pass.
 

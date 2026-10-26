@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T19:02:11.385Z",
+  "generatedAt": "2026-10-26T19:26:27.590Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -302,7 +302,7 @@
       "source": "runs/449NHijnXq/summary.json"
     },
     "M07.JLX9iZjgpG": {
-      "value": "Meridian Health Partners: 5 defects in 12 rules (2 failing, 0 partial, 2 ambiguous, 1 collisions; 10 rules tested, $0.0249, run JLX9iZjgpG)",
+      "value": "Meridian Health Partners: 5 defects in 12 rules (2 failing, 0 partial, 2 ambiguous, 1 collision; 10 rules tested, $0.0249, run JLX9iZjgpG)",
       "source": "runs/defects-per-policy.json"
     },
     "M07.vn3jLywoMW": {
@@ -502,7 +502,7 @@
       "source": "data/usage-global.jsonl (snapshot: tokenomics/usage-global-*.jsonl)"
     },
     "M21.calls": {
-      "value": "3,701",
+      "value": "3,703",
       "source": "data/usage-global.jsonl"
     }
   },
