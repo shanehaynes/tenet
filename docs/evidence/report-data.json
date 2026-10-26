@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T17:45:23.586Z",
+  "generatedAt": "2026-10-26T17:51:36.981Z",
   "values": {
     "M01.file": {
       "value": "docs/evidence/model-capabilities.md",
@@ -381,6 +381,10 @@
       "value": "2 of 2",
       "source": "safety/canary.json"
     },
+    "M18": {
+      "value": "not obtained (no policy owner reached; decision record 2026-10-26-no-policy-owner)",
+      "source": "docs/decisions/2026-10-26-no-policy-owner.md"
+    },
     "M20.customer_service.IoSW65WajY.agentCalls": {
       "value": "a median of 11 model calls per scenario (up to 18)",
       "source": "runs/hw5-ground-truth.json"
@@ -507,11 +511,6 @@
       "key": "M17",
       "measurement": "M17",
       "why": "fresh-clone dry run (Sunday)"
-    },
-    {
-      "key": "M18",
-      "measurement": "M18",
-      "why": "policy-owner session"
     }
   ]
 }

@@ -309,7 +309,8 @@ async function main() {
     set("M16.passed", `${c.results.filter((r: { passed: boolean }) => r.passed).length} of ${c.results.length}`, "safety/canary.json");
   } else need("M16", "M16", "tenet canary");
   if (!has("dry-run.md")) need("M17", "M17", "fresh-clone dry run (Sunday)");
-  if (!has("user/quote.md")) need("M18", "M18", "policy-owner session");
+  if (has("user/quote.md")) set("M18.file", "docs/evidence/user/quote.md", "user/quote.md");
+  else set("M18", "not obtained (no policy owner reached; decision record 2026-10-26-no-policy-owner)", "docs/decisions/2026-10-26-no-policy-owner.md");
   if (has("runs/hw5-ground-truth.json")) {
     type GtRule = { policyRule: number | null; ruleId: string; tenetVerdict: string; outcome: string; enforcedBy: string; scenariosRun: number; scenariosWithToolRefusal: number };
     const gt = read("runs/hw5-ground-truth.json") as { runs: { runId: string; agent: string; scenarios: number; scenariosNotRun: number; usd: number; agentUsd: number; wallSeconds: number | null; agentModelCallsPerScenario?: { median: number | null; max: number | null }; rules: GtRule[] }[] };
